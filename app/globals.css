@@ -2,6 +2,7 @@
   --background: #280636;
   --sub-background: black;
   --foreground: white;
+  --alt-foreground: #b10dc9 ;
 }
 
 /* @media (prefers-color-scheme: dark) {
@@ -10,6 +11,10 @@
     --foreground: #ededed;
   }
 } */
+
+html {
+  height: 100%;
+}
 
 html,
 body {
@@ -23,6 +28,7 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  height: 100%;
 }
 
 * {
