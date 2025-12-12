@@ -1,0 +1,15 @@
+Pages:
+
+Homepage
+
+Login
+
+Signup
+
+Reviews
+
+User-Review
+
+Game-Page
+
+User-Profile
