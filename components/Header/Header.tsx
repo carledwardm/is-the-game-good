@@ -25,12 +25,14 @@ export default function Header() {
                 <a href="#" className={styles.navLink}>Sign Up</a>
             </nav>
             {/* Mobile Nav */}
+            <GiHamburgerMenu className={styles.mobileNavIcon} />
             <nav className={styles.mobileNav}>
-                <GiHamburgerMenu className={styles.mobileNavIcon} />
-                <div className={styles.mobileNavLinks}>
-                    <a href="#"  className={styles.navLink}>Home</a>
-                    <a href="#"  className={styles.navLink}>Games</a>
-                    <a href="#"  className={styles.navLink}>Signup</a>
+                <div className={`${styles.mobileNavLinks} ${styles.show}`}>
+                    <a href="#"  className={styles.navLinkMobile}>Home</a>
+                    <hr className={styles.mobileNavDivider}/>
+                    <a href="#"  className={styles.navLinkMobile}>Games</a>
+                    <hr className={styles.mobileNavDivider}/>
+                    <a href="#"  className={styles.navLinkMobile}>Signup</a>
                 </div>
             </nav>
             {/* Search Form*/}
