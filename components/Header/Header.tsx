@@ -1,6 +1,7 @@
 'use client';
 import styles from "./Header.module.scss"
 import Image from "next/image";
+import Link from 'next/link';
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaSearch } from "react-icons/fa";
 import { useState, useEffect, useRef } from "react";
@@ -28,20 +29,22 @@ export default function Header() {
     return <header className={styles.header}>
         <div className={styles.headerWrapper}>
             {/* Logo */}
+            <Link href="/">
             <Image src="/is-the-game-good-high-resolution-logo-transparent.png"
             width={225}
             height={40}
             alt="Logo with controller icon"
             className={styles.logo}
             />
+            </Link>
 
             {/* Nav and Search Container */}
             <div className={styles.navSearchContainer}>                
             {/* Nav */}
             <nav className={styles.navBar}>
-                <a href="#" className={styles.navLink}>Home</a>
-                <a href="#" className={styles.navLink}>Games</a>
-                <a href="#" className={styles.navLink}>Sign Up</a>
+                <Link href="#" className={styles.navLink}>Home</Link>
+                <Link href="#" className={styles.navLink}>Games</Link>
+                <Link href="#" className={styles.navLink}>Sign Up</Link>
             </nav>
             {/* Mobile Nav */}
             
@@ -54,11 +57,11 @@ export default function Header() {
                 }
             }}/>
                 <div className={`${styles.mobileNavLinks} ${showMobileNav? styles.show : ""}`} ref={menuRef}>
-                    <a href="#"  className={styles.navLinkMobile}>Home</a>
+                    <Link href="#"  className={styles.navLinkMobile}><span className={styles.mobileNavLinkText}>Home</span></Link>
                     <hr className={styles.mobileNavDivider}/>
-                    <a href="#"  className={styles.navLinkMobile}>Games</a>
+                    <Link href="#"  className={styles.navLinkMobile}><span className={styles.mobileNavLinkText}>Games</span></Link>
                     <hr className={styles.mobileNavDivider}/>
-                    <a href="#"  className={styles.navLinkMobile}>Signup</a>
+                    <Link href="#"  className={styles.navLinkMobile}><span className={styles.mobileNavLinkText}>Signup</span></Link>
                 </div>
             </nav>
             {/* Search Form*/}
