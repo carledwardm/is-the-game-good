@@ -3,9 +3,17 @@ import styles from "./Header.module.scss"
 import Image from "next/image";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaSearch } from "react-icons/fa";
+import { useState, useEffect } from "react";
 
 
 export default function Header() {
+    // To render mobile nav
+    const [showMobileNav, setShowMobileNav] = useState(false);
+    useEffect(() => {
+        if (showMobileNav === true) {}
+    }, [showMobileNav])
+
+
     return <header className={styles.header}>
         <div className={styles.headerWrapper}>
             {/* Logo */}
@@ -25,9 +33,15 @@ export default function Header() {
                 <a href="#" className={styles.navLink}>Sign Up</a>
             </nav>
             {/* Mobile Nav */}
-            <GiHamburgerMenu className={styles.mobileNavIcon} />
-            <nav className={styles.mobileNav}>
-                <div className={`${styles.mobileNavLinks} ${styles.show}`}>
+            <GiHamburgerMenu className={styles.mobileNavIcon} onClick={() => {
+                if (showMobileNav === false) {
+                    setShowMobileNav(true);
+                } else {
+                    setShowMobileNav(false);
+                }
+            }}/>
+            <nav className={styles.mobileNa}>
+                <div className={`${styles.mobileNavLinks} ${showMobileNav? styles.show : ""}`}>
                     <a href="#"  className={styles.navLinkMobile}>Home</a>
                     <hr className={styles.mobileNavDivider}/>
                     <a href="#"  className={styles.navLinkMobile}>Games</a>
