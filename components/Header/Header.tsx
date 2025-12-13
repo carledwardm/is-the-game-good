@@ -16,14 +16,15 @@ export default function Header() {
             className={styles.logo}
             />
 
+            {/* Nav and Search Container */}
+            <div className={styles.navSearchContainer}>                
             {/* Nav */}
-            <div className={styles.navContainer}>                
-            {/* Header Search Bar */}
             <nav className={styles.navBar}>
                 <a href="#" className={styles.navLink}>Home</a>
                 <a href="#" className={styles.navLink}>Games</a>
                 <a href="#" className={styles.navLink}>Sign Up</a>
             </nav>
+            {/* Mobile Nav */}
             <nav className={styles.mobileNav}>
                 <GiHamburgerMenu className={styles.mobileNavIcon} />
                 <div className={styles.mobileNavLinks}>
@@ -32,10 +33,12 @@ export default function Header() {
                     <a href="#"  className={styles.navLink}>Signup</a>
                 </div>
             </nav>
+            {/* Search Form*/}
             <form onSubmit={event => event.preventDefault()} className={styles.gameSearch}>
                 <input type="text" className={styles.gameSearchInput} placeholder="Search Games"></input>
                 <button type="submit" className={styles.gameSearchButton}>Search</button>
             </form>
+            {/* Mobile Search Form */}
             <FaSearch className={styles.searchIcon}/>
             <form onSubmit={event => event.preventDefault()} className={styles.gameSearchMobile}>
                 <input type="text" className={styles.gameSearchInputMobile} placeholder="Search Games"></input>
