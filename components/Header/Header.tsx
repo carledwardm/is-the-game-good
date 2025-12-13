@@ -3,16 +3,27 @@ import styles from "./Header.module.scss"
 import Image from "next/image";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaSearch } from "react-icons/fa";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 
 export default function Header() {
     // To render mobile nav
     const [showMobileNav, setShowMobileNav] = useState(false);
+    const menuRef = useRef<HTMLDivElement>(null);
+    const buttonRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
-        if (showMobileNav === true) {}
-    }, [showMobileNav])
+        const handleOutsideClick = (event: MouseEvent) => {
+            if (
+                (menuRef.current && !menuRef.current.contains(event.target as Node))
+                 && (buttonRef.current && !buttonRef.current.contains(event.target as Node))
+                ) {
+                setShowMobileNav(false);
+            }
+        };
 
+        document.addEventListener("click", handleOutsideClick);
+        return () => document.removeEventListener("click", handleOutsideClick);
+    }, []);
 
     return <header className={styles.header}>
         <div className={styles.headerWrapper}>
@@ -33,15 +44,16 @@ export default function Header() {
                 <a href="#" className={styles.navLink}>Sign Up</a>
             </nav>
             {/* Mobile Nav */}
-            <GiHamburgerMenu className={styles.mobileNavIcon} onClick={() => {
+            
+            <nav className={styles.mobileNav} ref={buttonRef}>
+                <GiHamburgerMenu className={styles.mobileNavIcon} onClick={() => {
                 if (showMobileNav === false) {
                     setShowMobileNav(true);
                 } else {
                     setShowMobileNav(false);
                 }
             }}/>
-            <nav className={styles.mobileNa}>
-                <div className={`${styles.mobileNavLinks} ${showMobileNav? styles.show : ""}`}>
+                <div className={`${styles.mobileNavLinks} ${showMobileNav? styles.show : ""}`} ref={menuRef}>
                     <a href="#"  className={styles.navLinkMobile}>Home</a>
                     <hr className={styles.mobileNavDivider}/>
                     <a href="#"  className={styles.navLinkMobile}>Games</a>
