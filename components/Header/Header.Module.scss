@@ -17,14 +17,16 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-direction: column;
 }
 
-@media screen and (min-width: 768px) {
-    .headerWrapper {
-        flex-direction: row;
+
+@media screen and (max-width: 400px) {
+    .logo {
+    width: 175px;
+    height: auto;
     }
 }
+
 
 
 // Nav styling
@@ -83,17 +85,23 @@
 }
 
 .mobileNavIcon {
-    width: 30px;
-    height: auto;
+    width: auto;
+    height: 25px;
 }
 
 // Search input styling
 
 .gameSearch {
-    margin-left: 25px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: none;
+}
+
+@media screen and (min-width: 768px) {
+    .gameSearch {
+        margin-left: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 }
 
 .gameSearchInput {
@@ -145,5 +153,29 @@
         color: white;
         background-color: var(--sub-background);
         border: 2px solid white;
+    }
+}
+
+// Game search header mobile 
+
+.gameSearchMobile {
+    display: none;
+}
+
+@media screen and (min-width: 768px) {
+    .gameSearchMobile {
+        display: none;
+    }
+}
+
+.searchIcon {
+    width: auto;
+    height: 25px;
+    margin-left: 10px;
+}
+
+@media screen and (min-width: 768px) {
+    .searchIcon {
+        display: none;
     }
 }

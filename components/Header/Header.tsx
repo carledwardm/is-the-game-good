@@ -2,6 +2,8 @@
 import styles from "./Header.module.scss"
 import Image from "next/image";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { FaSearch } from "react-icons/fa";
+
 
 export default function Header() {
     return <header className={styles.header}>
@@ -11,6 +13,7 @@ export default function Header() {
             width={225}
             height={40}
             alt="Logo with controller icon"
+            className={styles.logo}
             />
 
             {/* Nav */}
@@ -32,6 +35,11 @@ export default function Header() {
             <form onSubmit={event => event.preventDefault()} className={styles.gameSearch}>
                 <input type="text" className={styles.gameSearchInput} placeholder="Search Games"></input>
                 <button type="submit" className={styles.gameSearchButton}>Search</button>
+            </form>
+            <FaSearch className={styles.searchIcon}/>
+            <form onSubmit={event => event.preventDefault()} className={styles.gameSearchMobile}>
+                <input type="text" className={styles.gameSearchInputMobile} placeholder="Search Games"></input>
+                <button type="submit" className={styles.gameSearchButtonMobile}>Search</button>
             </form>
             </div>
         </div>
