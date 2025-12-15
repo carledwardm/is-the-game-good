@@ -10,13 +10,16 @@ import { useState, useEffect, useRef } from "react";
 export default function Header() {
     // To render mobile nav
     const [showMobileNav, setShowMobileNav] = useState(false);
+    const [showMobileSearch, setShowMobileSearch] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
-    const buttonRef = useRef<HTMLDivElement>(null);
+    const searchRef = useRef<HTMLDivElement>(null);
+    const menuButtonRef = useRef<HTMLDivElement>(null);
+    const searchButtonRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
         const handleOutsideClick = (event: MouseEvent) => {
             if (
                 (menuRef.current && !menuRef.current.contains(event.target as Node))
-                 && (buttonRef.current && !buttonRef.current.contains(event.target as Node))
+                 && (menuButtonRef.current && !menuButtonRef.current.contains(event.target as Node))
                 ) {
                 setShowMobileNav(false);
             }
@@ -24,6 +27,20 @@ export default function Header() {
 
         document.addEventListener("click", handleOutsideClick);
         return () => document.removeEventListener("click", handleOutsideClick);
+    }, []);
+
+    useEffect(() => {
+        const handleOutsideSearchClick = (event: MouseEvent) => {
+            if (
+                (searchRef.current && !searchRef.current.contains(event.target as Node))
+                 && (searchButtonRef.current && !searchButtonRef.current.contains(event.target as Node))
+                ) {
+                setShowMobileSearch(false);
+            }
+        };
+        console.log("adding listener");
+        document.addEventListener("click", handleOutsideSearchClick);
+        return () => document.removeEventListener("click", handleOutsideSearchClick);
     }, []);
 
     return <header className={styles.header}>
@@ -48,7 +65,7 @@ export default function Header() {
             </nav>
             {/* Mobile Nav */}
             
-            <nav className={styles.mobileNav} ref={buttonRef}>
+            <nav className={styles.mobileNav} ref={menuButtonRef}>
                 <GiHamburgerMenu className={styles.mobileNavIcon} onClick={() => {
                 if (showMobileNav === false) {
                     setShowMobileNav(true);
@@ -70,11 +87,21 @@ export default function Header() {
                 <button type="submit" className={styles.gameSearchButton}>Search</button>
             </form>
             {/* Mobile Search Form */}
-            <FaSearch className={styles.searchIcon}/>
-            <form onSubmit={event => event.preventDefault()} className={styles.gameSearchMobile}>
-                <input type="text" className={styles.gameSearchInputMobile} placeholder="Search Games"></input>
-                <button type="submit" className={styles.gameSearchButtonMobile}>Search</button>
-            </form>
+            <nav className={styles.mobileSearch} ref={searchButtonRef}>
+                <FaSearch className={styles.searchIcon} onClick={() => {
+                    if (showMobileSearch === false) {
+                        setShowMobileSearch(true)
+                    } else {
+                        setShowMobileSearch(false);
+                    }
+                }}/>
+                <div className={`${styles.gameSearchMobileContainer} ${showMobileSearch? styles.show : ""}`} ref={searchRef}>
+                    <form onSubmit={event => event.preventDefault()} className={styles.gameSearchMobileForm}>
+                        <input type="text" className={styles.gameSearchInputMobile} placeholder="Search Games"></input>
+                        <button type="submit" className={styles.gameSearchButtonMobile}>Search</button>
+                    </form>
+                </div>
+            </nav>
             </div>
         </div>
     </header>

@@ -132,10 +132,6 @@
     width: calc(100% - 50px);
 }
 
-.show {
-    display: flex;
-    
-}
 
 .mobileNavIcon {
     width: auto;
@@ -218,12 +214,20 @@
 
 // Game search header mobile 
 
-.gameSearchMobile {
+.mobileSearch {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gameSearchMobileContainer {
     display: none;
+    justify-content: center;
+    align-items: center;
 }
 
 @media screen and (min-width: 768px) {
-    .gameSearchMobile {
+    .mobileSearch {
         display: none;
     }
 }
@@ -238,4 +242,11 @@
     .searchIcon {
         display: none;
     }
+}
+
+
+// Utility class for mobile menu buttons
+.show {
+    display: flex;
+    
 }
