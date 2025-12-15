@@ -15,6 +15,7 @@ export default function Header() {
     const searchRef = useRef<HTMLDivElement>(null);
     const menuButtonRef = useRef<HTMLDivElement>(null);
     const searchButtonRef = useRef<HTMLDivElement>(null);
+    
     useEffect(() => {
         const handleOutsideClick = (event: MouseEvent) => {
             if (

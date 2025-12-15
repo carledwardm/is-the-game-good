@@ -136,6 +136,7 @@
 .mobileNavIcon {
     width: auto;
     height: 25px;
+    cursor: pointer;
 
     @media screen and (min-width: 1050px) {
         display: none;
@@ -160,7 +161,7 @@
     }
 }
 
-.gameSearchInput {
+.gameSearchInput, .gameSearchInputMobile {
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 2px;
     border: none;
@@ -190,7 +191,8 @@
     }
 }
 
-.gameSearchButton {
+.gameSearchButton, .gameSearchButtonMobile {
+    cursor: pointer;
     padding: 7px 15px;
     font-size: 18px;
     font-family: "Roboto", sans-serif;
@@ -220,22 +222,37 @@
     justify-content: center;
 }
 
-.gameSearchMobileContainer {
-    display: none;
-    justify-content: center;
-    align-items: center;
-}
-
 @media screen and (min-width: 768px) {
     .mobileSearch {
         display: none;
     }
+}
+.gameSearchMobileForm {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.gameSearchMobileContainer {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 100px;
+    left: 0;
+    width: 100%;
+    height: 200px;
+    background-color: rgba(0, 0, 0, 0.7);
+    animation: growDown 0.5s forwards;
+    transform-origin: top;
 }
 
 .searchIcon {
     width: auto;
     height: 25px;
     margin-left: 10px;
+    cursor: pointer;
 }
 
 @media screen and (min-width: 768px) {
@@ -245,8 +262,7 @@
 }
 
 
-// Utility class for mobile menu buttons
+// Utility class for mobile nav and search button toggle
 .show {
-    display: flex;
-    
+    display: flex;  
 }
