@@ -1,15 +1,39 @@
-Pages:
+LOGIN PLAN:
 
-Homepage
+Users will have the following:
 
-Login
+- Profile picture (add later)
+- ID
+- Username
+- Password
+- E-mail 
+- Bio
+- Reviews of games (stats wills how on profile)
+- Reviews of reviews (stats will show on profile)
 
-Signup
 
-Reviews
+Games will have the following:
 
-User-Review
+- ID
+- Title
+- Picture/Box Art
+- Screenshots
+- Total Reviews
+- Total Score
 
-Game-Page
 
-User-Profile
+Reviews of Games will have the following: 
+
+- ID
+- Title comment for reviews
+- Main review summary
+- Score 
+- Author 
+- Reviews of itself
+
+Reviews of Reviews will have the following:
+
+- ID
+- Comment/Review
+- Helpful/Not Helpful (similar to Likes)
+- Author 
