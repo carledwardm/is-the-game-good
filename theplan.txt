@@ -4,7 +4,8 @@ Users will have the following:
 
 - Profile picture (add later)
 - ID
-- Username
+- Username (Display Name)
+- 
 - Password
 - E-mail 
 - Bio

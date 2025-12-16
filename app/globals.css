@@ -47,3 +47,8 @@ a {
     color-scheme: dark;
   }
 }
+
+main {
+  width: 100%;
+  height: calc(100% - 300px); 
+}
