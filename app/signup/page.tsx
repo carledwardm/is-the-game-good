@@ -1,8 +1,8 @@
 "use client";
-import { db } from '@/lib/firebaseConfig';
+import { auth, db } from '@/lib/firebaseConfig';
 import styles from "./Signup.module.scss";
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { collection, addDoc } from 'firebase/firestore';
+import { createUserWithEmailAndPassword} from 'firebase/auth';
+import { collection, doc, setDoc } from 'firebase/firestore';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation'
 
@@ -14,18 +14,6 @@ export default function SignUp() {
     const [success, setSuccess] = useState<string>("");
     const [error, setError] = useState<string>("")
     const router = useRouter();
-
-    interface IUser {
-    id: number;
-    userName: string;
-    email: string;
-    password: string;
-    profilePic?: string;
-    tagline?: string;
-    bio?: string;
-    gameReviews?: number;
-    reviewReviews?: number;
-    }
 
     const validateForm = (): boolean => {
         if (!email || !userName || !password) {
@@ -42,13 +30,30 @@ export default function SignUp() {
 
     const signUp = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log(userName);
-        console.log(email);
-        console.log(password);
-        // const docRef = await addDoc(collection(db, "users"), {
-
-        // });
-    }
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+        await setDoc(doc(db, "users", user.uid), {
+            userName,
+            email,
+            password,
+            createdAt: new Date(),
+        });
+        setSuccess("Account created successfully, redirecting!");
+        setTimeout(() => {
+            router.push("/");
+        }, 2000);
+        
+        } catch (error: any) {
+            if (error.code === "auth/email-already-in-use") {
+                setError("An account with this email already exists.");
+            } else {
+                setError("Failed to create an account, please try again");
+            } console.error(error);
+        }
+            finally {
+            setisSubmitting(false);}
+        };
 
     return (
         <main className={styles.signUpMain}>
@@ -63,5 +68,4 @@ export default function SignUp() {
             </div>
         </main>
     )
-
 }
