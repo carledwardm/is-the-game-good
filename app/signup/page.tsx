@@ -40,23 +40,25 @@ export default function SignUp() {
         return true;
     }
 
-    // const signUp = async (e: React.FormEvent) => {
-    //     e.preventDefault();
+    const signUp = async (e: React.FormEvent) => {
+        e.preventDefault();
+        console.log(userName);
+        console.log(email);
+        console.log(password);
+        // const docRef = await addDoc(collection(db, "users"), {
 
-    //     const docRef = await addDoc(collection(db, "users"), {
-
-    //     });
-    // }
+        // });
+    }
 
     return (
         <main className={styles.signUpMain}>
             <div className={styles.signupContainer}>
                 <h1>Signup Page</h1>
-                <form onSubmit={SignUp} className={styles.form}>
+                <form onSubmit={signUp} className={styles.form}>
                     <input type="text" value={userName} placeholder="Username" onChange={(e) => setUserName(e.target.value)} className={styles.input}></input>
                     <input type="text" value={email} placeholder="Email" onChange={(e) => setEmail(e.target.value)} className={styles.input}></input>
                     <input type="text" value={password} placeholder="Password" onChange={(e) => setPassword(e.target.value)} className={styles.input}></input>
-                   <button type="submit" className={styles.button}>Sign Up</button>
+                   <button type="submit" className={styles.button} >Sign Up</button>
                 </form>
             </div>
         </main>
