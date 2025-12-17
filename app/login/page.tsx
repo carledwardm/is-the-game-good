@@ -47,8 +47,6 @@ export default function login() {
         }
     }
 
-
-
     return (
         <main className={styles.logInMain}>
             <div className={styles.logInContainer}>
@@ -56,7 +54,7 @@ export default function login() {
             <form className={styles.form} onSubmit={logIn}>
                 <input type="text" className={styles.input} placeholder="Email" value={email} onChange={(e) => {setEmail(e.target.value)} }></input>
                 <input type="text" className={styles.input} placeholder="Password" value={password} onChange={(e) => {setPassword(e.target.value)} }></input>
-                <button type="submit">Log In</button>
+                <button type="submit" className={styles.button}>Log In</button>
             </form>
             {showToast && (
                 <Toast 
