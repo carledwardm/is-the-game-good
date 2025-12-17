@@ -16,7 +16,7 @@ function footer() {
             <nav className={styles.footerNav}>
                 <Link href="#" className={styles.footerNavLink}>Home</Link>
                 <Link href="#" className={styles.footerNavLink}>Games</Link>
-                <Link href="#" className={styles.footerNavLink}>Sign Up</Link>
+                <Link href="/signup" className={styles.footerNavLink}>Sign Up</Link>
             </nav>
         </div>
         <div className={styles.footerBottomRow}>

@@ -7,7 +7,7 @@ interface toastProps {
     onClose: () => void;
 }
 
-export default function Toast({message, duration=200000, onClose}: toastProps) {
+export default function Toast({message, duration=2000, onClose}: toastProps) {
     useEffect(() => {
         const timer = setTimeout(() => {
             onClose();

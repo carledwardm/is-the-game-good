@@ -11,19 +11,17 @@ export default function SignUp() {
     const [email, setEmail] = useState<string>("");
     const [userName, setUserName] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [showToast, setShowToast] = useState<boolean>(false);
-    const [success, setSuccess] = useState<string>("");
-    const [error, setError] = useState<string>("")
+    const [toastMessage, setToastMessage] = useState<string>("");
     const router = useRouter();
 
     const validateForm = (): boolean => {
         if (!email || !userName || !password) {
-            setError("Email, User Name and Password are required.")
+            setToastMessage("Email, User Name and Password are required.")
             return false;
         }
         if (password.length < 6) {
-            setError("Password must be at least 6 characters long");
+            setToastMessage("Password must be at least 6 characters long");
             return false
         }
         return true;
@@ -35,7 +33,6 @@ export default function SignUp() {
             setShowToast(true);
             return;
         };
-        setIsSubmitting(true);
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             console.log(userCredential); // Remove later
@@ -46,26 +43,33 @@ export default function SignUp() {
             password,
             createdAt: new Date(),
         });
-        setSuccess("Account created successfully, redirecting!");
+        setToastMessage("Account created successfully, redirecting!");
         setTimeout(() => {
             router.push("/");
         }, 2000);
         
         } catch (error: any) {
+            console.log({error});
+            console.log(typeof(error.code));
+            console.log(error.code.length);
+            console.log(error.code);
             if (error.code === "auth/email-already-in-use") {
-                setError("An account with this email already exists.");
+                setToastMessage("An account with this email already exists.");
+                setShowToast(true);
+            } else if (error.code === "auth/invalid-email") {
+                setToastMessage("Please use a valid email and try again.");
+                setShowToast(true);
             } else {
-                setError("Failed to create an account, please try again");
-            } console.error(error);
+                setToastMessage("Failed to create an account, please try again");
+                setShowToast(true);
+            } 
         }
-            finally {
-            setIsSubmitting(false);}
         };
 
     return (
         <main className={styles.signUpMain}>
             <div className={styles.signupContainer}>
-                <h1>Signup Page</h1>
+                <h1 className={styles.signUpTitle}>Sign Up</h1>
                 <form onSubmit={signUp} className={styles.form}>
                     <input type="text" value={userName} placeholder="Username" onChange={(e) => setUserName(e.target.value)} className={styles.input}></input>
                     <input type="text" value={email} placeholder="Email" onChange={(e) => setEmail(e.target.value)} className={styles.input}></input>
@@ -75,9 +79,9 @@ export default function SignUp() {
             </div>
             { showToast && (
                 <Toast 
-                message={error}
+                message={toastMessage}
                 onClose={() => {
-                    setError("")
+                    setToastMessage("")
                     setShowToast(false)
                 }}/>
             ) }
