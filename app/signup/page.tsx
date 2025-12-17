@@ -2,7 +2,7 @@
 import { auth, db } from '@/lib/firebaseConfig';
 import styles from "./Signup.module.scss";
 import { createUserWithEmailAndPassword} from 'firebase/auth';
-import { collection, doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc } from 'firebase/firestore';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation'
 
@@ -10,7 +10,8 @@ export default function SignUp() {
     const [email, setEmail] = useState<string>("");
     const [userName, setUserName] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-    const [isSubmitting, setisSubmitting] = useState<boolean>(false);
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [showToast, setShowToast] = useState<boolean>(false);
     const [success, setSuccess] = useState<string>("");
     const [error, setError] = useState<string>("")
     const router = useRouter();
@@ -30,6 +31,10 @@ export default function SignUp() {
 
     const signUp = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (!validateForm()) {
+            return;
+        };
+        setIsSubmitting(true);
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
@@ -52,7 +57,7 @@ export default function SignUp() {
             } console.error(error);
         }
             finally {
-            setisSubmitting(false);}
+            setIsSubmitting(false);}
         };
 
     return (

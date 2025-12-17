@@ -1,0 +1,32 @@
+.Toast {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: white;
+    position: fixed;
+    bottom: 25px;
+    left: 50%;
+    background-color: var(--sub-background);
+    color: var(--alt-foreground);
+    z-index: 1000;
+}
+
+@keyframes toastAnimation {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(10px);
+    }
+    10% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+    90% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+        100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(10px);
+    }
+}
