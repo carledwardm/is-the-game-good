@@ -5,11 +5,15 @@
     padding: 10px 20px;
     background-color: white;
     position: fixed;
-    bottom: 25px;
-    left: 50%;
+    bottom: 250px;
     background-color: var(--sub-background);
     color: var(--alt-foreground);
+    font-family: "Roboto", sans-serif;
+    font-size: 16px;
+    font-weight: bold;
     z-index: 1000;
+    border: 2px solid white;
+    border-radius: 2px;
 }
 
 @keyframes toastAnimation {

@@ -4,7 +4,8 @@ import styles from "./Signup.module.scss";
 import { createUserWithEmailAndPassword} from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation';
+import Toast from "@/components/Toast";
 
 export default function SignUp() {
     const [email, setEmail] = useState<string>("");
@@ -25,18 +26,19 @@ export default function SignUp() {
             setError("Password must be at least 6 characters long");
             return false
         }
-        setError("");
         return true;
     }
 
     const signUp = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!validateForm()) {
+            setShowToast(true);
             return;
         };
         setIsSubmitting(true);
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            console.log(userCredential); // Remove later
             const user = userCredential.user;
         await setDoc(doc(db, "users", user.uid), {
             userName,
@@ -71,6 +73,14 @@ export default function SignUp() {
                    <button type="submit" className={styles.button} >Sign Up</button>
                 </form>
             </div>
+            { showToast && (
+                <Toast 
+                message={error}
+                onClose={() => {
+                    setError("")
+                    setShowToast(false)
+                }}/>
+            ) }
         </main>
     )
 }
