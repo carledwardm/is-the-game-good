@@ -1,8 +1,26 @@
+"use client"
 import styles from './Footer.module.scss';
 import Image from "next/image";
 import Link from "next/link";
+import { onAuthStateChanged, User, signOut } from "firebase/auth";
+import { useEffect, useState } from "react";
+import { auth } from "@/lib/firebaseConfig";
 
 function footer() {
+    const [user, setUser] = useState<User | null>(null);
+
+    const handleLogout = async () => {
+    await signOut(auth);
+    setUser(null);
+    }
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            setUser(user);
+        });
+        return () => unsubscribe();
+    }, [])
+
     return <footer className={styles.footer}>
         <div className={styles.footerTopRow}>
         <Link href="/">
@@ -16,8 +34,7 @@ function footer() {
             <nav className={styles.footerNav}>
                 <Link href="/" className={styles.footerNavLink}>Home</Link>
                 <Link href="#" className={styles.footerNavLink}>Games</Link>
-                <Link href="/signup" className={styles.footerNavLink}>Sign Up</Link>
-                <Link href="/login" className={styles.footerNavLink}>Log In</Link>
+                {!user ? (<Link href="/login" className={styles.footerNavLink}>Log In</Link>) : (<Link href="/login" className={styles.footerNavLink} onClick={handleLogout}>Log Out</Link>)}
             </nav>
         </div>
         <div className={styles.footerBottomRow}>

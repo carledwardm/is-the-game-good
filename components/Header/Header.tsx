@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaSearch } from "react-icons/fa";
 import { useState, useEffect, useRef } from "react";
+import { onAuthStateChanged, User, signOut } from "firebase/auth"; 
+import { auth } from "@/lib/firebaseConfig";
 
 
 export default function Header() {
@@ -15,6 +17,12 @@ export default function Header() {
     const searchRef = useRef<HTMLDivElement>(null);
     const menuButtonRef = useRef<HTMLDivElement>(null);
     const searchButtonRef = useRef<HTMLDivElement>(null);
+    const [user, setUser] = useState<User | null>(null);
+
+    const handleLogout = async () => {
+        await signOut(auth);
+        setUser(null);
+    }
     
     useEffect(() => {
         const handleOutsideClick = (event: MouseEvent) => {
@@ -44,6 +52,14 @@ export default function Header() {
         return () => document.removeEventListener("click", handleOutsideSearchClick);
     }, []);
 
+    // For dynamic logout/login links
+    useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+    })
+    return () => unsubscribe();
+  }, [])
+
     return <header className={styles.header}>
         <div className={styles.headerWrapper}>
             {/* Logo */}
@@ -62,8 +78,7 @@ export default function Header() {
             <nav className={styles.navBar}>
                 <Link href="#" className={styles.navLink}>Home</Link>
                 <Link href="#" className={styles.navLink}>Games</Link>
-                <Link href="/signup" className={styles.navLink}>Sign Up</Link>
-                <Link href="/login" className={styles.navLink}>Log In</Link>
+                {!user ? (<Link href="/login" className={styles.navLink}>Log In</Link>) : (<Link href="/login" className={styles.navLink} onClick={handleLogout}>Log Out</Link>)}
             </nav>
             {/* Mobile Nav */}
             
@@ -80,9 +95,7 @@ export default function Header() {
                     <hr className={styles.mobileNavDivider}/>
                     <Link href="#"  className={styles.navLinkMobile}><span className={styles.mobileNavLinkText}>Games</span></Link>
                     <hr className={styles.mobileNavDivider}/>
-                    <Link href="/signup"  className={styles.navLinkMobile}><span className={styles.mobileNavLinkText}>Sign Up</span></Link>
-                    <hr className={styles.mobileNavDivider}/>
-                    <Link href="/signup"  className={styles.navLinkMobile}><span className={styles.mobileNavLinkText}>Log In</span></Link>
+                    {!user ? (<Link href="/login" className={styles.navLinkMobile}>Log In</Link>) : (<Link href="/login" className={styles.navLinkMobile} onClick={handleLogout}>Log Out</Link>)}
                 </div>
             </nav>
             {/* Search Form*/}
