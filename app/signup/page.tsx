@@ -1,7 +1,7 @@
 "use client";
 import { auth, db } from '@/lib/firebaseConfig';
 import styles from "./Signup.module.scss";
-import { createUserWithEmailAndPassword} from 'firebase/auth';
+import { createUserWithEmailAndPassword, updateProfile} from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -35,24 +35,25 @@ export default function SignUp() {
         };
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            console.log(userCredential); // Remove later
             const user = userCredential.user;
-        await setDoc(doc(db, "users", user.uid), {
-            userName,
-            email,
-            password,
-            createdAt: new Date(),
-        });
-        setToastMessage("Account created successfully, redirecting!");
-        setTimeout(() => {
-            router.push("/");
-        }, 2000);
+                
+            await setDoc(doc(db, "users", user.uid), {
+                userName,
+                email,
+                password,
+                createdAt: new Date(),
+            });
+
+            await updateProfile(user, {
+                displayName: userName,
+            });
+            setShowToast(true);
+            setToastMessage("Account created successfully, redirecting!");
+            setTimeout(() => {
+                router.push("/");
+            }, 2000);
         
         } catch (error: any) {
-            console.log({error});
-            console.log(typeof(error.code));
-            console.log(error.code.length);
-            console.log(error.code);
             if (error.code === "auth/email-already-in-use") {
                 setToastMessage("An account with this email already exists.");
                 setShowToast(true);
