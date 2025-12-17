@@ -63,6 +63,7 @@ export default function Header() {
                 <Link href="#" className={styles.navLink}>Home</Link>
                 <Link href="#" className={styles.navLink}>Games</Link>
                 <Link href="/signup" className={styles.navLink}>Sign Up</Link>
+                <Link href="/login" className={styles.navLink}>Log In</Link>
             </nav>
             {/* Mobile Nav */}
             
@@ -79,7 +80,9 @@ export default function Header() {
                     <hr className={styles.mobileNavDivider}/>
                     <Link href="#"  className={styles.navLinkMobile}><span className={styles.mobileNavLinkText}>Games</span></Link>
                     <hr className={styles.mobileNavDivider}/>
-                    <Link href="/signup"  className={styles.navLinkMobile}><span className={styles.mobileNavLinkText}>Signup</span></Link>
+                    <Link href="/signup"  className={styles.navLinkMobile}><span className={styles.mobileNavLinkText}>Sign Up</span></Link>
+                    <hr className={styles.mobileNavDivider}/>
+                    <Link href="/signup"  className={styles.navLinkMobile}><span className={styles.mobileNavLinkText}>Log In</span></Link>
                 </div>
             </nav>
             {/* Search Form*/}

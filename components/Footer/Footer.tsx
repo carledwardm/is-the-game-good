@@ -14,9 +14,10 @@ function footer() {
                 />
         </Link>
             <nav className={styles.footerNav}>
-                <Link href="#" className={styles.footerNavLink}>Home</Link>
+                <Link href="/" className={styles.footerNavLink}>Home</Link>
                 <Link href="#" className={styles.footerNavLink}>Games</Link>
                 <Link href="/signup" className={styles.footerNavLink}>Sign Up</Link>
+                <Link href="/login" className={styles.footerNavLink}>Log In</Link>
             </nav>
         </div>
         <div className={styles.footerBottomRow}>
