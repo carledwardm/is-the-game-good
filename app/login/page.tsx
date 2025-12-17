@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/lib/firebaseConfig";
 import Toast from "@/components/Toast";
+import Link from "next/link";
 
 export default function login() {
     const [email, setEmail] = useState<string>("")
@@ -55,6 +56,7 @@ export default function login() {
                 <input type="text" className={styles.input} placeholder="Email" value={email} onChange={(e) => {setEmail(e.target.value)} }></input>
                 <input type="text" className={styles.input} placeholder="Password" value={password} onChange={(e) => {setPassword(e.target.value)} }></input>
                 <button type="submit" className={styles.button}>Log In</button>
+                <p className={styles.signUpText}>Need an account? <Link href="/signup" className={styles.signUpLink}>Sign Up</Link> here!</p>
             </form>
             {showToast && (
                 <Toast 

@@ -10,7 +10,7 @@
     justify-content: center;
     flex-direction: column;
     background-color: var(--sub-background);
-    padding: 50px 25px;
+    padding: 50px 25px 25px 25px;
     border-radius: 2px;
     width: 350px;
     gap: 50px;
@@ -53,9 +53,31 @@
     border-radius: 2px;
     transition: all 0.2s ease-in-out;
     margin-top: 15px;
+    cursor: pointer;
 
     &:hover {
         background-color: white;
         color: var(--alt-foreground);
+    }
+}
+
+.signUpText {
+    font-family: "Roboto", sans-serif;
+    font-size: 16px;
+    margin-top: 50px;
+
+}
+
+.signUpLink {
+    color: var(--alt-foreground);
+    display: inline-block;
+    font-family: "Roboto", sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        color: white;
+        transform: translateY(-3px);
     }
 }
