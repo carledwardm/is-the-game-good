@@ -31,7 +31,7 @@ function footer() {
                 className={styles.logo}
                 />
         </Link>
-            <nav className={styles.footerNav}>
+            <nav className={styles.footerNav} aria-label="Footer nav">
                 <Link href="/" className={styles.footerNavLink}>Home</Link>
                 <Link href="#" className={styles.footerNavLink}>Games</Link>
                 {!user ? (<Link href="/login" className={styles.footerNavLink}>Log In</Link>) : (<Link href="/login" className={styles.footerNavLink} onClick={handleLogout}>Log Out</Link>)}
