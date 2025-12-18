@@ -144,6 +144,14 @@
     }
 }
 
+.mobileNavToggleButton {
+    background-color: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 
 
 // Search input styling
@@ -259,6 +267,14 @@
     .searchIcon {
         display: none;
     }
+}
+
+.mobileSearchToggleButton {
+    background-color: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 

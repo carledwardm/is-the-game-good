@@ -15,8 +15,8 @@ export default function Header() {
     const [showMobileSearch, setShowMobileSearch] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
     const searchRef = useRef<HTMLDivElement>(null);
-    const menuButtonRef = useRef<HTMLDivElement>(null);
-    const searchButtonRef = useRef<HTMLDivElement>(null);
+    const menuButtonRef = useRef<HTMLButtonElement>(null);
+    const searchButtonRef = useRef<HTMLButtonElement>(null);
     const [user, setUser] = useState<User | null>(null);
 
     const handleLogout = async () => {
@@ -75,21 +75,28 @@ export default function Header() {
             {/* Nav and Search Container */}
             <div className={styles.navSearchContainer}>                
             {/* Nav */}
-            <nav className={styles.navBar}>
+            <nav className={styles.navBar} aria-label="Main nav">
                 <Link href="#" className={styles.navLink}>Home</Link>
                 <Link href="#" className={styles.navLink}>Games</Link>
                 {!user ? (<Link href="/login" className={styles.navLink}>Log In</Link>) : (<Link href="/login" className={styles.navLink} onClick={handleLogout}>Log Out</Link>)}
             </nav>
             {/* Mobile Nav */}
             
-            <nav className={styles.mobileNav} ref={menuButtonRef}>
-                <GiHamburgerMenu className={styles.mobileNavIcon} onClick={() => {
-                if (showMobileNav === false) {
-                    setShowMobileNav(true);
-                } else {
-                    setShowMobileNav(false);
-                }
-            }}/>
+            <nav className={styles.mobileNav} aria-label="Main nav">
+                <button
+                    type="button"
+                    className={styles.mobileNavToggleButton}
+                    aria-label="Mobile nav toggle"
+                    aria-expanded={showMobileNav}
+                    ref={menuButtonRef} 
+                    onClick={() => {
+                        if (showMobileNav === false) {
+                            setShowMobileNav(true);
+                        } else {
+                            setShowMobileNav(false);
+                        }
+                    }}>
+                <GiHamburgerMenu className={styles.mobileNavIcon} aria-hidden="true" /></button>
                 <div className={`${styles.mobileNavLinks} ${showMobileNav? styles.show : ""}`} ref={menuRef}>
                     <Link href="#"  className={styles.navLinkMobile}><span className={styles.mobileNavLinkText}>Home</span></Link>
                     <hr className={styles.mobileNavDivider}/>
@@ -100,25 +107,32 @@ export default function Header() {
             </nav>
             {/* Search Form*/}
             <form onSubmit={event => event.preventDefault()} className={styles.gameSearch}>
-                <input type="text" className={styles.gameSearchInput} placeholder="Search Games"></input>
+                <input type="text" className={styles.gameSearchInput} placeholder="Search Games" aria-label="Search games"></input>
                 <button type="submit" className={styles.gameSearchButton}>Search</button>
             </form>
             {/* Mobile Search Form */}
-            <nav className={styles.mobileSearch} ref={searchButtonRef}>
-                <FaSearch className={styles.searchIcon} onClick={() => {
+            <div className={styles.mobileSearch}>
+                <button 
+                className={styles.mobileSearchToggleButton}
+                type="button"
+                aria-label="Mobile search toggle"
+                aria-expanded={showMobileSearch}
+                ref={searchButtonRef}
+                onClick={() => {
                     if (showMobileSearch === false) {
                         setShowMobileSearch(true)
                     } else {
                         setShowMobileSearch(false);
                     }
-                }}/>
-                <div className={`${styles.gameSearchMobileContainer} ${showMobileSearch? styles.show : ""}`} ref={searchRef}>
-                    <form onSubmit={event => event.preventDefault()} className={styles.gameSearchMobileForm}>
-                        <input type="text" className={styles.gameSearchInputMobile} placeholder="Search Games"></input>
-                        <button type="submit" className={styles.gameSearchButtonMobile}>Search</button>
-                    </form>
-                </div>
-            </nav>
+                }}>
+                    <FaSearch className={styles.searchIcon} aria-hidden="true"/></button>
+                        <div className={`${styles.gameSearchMobileContainer} ${showMobileSearch? styles.show : ""}`} ref={searchRef}>
+                            <form onSubmit={event => event.preventDefault()} className={styles.gameSearchMobileForm}>
+                                <input type="text" className={styles.gameSearchInputMobile} placeholder="Search Games" aria-label="Search games"></input>
+                                <button type="submit" className={styles.gameSearchButtonMobile}>Search</button>
+                            </form>
+                        </div>
+            </div>
             </div>
         </div>
     </header>
