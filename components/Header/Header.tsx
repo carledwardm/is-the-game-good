@@ -102,7 +102,7 @@ export default function Header() {
                     <hr className={styles.mobileNavDivider}/>
                     <Link href="#"  className={styles.navLinkMobile}><span className={styles.mobileNavLinkText}>Games</span></Link>
                     <hr className={styles.mobileNavDivider}/>
-                    {!user ? (<Link href="/login" className={styles.navLinkMobile}>Log In</Link>) : (<Link href="/login" className={styles.navLinkMobile} onClick={handleLogout}>Log Out</Link>)}
+                    {!user ? (<Link href="/login" className={styles.navLinkMobile}><span className={styles.mobileNavLinkText}>Log In</span></Link>) : (<Link href="/login" className={styles.navLinkMobile} onClick={handleLogout}><span className={styles.mobileNavLinkText}>Log Out</span></Link>)}
                 </div>
             </nav>
             {/* Search Form*/}
