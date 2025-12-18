@@ -19,6 +19,14 @@
     justify-content: space-between;
 }
 
+.logo {
+    transition: transform 0.2s ease-in-out;
+
+    &:hover {
+        transform: scale(1.05);
+    }
+}
+
 
 @media screen and (max-width: 400px) {
     .logo {
@@ -137,6 +145,12 @@
     width: auto;
     height: 25px;
     cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        color: var(--alt-foreground);
+        transform: translateY(-3px);
+    }
 
     @media screen and (min-width: 1050px) {
         display: none;
@@ -258,9 +272,15 @@
 
 .searchIcon {
     width: auto;
-    height: 25px;
+    height: 22px;
     margin-left: 10px;
     cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    
+    &:hover {
+        color: var(--alt-foreground);
+        transform: translateY(-3px);
+    }
 }
 
 @media screen and (min-width: 768px) {
