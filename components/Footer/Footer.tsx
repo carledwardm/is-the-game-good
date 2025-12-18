@@ -23,7 +23,7 @@ function footer() {
 
     return <footer className={styles.footer}>
         <div className={styles.footerTopRow}>
-        <Link href="/">
+        <Link href="/" aria-label="Go to home page">
             <Image src="/is-the-game-good-high-resolution-logo-transparent.png"
                 width={225}
                 height={40}
