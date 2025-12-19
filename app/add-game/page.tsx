@@ -1,6 +1,6 @@
 "use client";
 import styles from "./addGame.module.scss";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function addGameContainer() {
     const [gameTitle, setGameTitle] = useState<string>("");
