@@ -5,7 +5,8 @@ import { useState } from "react";
 export default function addGameContainer() {
     const [gameTitle, setGameTitle] = useState<string>("");
     const [gameBoxArtFile, setGameBoxArtFile] = useState<File | null>(null)
-    const [gameScreenShotFiles, setGameScreenShotFiles] = useState<FileList | null>(null)
+    const [gameScreenShotFiles, setGameScreenShotFiles] = useState<File[] | null>(null)
+
     const handleGameSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         console.log(gameTitle);
@@ -28,7 +29,25 @@ export default function addGameContainer() {
                     <label htmlFor="addGameBoxArt" className={styles.addGameLabel}>Add box art file</label>
                     <input id={styles.addGameBoxArt}type="file" className={styles.addGameFileInput} accept=".jpg, .jpeg, .png" onChange={(e) => setGameBoxArtFile(e.target.files?.[0] ?? null)}></input>
                     <label htmlFor="addGameTitleInput" className={styles.addGameLabel}>Add game screenshots</label>
-                    <input type="file" className={styles.addGameFileInput} accept=".jpg, .jpeg, .png" onChange={(e) => setGameScreenShotFiles(e.target.files ?? null)} multiple></input>
+                    <input 
+                    type="file" 
+                    className={styles.addGameFileInput} 
+                    accept=".jpg, .jpeg, .png" 
+                    onChange={(e) => {
+                                    const screenShots = [];
+                                    if (!e.target.files || e.target.files.length === 0) {
+                                        return;
+                                    }
+                                    if (e.target.files && e.target.files.length === 1) {
+                                        screenShots.push(e.target.files[0]);
+                                    } 
+                                    if (e.target.files && e.target.files.length > 1) {
+                                        for (let i = 0; i < e.target.files.length; i++) {
+                                            screenShots.push(e.target.files[i]);
+                                        }
+                                    } console.log(screenShots);
+                                    setGameScreenShotFiles(screenShots);
+                                    }} multiple></input>
                     <button type="submit" className={styles.addGameButton}>Submit game</button>
                 </form>
             </div>

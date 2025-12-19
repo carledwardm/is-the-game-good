@@ -48,7 +48,7 @@
     font-family: "Roboto", sans-serif;
     font-size: 16px;
     font-weight: bold;
-    background-color: var(--alt-foreground);
+    background-color: var(--button);
     border: transparent;
     border-radius: 2px;
     transition: all 0.2s ease-in-out;
@@ -57,7 +57,7 @@
 
     &:hover {
         background-color: white;
-        color: var(--alt-foreground);
+        color: var(--sub-background);
     }
 }
 

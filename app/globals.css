@@ -2,7 +2,8 @@
   --background: #280636;
   --sub-background: black;
   --foreground: white;
-  --alt-foreground: #b10dc9 ;
+  --alt-foreground: #bf94ff;
+  --button: #b10dc9 ;
 }
 
 /* @media (prefers-color-scheme: dark) {
@@ -50,5 +51,6 @@ a {
 
 main {
   width: 100%;
-  height: calc(100% - 300px); 
+  min-height: calc(100% - 300px); 
+  padding: 50px 0;
 }
