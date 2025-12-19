@@ -2,6 +2,9 @@
 import styles from "./addGame.module.scss";
 import { useState } from "react";
 
+
+// *** SET UP IGDB API ROUTE - ADD GAME PAGE LIKELY NOT NECESSARY ***
+
 export default function addGameContainer() {
     const [gameTitle, setGameTitle] = useState<string>("");
     const [gameBoxArtFile, setGameBoxArtFile] = useState<File | null>(null)
