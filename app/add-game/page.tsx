@@ -1,22 +1,14 @@
 "use client";
 import styles from "./addGame.module.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function addGameContainer() {
     const [gameTitle, setGameTitle] = useState<string>("");
     const [gameBoxArtFile, setGameBoxArtFile] = useState<File | null>(null)
-    const [gameScreenShotFiles, setGameScreenShotFiles] = useState<File[] | null>(null)
+    const [gameScreenShotFiles, setGameScreenShotFiles] = useState<File[]>([])
 
     const handleGameSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        console.log(gameTitle);
-        console.log(gameBoxArtFile);
-        if (gameScreenShotFiles) {
-            console.log(gameScreenShotFiles[0].name);
-            console.log("first log");
-            console.log(gameScreenShotFiles[1].name);
-            console.log("second log");
-        }
     }
 
     return (
@@ -34,7 +26,7 @@ export default function addGameContainer() {
                     className={styles.addGameFileInput} 
                     accept=".jpg, .jpeg, .png" 
                     onChange={(e) => {
-                                    const screenShots = [];
+                                    const screenShots = Array.from(gameScreenShotFiles);
                                     if (!e.target.files || e.target.files.length === 0) {
                                         return;
                                     }
@@ -45,9 +37,16 @@ export default function addGameContainer() {
                                         for (let i = 0; i < e.target.files.length; i++) {
                                             screenShots.push(e.target.files[i]);
                                         }
-                                    } console.log(screenShots);
+                                    }
                                     setGameScreenShotFiles(screenShots);
                                     }} multiple></input>
+                    <div className={styles.fileNameContainer}>
+                        {
+                            gameScreenShotFiles.map((file, index) => (
+                                <p key={index} className={styles.fileName}>{file.name}</p>
+                            ))
+                        }
+                    </div>
                     <button type="submit" className={styles.addGameButton}>Submit game</button>
                 </form>
             </div>
