@@ -52,8 +52,6 @@
     
     &:focus {
     background-color: rgba(255, 255, 255, 0.3);
-    border-color: var(--foreground);
-    outline: none;
     }
 }
 
@@ -86,15 +84,21 @@
     font-size: 16px;
     font-weight: bold;
     background-color: var(--button);
-    border: transparent;
+    border: 2px solid transparent;
     border-radius: 2px;
     transition: all 0.2s ease-in-out;
     margin-top: 15px;
     cursor: pointer;
 
     &:hover {
-        background-color: white;
-        color: var(--sub-background);
+        background-color: transparent;
+        color: var(--foreground);
+    }
+
+    &:active {
+        color: white;
+        background-color: var(--sub-background);
+        border: 2px solid white;
     }
 }
 

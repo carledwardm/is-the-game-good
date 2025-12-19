@@ -224,8 +224,7 @@
     transition: all 0.2s ease-in-out;
 
     &:hover {
-        background-color: var(--foreground);
-        color: var(--sub-background);
+        background-color: transparent;
     }
 
     &:active {

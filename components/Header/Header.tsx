@@ -47,7 +47,6 @@ export default function Header() {
                 setShowMobileSearch(false);
             }
         };
-        console.log("adding listener");
         document.addEventListener("click", handleOutsideSearchClick);
         return () => document.removeEventListener("click", handleOutsideSearchClick);
     }, []);
