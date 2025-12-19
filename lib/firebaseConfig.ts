@@ -4,12 +4,12 @@ import { getAuth } from 'firebase/auth';
 import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA6dQ8WKOnFaEd-6QDCUxmsu7xO35H_VkE",
-  authDomain: "is-the-game-good.firebaseapp.com",
-  projectId: "is-the-game-good",
-  storageBucket: "is-the-game-good.firebasestorage.app",
-  messagingSenderId: "149195401962",
-  appId: "1:149195401962:web:d274e52ec5599aff2d8593",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
 const app = initializeApp(firebaseConfig);
