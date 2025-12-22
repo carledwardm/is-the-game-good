@@ -1,2 +1,3 @@
 const twitchClientID=process.env.TWITCH_CLIENT_ID
 const twitchClientSecret=process.env.TWITCH_CLIENT_SECRET
+const twitchAccessToken=process.env.TWITCH_ACCESS_TOKEN
