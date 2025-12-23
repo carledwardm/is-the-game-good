@@ -11,10 +11,16 @@ export default function addGameContainer() {
     const [gameScreenShotURLs, setGameScreenShotURLs] = useState<string[]>([])
     const [gameSearchLimit, setGameSearchLimit] = useState<number>(5)
 
-    const handleGameSearch = (e: React.FormEvent) => {
+    const handleGameSearch = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log(gameTitle)
-        console.log(`Will search for ${gameSearchLimit} titles.` )
+        const trimmedTitle = gameTitle.trim();
+        await fetch('/add-game/api', {
+            method: "POST",
+            body: JSON.stringify({
+                gameTitle: trimmedTitle,
+                gameSearchLimit: gameSearchLimit,
+            })
+        })
     }
 
     return (
