@@ -11,7 +11,7 @@ export default function addGameContainer() {
     const [gameScreenShotURLs, setGameScreenShotURLs] = useState<string[]>([])
     const [gameSearchLimit, setGameSearchLimit] = useState<number>(5)
 
-    const handleGameSubmit = (e: React.FormEvent) => {
+    const handleGameSearch = (e: React.FormEvent) => {
         e.preventDefault();
         console.log(gameTitle)
         console.log(`Will search for ${gameSearchLimit} titles.` )
@@ -20,8 +20,8 @@ export default function addGameContainer() {
     return (
         <main className={styles.addGameMain}>
             <div className={styles.addGameContainer}>
-                <h1 className={styles.title}>Add Game (admin only)</h1>
-                <form className={styles.form} onSubmit={handleGameSubmit}>
+                <h1 className={styles.title}>Add Games (admin only)</h1>
+                <form className={styles.form} onSubmit={handleGameSearch}>
                     <label htmlFor="addGameTitleInput" className={styles.searchGameLabel}>Game title</label>
                     <input id={styles.searchGameTitleInput} type="text" area-label="Game title input" placeholder="Enter title" onChange={(e) => setGameTitle(e.target.value)}></input> 
                     <label htmlFor="searchLimitInput" className={styles.searchGameLabel}>Search Limit</label>
