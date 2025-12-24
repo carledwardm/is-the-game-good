@@ -2,6 +2,7 @@
 import styles from "./addGame.module.scss";
 import { useState } from "react";
 import Toast from "@/components/Toast";
+import Image from "next/image";
 
 
 // *** SET UP IGDB API ROUTE - ADD GAME PAGE LIKELY NOT NECESSARY ***
@@ -10,10 +11,23 @@ export default function addGameContainer() {
     const [gameTitle, setGameTitle] = useState<string>("");
     const [gameBoxArtURL, setGameBoxArtURL] = useState<string>("");
     const [gameScreenShotURLs, setGameScreenShotURLs] = useState<string[]>([]);
-    const [gameData, setGameData] = useState<string[]>([]);
-    const [gameSearchLimit, setGameSearchLimit] = useState<number>(5);
+    const [gameData, setGameData] = useState<gameProps[]>([]);
+    const [gameSearchLimit, setGameSearchLimit] = useState<number>(1);
     const [showToast, setShowToast] = useState<boolean>(false);
     const [toastMessage, setToastMessage] = useState<string>("");
+
+    interface Media {
+        id: number;
+        url: string;
+    }
+    
+    interface gameProps {
+    id: number;
+    artworks: Media[];
+    first_release_date: number;
+    name: string;
+    screenshots: Media[];
+}
 
     // Search for a specified number of games by title. Current limit is set to 50 from html number input below.
     const handleGameSearch = async (e: React.FormEvent) => {
@@ -40,9 +54,13 @@ export default function addGameContainer() {
             }
             setShowToast(true);
             setToastMessage("Search complete, please view results before submitting.");
+            let games = [];
             for (let i = 0; i < data.length; i++) {
                 console.log(data[i]);
+                games.push(data[i]);
             }
+            console.log(games);
+            setGameData(games);
         } catch (error) {
             console.log(error);
         }
@@ -56,7 +74,16 @@ export default function addGameContainer() {
                     <label htmlFor="addGameTitleInput" className={styles.searchGameLabel}>Game title</label>
                     <input id={styles.searchGameTitleInput} type="text" area-label="Game title input" placeholder="Enter title" onChange={(e) => setGameTitle(e.target.value)}></input> 
                     <label htmlFor="searchLimitInput" className={styles.searchGameLabel}>Search Limit</label>
-                    <input id={styles.searchLimitInput} type="number" min={5} max={50} step={5} value={gameSearchLimit} onChange={(e) => setGameSearchLimit(parseInt(e.target.value))}/>   
+                    <input id={styles.searchLimitInput} 
+                        type="number" 
+                        min={1} 
+                        max={50} 
+                        step={1} 
+                        value={gameSearchLimit} 
+                        onChange={(e) => {
+                            const value = parseInt(e.target.value);
+                            setGameSearchLimit(isNaN(value) ? 1 : value);    
+                        }}/>   
                     <button type="submit" className={styles.searchGameButton}>Submit Search</button>
                      {showToast && (
                         <Toast 
@@ -67,6 +94,29 @@ export default function addGameContainer() {
                         }}/>
                     )}
                 </form>
+            </div>
+            <div className={styles.gameDataContainer}>
+                <ul className={styles.gameData}>
+                    { gameData.map((game, index) => (
+                        game.artworks?.[0]?.url && (
+                        <li key={index} className={styles.gameCard}>
+                                <div className={styles.gameInfo}>
+                                    <h2 className={styles.gameTitle}>{game.name}</h2>
+                                    <p className={styles.gameRelease}>{game.first_release_date}</p>
+                                </div>
+                                <div className={styles.gameArtBox}>
+                                    <Image 
+                                    className={styles.gameArt} 
+                                    src={`https:${game.artworks[0].url.replace("t_thumb", "t_cover_big")}`}
+                                    fill
+                                    alt={`${game.name} artwork`}
+                                />     
+                                </div>
+                        </li>
+                        )
+                    ))
+                    }
+                </ul>
             </div>
         </main>
     )
