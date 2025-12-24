@@ -72,6 +72,11 @@ export default function addGameContainer() {
         setGameData(newGameData);
     }
 
+    const saveGameSearch = () => {
+        console.log("Saving game data!");
+        console.log(gameData);
+    }
+
     return (
         <main className={styles.addGameMain}>
             <div className={styles.addGameContainer}>
@@ -130,6 +135,7 @@ export default function addGameContainer() {
                     ))
                     }
                 </ul>
+                <button type="submit" className={styles.saveButton} onClick={saveGameSearch}>Save Results</button>
             </div>
         </main>
     )
