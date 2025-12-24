@@ -3,6 +3,7 @@ import styles from "./addGame.module.scss";
 import { useState } from "react";
 import Toast from "@/components/Toast";
 import Image from "next/image";
+import { MdDelete } from "react-icons/md";
 
 
 // *** SET UP IGDB API ROUTE - ADD GAME PAGE LIKELY NOT NECESSARY ***
@@ -100,9 +101,16 @@ export default function addGameContainer() {
                     { gameData.map((game, index) => (
                         game.artworks?.[0]?.url && (
                         <li key={index} className={styles.gameCard}>
+                                <div className={styles.deleteRow}><MdDelete className={styles.deleteIcon}/></div>
                                 <div className={styles.gameInfo}>
                                     <h2 className={styles.gameTitle}>{game.name}</h2>
-                                    <p className={styles.gameRelease}>{game.first_release_date}</p>
+                                    <p className={styles.gameRelease}>{
+                                        new Date(game.first_release_date * 1000).toLocaleString("en-US", {
+                                            timeZone: "UTC",
+                                            year: "numeric",
+                                            month: "long",
+                                            day: "numeric",
+                                        })}</p>
                                 </div>
                                 <div className={styles.gameArtBox}>
                                     <Image 

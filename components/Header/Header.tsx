@@ -9,6 +9,7 @@ import { onAuthStateChanged, User, signOut } from "firebase/auth";
 import { auth } from "@/lib/firebaseConfig";
 
 
+
 export default function Header() {
     // To render mobile nav
     const [showMobileNav, setShowMobileNav] = useState(false);
