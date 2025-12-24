@@ -4,14 +4,14 @@ import { useState } from "react";
 import Toast from "@/components/Toast";
 import Image from "next/image";
 import { MdDelete } from "react-icons/md";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "@/lib/firebaseConfig";
 
 
 // *** SET UP IGDB API ROUTE - ADD GAME PAGE LIKELY NOT NECESSARY ***
 
 export default function addGameContainer() {
     const [gameTitle, setGameTitle] = useState<string>("");
-    const [gameBoxArtURL, setGameBoxArtURL] = useState<string>("");
-    const [gameScreenShotURLs, setGameScreenShotURLs] = useState<string[]>([]);
     const [gameData, setGameData] = useState<gameProps[]>([]);
     const [gameSearchLimit, setGameSearchLimit] = useState<number>(1);
     const [showToast, setShowToast] = useState<boolean>(false);
@@ -67,15 +67,63 @@ export default function addGameContainer() {
         }
     }
 
+    // Delete game data before saving to database
     const deleteGameCard = (game: gameProps) => {
         const newGameData = (gameData.filter(g => g.id !== game.id));
         setGameData(newGameData);
     }
 
-    const saveGameSearch = () => {
-        console.log("Saving game data!");
-        console.log(gameData);
+    // Save game data to database - if there is an error, prompt says to check DB since other entries may succeed
+    const saveGameSearch = async () => {
+        let errorOccurred = false;
+        for (let i = 0; i < gameData.length; i++) {
+            let game = gameData[i];
+                if (game.artworks?.[0] && game.screenshots?.[0]) {
+                    try {
+                        await setDoc(doc(db, "games", String(game.id)), {
+                        name: game.name,
+                        artwork: convertArtUrl(game.artworks[0].url),
+                        first_release_data: convertDate(game.first_release_date),
+                        screenshots: game.screenshots.map(game => convertSCUrl(game.url)),
+                        });
+                    } catch (error) {
+                        error = true;
+                    }
+                } 
+            }
+        if (errorOccurred) {
+            setToastMessage("There was an error saving data, please review submissions in database.");
+            setShowToast(true);
+        } else {
+            setToastMessage("Data successfully saved.");
+            setShowToast(true);
+        }
+    }  
+
+    // Converts unix time stamp dates 
+    const convertDate = (unixTimeStamp: number) => {
+        const gameDate = new Date(unixTimeStamp * 1000)
+        .toLocaleString("en-US", {
+                            timeZone: "UTC",
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                        });
+        return gameDate;
     }
+
+    // Converts artwork url from thumbnail to larger size
+    const convertArtUrl = (url: string) => {
+        const newUrl = url.replace("t_thumb", "t_cover_big");
+        return newUrl;
+    }
+
+        // Converts screenshot url from thumbnail to larger size
+    const convertSCUrl = (url: string) => {
+        const newUrl = url.replace("t_thumb", "t_screenshot_big");
+        return newUrl;
+    }
+
 
     return (
         <main className={styles.addGameMain}>
@@ -109,23 +157,17 @@ export default function addGameContainer() {
             <div className={styles.gameDataContainer}>
                 <ul className={styles.gameData}>
                     { gameData.map((game, index) => (
-                        game.artworks?.[0]?.url && (
+                        game.artworks?.[0]?.url && game.screenshots?.[0]?.url && (
                         <li key={index} className={styles.gameCard}>
                                 <div className={styles.deleteRow}><MdDelete className={styles.deleteIcon} onClick={() => deleteGameCard(game)}/></div>
                                 <div className={styles.gameInfo}>
                                     <h2 className={styles.gameTitle}>{game.name}</h2>
-                                    <p className={styles.gameRelease}>{
-                                        new Date(game.first_release_date * 1000).toLocaleString("en-US", {
-                                            timeZone: "UTC",
-                                            year: "numeric",
-                                            month: "long",
-                                            day: "numeric",
-                                        })}</p>
+                                    <p className={styles.gameRelease}>{convertDate(game.first_release_date)}</p>
                                 </div>
                                 <div className={styles.gameArtBox}>
                                     <Image 
                                     className={styles.gameArt} 
-                                    src={`https:${game.artworks[0].url.replace("t_thumb", "t_cover_big")}`}
+                                    src={`https:${convertArtUrl(game.artworks[0].url)}`}
                                     fill
                                     alt={`${game.name} artwork`}
                                 />     
