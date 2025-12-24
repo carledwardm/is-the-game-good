@@ -67,6 +67,11 @@ export default function addGameContainer() {
         }
     }
 
+    const deleteGameCard = (game: gameProps) => {
+        const newGameData = (gameData.filter(g => g.id !== game.id));
+        setGameData(newGameData);
+    }
+
     return (
         <main className={styles.addGameMain}>
             <div className={styles.addGameContainer}>
@@ -101,7 +106,7 @@ export default function addGameContainer() {
                     { gameData.map((game, index) => (
                         game.artworks?.[0]?.url && (
                         <li key={index} className={styles.gameCard}>
-                                <div className={styles.deleteRow}><MdDelete className={styles.deleteIcon}/></div>
+                                <div className={styles.deleteRow}><MdDelete className={styles.deleteIcon} onClick={() => deleteGameCard(game)}/></div>
                                 <div className={styles.gameInfo}>
                                     <h2 className={styles.gameTitle}>{game.name}</h2>
                                     <p className={styles.gameRelease}>{
