@@ -135,7 +135,9 @@ export default function addGameContainer() {
                     ))
                     }
                 </ul>
-                <div className={styles.saveButtonContainer}><button type="submit" className={styles.saveButton} onClick={saveGameSearch}>Save Results</button></div>
+                <div className={styles.saveButtonContainer}>
+                    <button type="submit" className={styles.saveButton} onClick={saveGameSearch} disabled={gameData.length === 0}>Save Results</button>
+                    </div>
             </div>
         </main>
     )
