@@ -7,7 +7,6 @@ import { useEffect, useState } from 'react';
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
-
 export default function gamePage({params}: any) {
     const { id } = React.use(params) as any;
     const router = useRouter();
@@ -18,8 +17,8 @@ export default function gamePage({params}: any) {
             try {
                 const docRef = doc(db, "games", id);
                 const docSnap = await getDoc(docRef);
-                console.log("found game");
                 setGame(docSnap.data());
+                console.log(docSnap.data());
                 } catch (error) {
                     console.log("error");
                     router.push("/");
@@ -27,13 +26,10 @@ export default function gamePage({params}: any) {
             }
         fetchGame();
         }, [])
-    if (game) {
-        console.log(game);
-        console.log(game.name);
-    }
+
     return (
     <main className={styles.gamePageMain}>
-        <div className={styles.gameHeroSection}>
+        <section className={styles.gameHeroSection}>
             {game && <div className={styles.gameArtBox}>
                        <Image 
                          className={styles.gameArt} 
@@ -44,7 +40,19 @@ export default function gamePage({params}: any) {
                      </div>
             }
             <h1 className={styles.gameTitle}>{game ? game.name : "Loading..."}</h1>
-        </div>
+        </section>
+        <section className={styles.screenshotContainer}>
+                {game?.screenshots?.map((screenshot: string, index: number) => (
+                    <div key={index} className={styles.screenshot}>
+                        <Image 
+                            className={styles.screenshot}
+                            src={`https:${screenshot}`}
+                            fill
+                            alt={`${game.name} screenshot`}
+                        />
+                    </div>
+                ))}
+        </section>
     </main>
     )
 }
