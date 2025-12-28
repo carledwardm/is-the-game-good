@@ -58,7 +58,7 @@
 }
 
 .navLink {
-    font-family: "Roboto", sans-serif;
+    font-family: var(--font-roboto), sans-serif;
     font-size: 18px;
     font-weight: bold;
     transition: all 0.2s ease-in-out;
@@ -107,7 +107,7 @@
 }
 
 .navLinkMobile {
-    font-family: "Roboto", sans-serif;
+    font-family: var(--font-roboto), sans-serif;
     display: inline-block;
     font-size: 18px;
     font-weight: bold;
@@ -216,7 +216,7 @@
     cursor: pointer;
     padding: 7px 15px;
     font-size: 18px;
-    font-family: "Roboto", sans-serif;
+    font-family: var(--font-roboto), sans-serif;
     font-weight: bold;
     background-color: var(--button);
     border: 2px solid transparent;

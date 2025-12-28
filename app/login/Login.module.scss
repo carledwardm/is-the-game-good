@@ -19,7 +19,7 @@
 }
 
 .logInTitle {
-    font-family: "--font-poppins", sans-serif;
+    font-family: var(--font-poppins), sans-serif;
     font-size: 40px;
     font-weight: bold;
 }
@@ -39,13 +39,13 @@
     background-color: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 2px;
-    font-family: "Roboto", sans-serif;
+    font-family: var(--font-roboto), sans-serif;
     font-size: 14px;
 }
 
 .button {
     padding: 5px 20px;
-    font-family: "Roboto", sans-serif;
+    font-family: var(--font-roboto), sans-serif;
     font-size: 16px;
     font-weight: bold;
     background-color: var(--button);
@@ -67,7 +67,7 @@
 }
 
 .signUpText {
-    font-family: "Roboto", sans-serif;
+    font-family: var(--font-roboto), sans-serif;
     font-size: 16px;
     margin-top: 50px;
 
@@ -76,7 +76,7 @@
 .signUpLink {
     color: var(--alt-foreground);
     display: inline-block;
-    font-family: "Roboto", sans-serif;
+    font-family: var(--font-roboto), sans-serif;
     font-weight: bold;
     font-size: 16px;
     transition: all 0.2s ease-in-out;

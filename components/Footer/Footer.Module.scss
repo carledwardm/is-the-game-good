@@ -36,7 +36,7 @@
 }
 
 .footerNavLink {
-    font-family: "Roboto", sans-serif;
+    font-family: var(--font-roboto), sans-serif;
     font-size: 16px;
     font-weight: bold;
     transition: all 0.2s ease-in-out;
@@ -57,7 +57,7 @@
 }
 
 .footerCopyright {
-    font-family: "Roboto", sans-serif;
+    font-family: var(--font-roboto), sans-serif;
     font-size: 14px;
     color: rgba(255, 255, 255, 0.5);
 }
