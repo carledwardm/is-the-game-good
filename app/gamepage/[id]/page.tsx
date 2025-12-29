@@ -55,15 +55,32 @@ export default function gamePage({params}: any) {
             {game ? <EmblaCarousel slides={slides.map((slide, index) => index)} gameScreenshots={slides}/> : ""}
         </section>
 
-        {/* Section will be updated with logic counting reviews */}
+        {/* Section will be updated with logic counting reviews and score */}
         <section className={styles.gameReviewStats}>
-            <div className={styles.statsWrapper}>
-                <h2 className={styles.statsTitle}>{game && `${game.name}'s Score`}</h2>
-                <div className={styles.scoreContainer}>
-                    <p className={styles.totalReviews}>0 Total Reviews</p>
-                    <p className={styles.score}>Score: 95/100</p>
-                </div>
+            <h2 className={styles.statsTitle}>{game && `${game.name}'s Score`}</h2>
+            <div className={styles.scoreContainer}>
+                <p className={styles.totalReviews}>0 Total Reviews</p>
+                <p className={styles.score}>Score: 95/100</p>
             </div>
+        </section>
+        {/* Section will be updated with logic showing user reviews*/}
+        <section className={styles.gameReviewsContainer}>
+            <h2 className={styles.reviewsTitle}>What gamers are saying</h2>
+        </section>
+        
+        {/* Form will be additionally updated with logic*/}
+        <section className={styles.submitReviewContainer}>
+            <h2 className={styles.submitReviewTitle}>{game && `Played ${game.name}? Leave a review!`}</h2>
+            <form className={styles.form}>
+                <label htmlFor="reviewScoreInput" className={styles.inputLabel}>Your Score</label>
+                <input type="number" 
+                       id={styles.reviewScoreInput}
+                       min={0}
+                       max={100}></input>
+                <label htmlFor="reviewScoreInput" className={styles.inputLabel}>Your Review</label>
+                <textarea id={styles.reviewInput}></textarea>
+                <button className={styles.button} type="submit">Submit Review</button>
+            </form>
         </section>
     </main>
     )
