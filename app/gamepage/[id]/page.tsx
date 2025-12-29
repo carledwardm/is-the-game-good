@@ -6,11 +6,13 @@ import * as React from "react";
 import { useEffect, useState } from 'react';
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import EmblaCarousel from "@/components/GamePage/Carousel";
 
 export default function gamePage({params}: any) {
     const { id } = React.use(params) as any;
     const router = useRouter();
     const [game, setGame] = useState<any>(null);
+    const [slides, setSlides] = useState<string[]>([])
 
     useEffect(() => {
         const fetchGame = async () => {
@@ -27,6 +29,12 @@ export default function gamePage({params}: any) {
         fetchGame();
         }, [])
 
+    useEffect(() => {
+        if (game?.screenshots) {
+        setSlides(game.screenshots.slice(0, 10) || []);
+        }
+    }, [game])
+
     return (
     <main className={styles.gamePageMain}>
         <section className={styles.gameHeroSection}>
@@ -42,16 +50,7 @@ export default function gamePage({params}: any) {
             <h1 className={styles.gameTitle}>{game ? game.name : "Loading..."}</h1>
         </section>
         <section className={styles.screenshotContainer}>
-                {game?.screenshots?.map((screenshot: string, index: number) => (
-                    <div key={index} className={styles.screenshot}>
-                        <Image 
-                            className={styles.screenshot}
-                            src={`https:${screenshot}`}
-                            fill
-                            alt={`${game.name} screenshot`}
-                        />
-                    </div>
-                ))}
+            <EmblaCarousel slides={slides.map((slide, index) => index)} gameScreenshots={slides}/>
         </section>
     </main>
     )
