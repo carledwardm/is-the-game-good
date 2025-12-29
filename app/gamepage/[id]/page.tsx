@@ -50,8 +50,20 @@ export default function gamePage({params}: any) {
             <h1 className={styles.gameTitle}>{game ? game.name : "Loading..."}</h1>
             <p className={styles.releaseDate}>{game ? game.first_release_date : ""}</p>
         </section>
+
         <section className={styles.screenshotContainer}>
             {game ? <EmblaCarousel slides={slides.map((slide, index) => index)} gameScreenshots={slides}/> : ""}
+        </section>
+
+        {/* Section will be updated with logic counting reviews */}
+        <section className={styles.gameReviewStats}>
+            <div className={styles.statsWrapper}>
+                <h2 className={styles.statsTitle}>{game && `${game.name}'s Score`}</h2>
+                <div className={styles.scoreContainer}>
+                    <p className={styles.totalReviews}>0 Total Reviews</p>
+                    <p className={styles.score}>Score: 95/100</p>
+                </div>
+            </div>
         </section>
     </main>
     )
