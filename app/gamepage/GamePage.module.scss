@@ -3,31 +3,45 @@
     align-items: center;
     justify-content: center;
     width: 100%;
+    padding: 50px 10px;
 }
 
 .gameTitle {
     font-family: var(--font-poppins), sans-serif;
     font-weight: 700;
+    font-size: 42px;
     text-align: center;
     margin-top: 25px;
+    margin-bottom: 25px;
+
+    @media screen and (min-width: 768px) {
+        font-size: 32px;
+    }
 }
+
+.releaseDate {
+    font-size: 18px;
+    font-family: var(--font-roboto), sans-serif;
+}
+
 
 .gameHeroSection {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     flex-direction: column;
     background-color: var(--sub-background);
     border-radius: 2px;
     border: 2px solid rgba(255, 255, 255, 0.2);
-    padding: 25px;
+    padding: 50px;
     box-shadow: 10px 10px 10px 5px black; 
     width: 100%;
     max-width: 1400px;
-    height: 400px;
+    height: 550px;
+    margin-bottom: 25px;
 
     @media screen and (min-width: 768px) {
-        height: 700px;
+        height: 850px;
     }
 }
 
@@ -52,16 +66,16 @@
     background-color: var(--sub-background);
     border-radius: 2px;
     border: 2px solid rgba(255, 255, 255, 0.2);
-    padding: 25px;
+    padding: 50px;
     box-shadow: 10px 10px 10px 5px black; 
     width: 100%;
     max-width: 1400px;
-    min-height: 700px;
+    height: 400px;
     flex-wrap: wrap;
+
+    @media screen and (min-width: 768px) {
+        min-height: 700px;
+    }
 }
 
-.screenshot {
-    width: 225px;
-    height: 125px;
-    position: relative;
-}
+

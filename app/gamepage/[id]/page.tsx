@@ -48,9 +48,10 @@ export default function gamePage({params}: any) {
                      </div>
             }
             <h1 className={styles.gameTitle}>{game ? game.name : "Loading..."}</h1>
+            <p className={styles.releaseDate}>{game ? game.first_release_date : ""}</p>
         </section>
         <section className={styles.screenshotContainer}>
-            <EmblaCarousel slides={slides.map((slide, index) => index)} gameScreenshots={slides}/>
+            {game ? <EmblaCarousel slides={slides.map((slide, index) => index)} gameScreenshots={slides}/> : ""}
         </section>
     </main>
     )

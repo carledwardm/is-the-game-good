@@ -83,7 +83,7 @@ export default function addGameContainer() {
                         await setDoc(doc(db, "games", String(game.id)), {
                         name: game.name,
                         artwork: convertArtUrl(game.artworks[0].url),
-                        first_release_data: convertDate(game.first_release_date),
+                        first_release_date: convertDate(game.first_release_date),
                         screenshots: game.screenshots.map(game => convertSCUrl(game.url)),
                         });
                     } catch (error) {
