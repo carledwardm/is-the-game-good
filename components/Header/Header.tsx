@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaSearch } from "react-icons/fa";
 import { useState, useEffect, useRef } from "react";
-import { User, signOut } from "firebase/auth"; 
+import { signOut } from "firebase/auth"; 
 import { auth } from "@/lib/firebaseConfig";
 import { useAuth } from "@/context/AuthContext";
 

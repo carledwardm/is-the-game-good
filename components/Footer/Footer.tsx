@@ -2,8 +2,7 @@
 import styles from './Footer.module.scss';
 import Image from "next/image";
 import Link from "next/link";
-import { User, signOut } from "firebase/auth";
-import { useEffect, useState } from "react";
+import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebaseConfig";
 import { useAuth } from "@/context/AuthContext";
 
