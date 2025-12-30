@@ -19,7 +19,7 @@ export default function Header() {
     const searchRef = useRef<HTMLDivElement>(null);
     const menuButtonRef = useRef<HTMLButtonElement>(null);
     const searchButtonRef = useRef<HTMLButtonElement>(null);
-    const { user } = useAuth()
+    const { user, loading } = useAuth()
 
     const handleLogout = async () => {
         await signOut(auth);
@@ -70,7 +70,7 @@ export default function Header() {
             <nav className={styles.navBar} aria-label="Main nav">
                 <Link href="#" className={styles.navLink}>Home</Link>
                 <Link href="#" className={styles.navLink}>Games</Link>
-                {!user ? (<Link href="/login" className={styles.navLink}>Log In</Link>) : (<Link href="/login" className={styles.navLink} onClick={handleLogout}>Log Out</Link>)}
+                {!loading && (!user ? (<Link href="/login" className={styles.navLink}>Log In</Link>) : (<Link href="/login" className={styles.navLink} onClick={handleLogout}>Log Out</Link>))}
             </nav>
             {/* Mobile Nav */}
             

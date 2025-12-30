@@ -7,7 +7,7 @@ import { auth } from "@/lib/firebaseConfig";
 import { useAuth } from "@/context/AuthContext";
 
 function footer() {
-    const { user } = useAuth();
+    const { user, loading } = useAuth();
 
     const handleLogout = async () => {
     await signOut(auth);
@@ -26,7 +26,7 @@ function footer() {
             <nav className={styles.footerNav} aria-label="Footer nav">
                 <Link href="/" className={styles.footerNavLink}>Home</Link>
                 <Link href="#" className={styles.footerNavLink}>Games</Link>
-                {!user ? (<Link href="/login" className={styles.footerNavLink}>Log In</Link>) : (<Link href="/login" className={styles.footerNavLink} onClick={handleLogout}>Log Out</Link>)}
+                {!loading && (!user ? (<Link href="/login" className={styles.footerNavLink}>Log In</Link>) : (<Link href="/login" className={styles.footerNavLink} onClick={handleLogout}>Log Out</Link>))}
             </nav>
         </div>
         <div className={styles.footerBottomRow}>
