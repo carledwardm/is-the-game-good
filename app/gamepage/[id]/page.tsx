@@ -52,7 +52,8 @@ export default function gamePage({params}: any) {
         </section>
 
         <section className={styles.screenshotContainer}>
-            {game ? <EmblaCarousel slides={slides.map((slide, index) => index)} gameScreenshots={slides}/> : ""}
+            <h2 className={styles.screenshotsTitle}>{game?.screenshots?.length ? "Screenshots" : "No screenshots available"}</h2>
+            {game?.screenshots?.length? <EmblaCarousel slides={slides.map((slide, index) => index)} gameScreenshots={slides}/> : ""}
         </section>
 
         {/* Section will be updated with logic counting reviews and score */}
