@@ -2,24 +2,17 @@
 import styles from './Footer.module.scss';
 import Image from "next/image";
 import Link from "next/link";
-import { onAuthStateChanged, User, signOut } from "firebase/auth";
+import { User, signOut } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { auth } from "@/lib/firebaseConfig";
+import { useAuth } from "@/context/AuthContext";
 
 function footer() {
-    const [user, setUser] = useState<User | null>(null);
+    const { user } = useAuth();
 
     const handleLogout = async () => {
     await signOut(auth);
-    setUser(null);
     }
-
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            setUser(user);
-        });
-        return () => unsubscribe();
-    }, [])
 
     return <footer className={styles.footer}>
         <div className={styles.footerTopRow}>

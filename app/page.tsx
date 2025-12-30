@@ -1,18 +1,9 @@
 "use client";
 import styles from "./page.module.css";
-import { auth } from "@/lib/firebaseConfig";
-import { useEffect, useState } from "react"
-import { onAuthStateChanged, User } from "firebase/auth"; 
+import { useAuth } from "@/context/AuthContext"; 
 
 export default function Home() {
-  const [ user, setUser ] = useState<User | null>(null);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-    })
-    return () => unsubscribe();
-  }, [])
+  const { user } = useAuth();
 
   return (
     <div className={styles.page}>

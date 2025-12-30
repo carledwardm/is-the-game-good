@@ -5,8 +5,9 @@ import Link from 'next/link';
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaSearch } from "react-icons/fa";
 import { useState, useEffect, useRef } from "react";
-import { onAuthStateChanged, User, signOut } from "firebase/auth"; 
+import { User, signOut } from "firebase/auth"; 
 import { auth } from "@/lib/firebaseConfig";
+import { useAuth } from "@/context/AuthContext";
 
 
 
@@ -18,11 +19,10 @@ export default function Header() {
     const searchRef = useRef<HTMLDivElement>(null);
     const menuButtonRef = useRef<HTMLButtonElement>(null);
     const searchButtonRef = useRef<HTMLButtonElement>(null);
-    const [user, setUser] = useState<User | null>(null);
+    const { user } = useAuth()
 
     const handleLogout = async () => {
         await signOut(auth);
-        setUser(null);
     }
     
     useEffect(() => {
@@ -51,14 +51,6 @@ export default function Header() {
         document.addEventListener("click", handleOutsideSearchClick);
         return () => document.removeEventListener("click", handleOutsideSearchClick);
     }, []);
-
-    // For dynamic logout/login links
-    useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-    })
-    return () => unsubscribe();
-  }, [])
 
     return <header className={styles.header}>
         <div className={styles.headerWrapper}>
