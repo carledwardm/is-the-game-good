@@ -31,7 +31,6 @@ export default function login() {
         try {
             await signInWithEmailAndPassword(auth, email, password);
             setToastMessage("Successfully logged in!");
-            console.log(auth);
             setShowToast(true);
             setTimeout(() => router.push("/"), 2000);
         } catch (error: any) {
