@@ -141,7 +141,8 @@
     border: 2px solid rgba(255, 255, 255, 0.2);
     padding: 25px;
     box-shadow: 10px 10px 10px 5px black; 
-    width: 1400px;
+    width: 100%;
+    max-width: 1400px;
     min-height: 400px;
     margin-bottom: 25px;
 }
@@ -161,7 +162,8 @@
     border: 2px solid rgba(255, 255, 255, 0.2);
     padding: 25px;
     box-shadow: 10px 10px 10px 5px black; 
-    width: 1400px;
+    width: 100%;
+    max-width: 1400px;
     min-height: 400px;
     margin-bottom: 25px;
 }
