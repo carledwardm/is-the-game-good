@@ -17,12 +17,15 @@ export default function gamePage({params}: any) {
     useEffect(() => {
         const fetchGame = async () => {
             try {
-                const docRef = doc(db, "games", id);
-                const docSnap = await getDoc(docRef);
-                setGame(docSnap.data());
-                console.log(docSnap.data());
+                const response = await fetch(`/api/gamePage/${id}`);
+                if (!response.ok) {
+                    throw new Error("Game not found")
+                }
+                const gameData = await response.json();
+                setGame(gameData);
+                console.log(gameData);
                 } catch (error) {
-                    console.log("error");
+                    console.log(error);
                     router.push("/");
                 }
             }
