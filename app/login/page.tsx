@@ -31,8 +31,8 @@ export default function login() {
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
 
-            // Set custom claim for admin priviledges
-            const response = await fetch(`/api/makeAdmin/${userCredential.user.uid}`, {
+            // Set custom claim for admin priviledges (commented out for now)
+           /*  const response = await fetch(`/api/makeAdmin/${userCredential.user.uid}`, {
                 method: "PATCH"
             });
             if (response.ok) {
@@ -41,7 +41,7 @@ export default function login() {
             } else {
                 setShowToast(true);
                 setToastMessage("Error setting claim");
-            }
+            } */
 
             setToastMessage("Successfully logged in!");
             setShowToast(true);

@@ -1,11 +1,13 @@
 "use client";
 import styles from "./addGame.module.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Toast from "@/components/Toast";
 import Image from "next/image";
 import { MdDelete } from "react-icons/md";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "@/lib/firebaseConfig";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 
 
 // *** SET UP IGDB API ROUTE - ADD GAME PAGE LIKELY NOT NECESSARY ***
@@ -16,6 +18,8 @@ export default function addGameContainer() {
     const [gameSearchLimit, setGameSearchLimit] = useState<number>(1);
     const [showToast, setShowToast] = useState<boolean>(false);
     const [toastMessage, setToastMessage] = useState<string>("");
+    const { user, loading } = useAuth();
+    const router = useRouter();
 
     interface Media {
         id: number;
@@ -123,6 +127,34 @@ export default function addGameContainer() {
         const newUrl = url.replace("t_thumb", "t_screenshot_big");
         return newUrl;
     }
+
+        // Checks if user is admin, redirects if not 
+    const checkAdmin =  async () => {
+        if (loading === true) {
+            console.log("still loading");
+            console.log(`first ${loading}`);
+            return;
+        }
+        if (!user) {
+            router.push("/login");
+            console.log(`second ${loading}`);
+        }
+        if (user) {
+            const tokenResult = await user.getIdTokenResult(true);
+            console.log(`third ${loading}`);
+            console.log(tokenResult);
+        if (!tokenResult.claims.admin) {
+            console.log(`fourth ${loading}`);;
+            router.push("/");
+            return;
+            }
+        }        
+    }
+
+    useEffect(() => {
+        const verify = async () => await checkAdmin();
+        verify();
+    }, [loading])
 
 
     return (
