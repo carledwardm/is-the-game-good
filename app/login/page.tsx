@@ -29,7 +29,20 @@ export default function login() {
             return;
         }
         try {
-            await signInWithEmailAndPassword(auth, email, password);
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+
+            // Set custom claim for admin priviledges
+            const response = await fetch(`/api/makeAdmin/${userCredential.user.uid}`, {
+                method: "PATCH"
+            });
+            if (response.ok) {
+                setShowToast(true);
+                setToastMessage("Custom claim set!");
+            } else {
+                setShowToast(true);
+                setToastMessage("Error setting claim");
+            }
+
             setToastMessage("Successfully logged in!");
             setShowToast(true);
             setTimeout(() => router.push("/"), 2000);
