@@ -1,7 +1,7 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 import twitchCreds from '@/lib/twitchIGDBConfig';
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
     const data = await req.json();
     const url = "https://api.igdb.com/v4/games";
     try {
