@@ -40,7 +40,7 @@ export default function addGameContainer() {
             return;
         }
         try {        
-            const response = await fetch('/add-game/api', {
+            const response = await fetch('/api/addGame', {
             method: "POST",
             body: JSON.stringify({
                 gameTitle: trimmedTitle,
