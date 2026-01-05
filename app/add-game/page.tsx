@@ -61,10 +61,8 @@ export default function addGameContainer() {
             setToastMessage("Search complete, please view results before submitting.");
             let games = [];
             for (let i = 0; i < data.length; i++) {
-                console.log(data[i]);
                 games.push(data[i]);
             }
-            console.log(games);
             setGameData(games);
         } catch (error) {
             console.log(error);
@@ -131,20 +129,14 @@ export default function addGameContainer() {
         // Checks if user is admin, redirects if not 
     const checkAdmin =  async () => {
         if (loading === true) {
-            console.log("still loading");
-            console.log(`first ${loading}`);
             return;
         }
         if (!user) {
             router.push("/login");
-            console.log(`second ${loading}`);
         }
         if (user) {
             const tokenResult = await user.getIdTokenResult(true);
-            console.log(`third ${loading}`);
-            console.log(tokenResult);
         if (!tokenResult.claims.admin) {
-            console.log(`fourth ${loading}`);;
             router.push("/");
             return;
             }

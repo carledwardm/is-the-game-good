@@ -23,7 +23,6 @@ export default function gamePage({params}: any) {
                 }
                 const gameData = await response.json();
                 setGame(gameData);
-                console.log(gameData);
                 } catch (error) {
                     console.log(error);
                     router.push("/");
