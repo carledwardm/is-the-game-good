@@ -13,6 +13,8 @@ export default function gamePage({params}: any) {
     const router = useRouter();
     const [game, setGame] = useState<any>(null);
     const [slides, setSlides] = useState<string[]>([])
+    const [gameScore, setGameScore] = useState<number>(0);
+    const [review, setReview] = useState<string>("");
 
     useEffect(() => {
         const fetchGame = async () => {
