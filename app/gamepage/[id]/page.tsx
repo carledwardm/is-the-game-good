@@ -81,9 +81,10 @@ export default function gamePage({params}: any) {
                 <input type="number" 
                        id={styles.reviewScoreInput}
                        min={0}
-                       max={100}></input>
+                       max={100}
+                       onChange={(e) => setGameScore(parseInt(e.target.value))}></input>
                 <label htmlFor="reviewScoreInput" className={styles.inputLabel}>Your Review</label>
-                <textarea id={styles.reviewInput}></textarea>
+                <textarea id={styles.reviewInput} onChange={(e) => setReview(e.target.value)}></textarea>
                 <button className={styles.button} type="submit">Submit Review</button>
             </form>
         </section>
