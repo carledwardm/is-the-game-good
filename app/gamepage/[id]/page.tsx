@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import EmblaCarousel from "@/components/GamePage/Carousel";
+import { useAuth } from "@/context/AuthContext"
 
 export default function gamePage({params}: any) {
     const { id } = React.use(params) as any;
@@ -15,6 +16,7 @@ export default function gamePage({params}: any) {
     const [slides, setSlides] = useState<string[]>([])
     const [gameScore, setGameScore] = useState<number>(0);
     const [review, setReview] = useState<string>("");
+    const { user } = useAuth();
 
     useEffect(() => {
         const fetchGame = async () => {
@@ -38,6 +40,15 @@ export default function gamePage({params}: any) {
         setSlides(game.screenshots.slice(0, 10) || []);
         }
     }, [game])
+
+    const submitReview = async (e: React.FormEvent) => {
+        e.preventDefault();
+        console.log(gameScore);
+        console.log(review);
+        if (user) {
+            console.log(user.uid);
+        }
+    }
 
     return (
     <main className={styles.gamePageMain}>
@@ -76,7 +87,7 @@ export default function gamePage({params}: any) {
         {/* Form will be additionally updated with logic*/}
         <section className={styles.submitReviewContainer}>
             <h2 className={styles.submitReviewTitle}>{game && `Played ${game.name}? Leave a review!`}</h2>
-            <form className={styles.form}>
+            <form className={styles.form} onSubmit={submitReview}>
                 <label htmlFor="reviewScoreInput" className={styles.inputLabel}>Your Score</label>
                 <input type="number" 
                        id={styles.reviewScoreInput}
