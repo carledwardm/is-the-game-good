@@ -62,7 +62,7 @@ export default function gamePage({params}: any) {
             return;
         }
         try {
-            await addDoc(collection(db, "reviews"), {
+            await addDoc(collection(db, "gameReviews"), {
                 gameId: id,
                 authorId: user?.uid,
                 createdAt: Math.floor(Date.now() / 1000),
