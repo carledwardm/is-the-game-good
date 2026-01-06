@@ -43,6 +43,9 @@ export default function gamePage({params}: any) {
 
     const submitReview = async (e: React.FormEvent) => {
         e.preventDefault();
+        console.log(`Created at ${Date().toLocaleString()}`)
+        const timeStamp = Math.floor(Date.now() / 1000);
+        console.log(timeStamp.toLocaleString());
         console.log(gameScore);
         console.log(review);
         if (user) {
