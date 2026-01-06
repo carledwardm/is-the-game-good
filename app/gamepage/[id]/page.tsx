@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import EmblaCarousel from "@/components/GamePage/Carousel";
 import { useAuth } from "@/context/AuthContext"
+import Toast from "@/components/Toast";
 
 export default function gamePage({params}: any) {
     const { id } = React.use(params) as any;
@@ -16,6 +17,8 @@ export default function gamePage({params}: any) {
     const [slides, setSlides] = useState<string[]>([])
     const [gameScore, setGameScore] = useState<number>(0);
     const [review, setReview] = useState<string>("");
+    const [showToast, setShowToast] = useState<boolean>(false);
+    const [toastMessage, setToastMessage] = useState<string>("");
     const { user } = useAuth();
 
     useEffect(() => {
@@ -43,8 +46,19 @@ export default function gamePage({params}: any) {
 
     const submitReview = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!gameScore || !review) {
-            console.log("Missing data");
+        if (!gameScore && !review) {
+            setShowToast(true);
+            setToastMessage("Review score and text are both required.");
+            return;
+        }
+        if (!gameScore) {
+            setShowToast(true);
+            setToastMessage("Review score is required.");
+            return;
+        }
+        if (!review) {
+            setShowToast(true);
+            setToastMessage("Review text is required.");
             return;
         }
         try {
@@ -55,8 +69,13 @@ export default function gamePage({params}: any) {
                 gameScore: gameScore,
                 review: review,
             });
+            setShowToast(true);
+            setToastMessage("Your review has been submitted");
+            setGameScore(0);
+            setReview("");
         } catch (error) {
-            console.log(error);
+            setShowToast(true);
+            setToastMessage("An error has occurred, please try again.");
         }
     }
 
@@ -109,6 +128,15 @@ export default function gamePage({params}: any) {
                 <button className={styles.button} type="submit">Submit Review</button>
             </form>
         </section>
+        {showToast && (
+            <Toast
+            message={toastMessage}
+            onClose={() => {
+                setShowToast(false);
+                setToastMessage("");
+            }}
+            ></Toast>
+        )}
     </main>
     )
 }
