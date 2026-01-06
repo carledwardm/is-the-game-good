@@ -45,9 +45,9 @@ export default function gamePage({params}: any) {
         e.preventDefault();
         console.log(`Created at ${Date().toLocaleString()}`)
         const timeStamp = Math.floor(Date.now() / 1000);
-        console.log(timeStamp.toLocaleString());
         console.log(gameScore);
         console.log(review);
+        console.log(id);
         if (user) {
             console.log(user.uid);
         }
