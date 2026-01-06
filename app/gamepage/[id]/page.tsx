@@ -1,6 +1,6 @@
 "use client";
 import styles from "../GamePage.module.scss";
-import { doc, getDoc } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 import { db } from "@/lib/firebaseConfig";
 import * as React from "react";
 import { useEffect, useState } from 'react';
@@ -43,13 +43,20 @@ export default function gamePage({params}: any) {
 
     const submitReview = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log(`Created at ${Date().toLocaleString()}`)
-        const timeStamp = Math.floor(Date.now() / 1000);
-        console.log(gameScore);
-        console.log(review);
-        console.log(id);
-        if (user) {
-            console.log(user.uid);
+        if (!gameScore || !review) {
+            console.log("Missing data");
+            return;
+        }
+        try {
+            await addDoc(collection(db, "reviews"), {
+                gameId: id,
+                authorId: user?.uid,
+                createdAt: Math.floor(Date.now() / 1000),
+                gameScore: gameScore,
+                review: review,
+            });
+        } catch (error) {
+            console.log(error);
         }
     }
 
