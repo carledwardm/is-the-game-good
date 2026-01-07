@@ -17,7 +17,7 @@ export default function gamePage({params}: any) {
     const [slides, setSlides] = useState<string[]>([])
     const [gameScore, setGameScore] = useState<number>(0);
     const [review, setReview] = useState<string>("");
-    let [reviews, setGameReviews] = useState<Review[]>([])
+    const [gameReviews, setGameReviews] = useState<Review[]>([])
     const [showToast, setShowToast] = useState<boolean>(false);
     const [toastMessage, setToastMessage] = useState<string>("");
     const { user } = useAuth();
@@ -59,20 +59,32 @@ export default function gamePage({params}: any) {
     useEffect(() => {
         const fetchReviews = async () => {
             try {
-                const q = query(collection(db, "gameReviews"), where("gameId", "==", "1022"));
+                const q = query(collection(db, "gameReviews"), where("gameId", "==", id));
                 const querySnapshot = await getDocs(q);
                 let reviews: Review[] = [];
                 querySnapshot.forEach((doc) => {
                     const review = doc.data() as Review;
                     reviews.push(review);
                 });
-                console.log(reviews);
+                const sortedReviews = reviews.sort((a, b) => {
+                    if (user) {
+                        if (a.authorId === user.uid) return -1;
+                        if (b.authorId === user.uid) return 1;
+                    }
+                    return b.createdAt - a.createdAt;
+                })
+                setGameReviews(sortedReviews);
             } catch (error) {
                 return;
             }
         }
         fetchReviews();
-    }, [])
+    }, [game])
+
+    // Render game reviews 
+    useEffect(() => {
+        console.log("Game reviews updated", gameReviews);
+    }, [gameReviews])
 
     const submitReview = async (e: React.FormEvent) => {
         e.preventDefault();
