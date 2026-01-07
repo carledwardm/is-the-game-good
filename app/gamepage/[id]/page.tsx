@@ -1,6 +1,6 @@
 "use client";
 import styles from "../GamePage.module.scss";
-import { collection, addDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/lib/firebaseConfig";
 import * as React from "react";
 import { useEffect, useState } from 'react';
@@ -23,13 +23,14 @@ export default function gamePage({params}: any) {
     const { user } = useAuth();
 
     interface Review {
-        gameId: number,
+        gameId: string,
         authorId: string,
         createdAt: number,
         gameScore: number,
         review: string,
     };
 
+    // Fetch game data by ID
     useEffect(() => {
         const fetchGame = async () => {
             try {
@@ -47,11 +48,31 @@ export default function gamePage({params}: any) {
         fetchGame();
         }, [])
 
+    // Fetch available screenshots for rendering 
     useEffect(() => {
         if (game?.screenshots) {
         setSlides(game.screenshots.slice(0, 10) || []);
         }
     }, [game])
+
+    // Fetch game reviews
+    useEffect(() => {
+        const fetchReviews = async () => {
+            try {
+                const q = query(collection(db, "gameReviews"), where("gameId", "==", "1022"));
+                const querySnapshot = await getDocs(q);
+                let reviews: Review[] = [];
+                querySnapshot.forEach((doc) => {
+                    const review = doc.data() as Review;
+                    reviews.push(review);
+                });
+                console.log(reviews);
+            } catch (error) {
+                return;
+            }
+        }
+        fetchReviews();
+    }, [])
 
     const submitReview = async (e: React.FormEvent) => {
         e.preventDefault();

@@ -41,7 +41,6 @@ export default function SignUp() {
                 userName,
                 email,
                 password,
-                isAdmin: false,
                 createdAt: new Date(),
             });
 
