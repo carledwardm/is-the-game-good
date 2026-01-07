@@ -17,9 +17,18 @@ export default function gamePage({params}: any) {
     const [slides, setSlides] = useState<string[]>([])
     const [gameScore, setGameScore] = useState<number>(0);
     const [review, setReview] = useState<string>("");
+    let [reviews, setGameReviews] = useState<Review[]>([])
     const [showToast, setShowToast] = useState<boolean>(false);
     const [toastMessage, setToastMessage] = useState<string>("");
     const { user } = useAuth();
+
+    interface Review {
+        gameId: number,
+        authorId: string,
+        createdAt: number,
+        gameScore: number,
+        review: string,
+    };
 
     useEffect(() => {
         const fetchGame = async () => {
@@ -61,14 +70,20 @@ export default function gamePage({params}: any) {
             setToastMessage("Review text is required.");
             return;
         }
+        if (!user) {
+            setShowToast(true);
+            setToastMessage("You must be logged in to leave a review");
+            return;
+        }
         try {
-            await addDoc(collection(db, "gameReviews"), {
+            const newReview: Review = {
                 gameId: id,
-                authorId: user?.uid,
+                authorId: user.uid,
                 createdAt: Math.floor(Date.now() / 1000),
                 gameScore: gameScore,
                 review: review,
-            });
+            }
+            await addDoc(collection(db, "gameReviews"), newReview);
             setShowToast(true);
             setToastMessage("Your review has been submitted");
             setGameScore(0);
