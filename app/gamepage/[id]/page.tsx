@@ -9,14 +9,14 @@ import Image from "next/image";
 import EmblaCarousel from "@/components/GamePage/Carousel";
 import { useAuth } from "@/context/AuthContext"
 import Toast from "@/components/Toast";
-import { ParamValue } from "next/dist/server/request/params";
 
 export default function gamePage() {
     const [game, setGame] = useState<any>(null);
     const [slides, setSlides] = useState<string[]>([])
     const [gameScore, setGameScore] = useState<number>(0);
     const [reviewInput, setReviewInput] = useState<string>("");
-    const [gameReviews, setGameReviews] = useState<Review[]>([])
+    const [gameReviews, setGameReviews] = useState<Review[]>([]);
+    const [userReview, setUserReview] = useState<Review | null>(null);
     const [showToast, setShowToast] = useState<boolean>(false);
     const [toastMessage, setToastMessage] = useState<string>("");
     const { user } = useAuth();
@@ -64,14 +64,16 @@ export default function gamePage() {
                 let reviews: Review[] = [];
                 querySnapshot.forEach((doc) => {
                     const review = doc.data() as Review;
+                    // Checks if the review was created by the logged-in user, sets it in its own state/variable if so
+                    if (review.authorId === user?.uid) {
+                        setUserReview(review);
+                        return;
+                    }
+                    // All non-logged-in user reviews are pushed
                     reviews.push(review);
                 });
                 // Push user's review to front, then sort by descending creation date
                 const sortedReviews = reviews.sort((a, b) => {
-                    if (user) {
-                        if (a.authorId === user.uid) return -1;
-                        if (b.authorId === user.uid) return 1;
-                    }
                     return b.createdAt - a.createdAt;
                 })
                 setGameReviews(sortedReviews);
@@ -80,13 +82,16 @@ export default function gamePage() {
             }
         }
         fetchReviews();
-    }, [game])
+    }, [user]); // Depends on the user variable from useAuth() import, re-renders and filters user review if logged in
 
     // Render game reviews 
     useEffect(() => {
         console.log("Game reviews updated", gameReviews);
+        if (userReview) {
+            console.log("User review found!", userReview)
+        }
         // Logic to render reviews will go here - conditionally add a delete/edit button if first review (index 0) belongs to user
-    }, [gameReviews])
+    }, [gameReviews]);
 
     const submitReview = async (e: React.FormEvent) => {
         e.preventDefault();
