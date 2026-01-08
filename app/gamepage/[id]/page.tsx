@@ -1,6 +1,6 @@
 "use client";
 import styles from "../GamePage.module.scss";
-import { addDoc, collection, doc, getDocs, query, where } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/lib/firebaseConfig";
 import * as React from "react";
 import { useEffect, useState } from 'react';
@@ -10,7 +10,7 @@ import EmblaCarousel from "@/components/GamePage/Carousel";
 import { useAuth } from "@/context/AuthContext"
 import Toast from "@/components/Toast";
 import type { Review } from "@/types/types";
-import ReviewComp from "@/components/Reviews/Review";
+import ReviewComp from "@/components/ReviewComp/Review";
 
 export default function gamePage() {
     const [game, setGame] = useState<any>(null);
@@ -40,6 +40,8 @@ export default function gamePage() {
                     router.push("/");
                 }
             }
+        
+            
         fetchGame();
         }, [])
 
@@ -102,9 +104,15 @@ export default function gamePage() {
             return;
         }
         try {
+            const userRef = doc(db, "users", user.uid);
+            const userSnap = await getDoc(userRef);
+            if (!userSnap.exists()) {
+                throw new Error("An error has occurred")
+            }
             const newReview: Review = {
                 gameId: id as string,
                 authorId: user.uid,
+                authorUserName: userSnap.data().userName,
                 createdAt: Math.floor(Date.now() / 1000),
                 gameScore: gameScore,
                 review: reviewInput,

@@ -40,7 +40,6 @@ export default function SignUp() {
             await setDoc(doc(db, "users", user.uid), {
                 userName,
                 email,
-                password,
                 createdAt: new Date(),
             });
 
