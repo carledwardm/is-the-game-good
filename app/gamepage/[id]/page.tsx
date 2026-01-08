@@ -84,15 +84,6 @@ export default function gamePage() {
         fetchReviews();
     }, [user]); // Depends on the user variable from useAuth() import, re-renders and filters user review if logged in
 
-    // Render game reviews 
-    useEffect(() => {
-        console.log("Game reviews updated", gameReviews);
-        if (userReview) {
-            console.log("User review found!", userReview)
-        }
-        // Logic to render reviews will go here - conditionally add a delete/edit button if first review (index 0) belongs to user
-    }, [gameReviews]);
-
     const submitReview = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!gameScore && !reviewInput) {
