@@ -4,24 +4,24 @@ import { addDoc, collection, doc, getDocs, query, where } from "firebase/firesto
 import { db } from "@/lib/firebaseConfig";
 import * as React from "react";
 import { useEffect, useState } from 'react';
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import EmblaCarousel from "@/components/GamePage/Carousel";
 import { useAuth } from "@/context/AuthContext"
 import Toast from "@/components/Toast";
+import { ParamValue } from "next/dist/server/request/params";
 
-export default function gamePage({params}: any) {
-    const { id } = React.use(params) as any;
-    const router = useRouter();
+export default function gamePage() {
     const [game, setGame] = useState<any>(null);
     const [slides, setSlides] = useState<string[]>([])
     const [gameScore, setGameScore] = useState<number>(0);
-    const [review, setReview] = useState<string>("");
+    const [reviewInput, setReviewInput] = useState<string>("");
     const [gameReviews, setGameReviews] = useState<Review[]>([])
     const [showToast, setShowToast] = useState<boolean>(false);
     const [toastMessage, setToastMessage] = useState<string>("");
     const { user } = useAuth();
-
+    const router = useRouter();
+    const { id } = useParams();
     interface Review {
         gameId: string,
         authorId: string,
@@ -66,6 +66,7 @@ export default function gamePage({params}: any) {
                     const review = doc.data() as Review;
                     reviews.push(review);
                 });
+                // Push user's review to front, then sort by descending creation date
                 const sortedReviews = reviews.sort((a, b) => {
                     if (user) {
                         if (a.authorId === user.uid) return -1;
@@ -84,11 +85,12 @@ export default function gamePage({params}: any) {
     // Render game reviews 
     useEffect(() => {
         console.log("Game reviews updated", gameReviews);
+        // Logic to render reviews will go here - conditionally add a delete/edit button if first review (index 0) belongs to user
     }, [gameReviews])
 
     const submitReview = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!gameScore && !review) {
+        if (!gameScore && !reviewInput) {
             setShowToast(true);
             setToastMessage("Review score and text are both required.");
             return;
@@ -98,7 +100,7 @@ export default function gamePage({params}: any) {
             setToastMessage("Review score is required.");
             return;
         }
-        if (!review) {
+        if (!reviewInput) {
             setShowToast(true);
             setToastMessage("Review text is required.");
             return;
@@ -110,17 +112,17 @@ export default function gamePage({params}: any) {
         }
         try {
             const newReview: Review = {
-                gameId: id,
+                gameId: id as string,
                 authorId: user.uid,
                 createdAt: Math.floor(Date.now() / 1000),
                 gameScore: gameScore,
-                review: review,
+                review: reviewInput,
             }
             await addDoc(collection(db, "gameReviews"), newReview);
             setShowToast(true);
             setToastMessage("Your review has been submitted");
             setGameScore(0);
-            setReview("");
+            setReviewInput("");
         } catch (error) {
             setShowToast(true);
             setToastMessage("An error has occurred, please try again.");
@@ -159,6 +161,7 @@ export default function gamePage({params}: any) {
         {/* Section will be updated with logic showing user reviews*/}
         <section className={styles.gameReviewsContainer}>
             <h2 className={styles.reviewsTitle}>What gamers are saying</h2>
+            <div className=""></div>
         </section>
         
         {/* Form will be additionally updated with logic*/}
@@ -172,7 +175,7 @@ export default function gamePage({params}: any) {
                        max={100}
                        onChange={(e) => setGameScore(parseInt(e.target.value))}></input>
                 <label htmlFor="reviewScoreInput" className={styles.inputLabel}>Your Review</label>
-                <textarea id={styles.reviewInput} onChange={(e) => setReview(e.target.value)}></textarea>
+                <textarea id={styles.reviewInput} onChange={(e) => setReviewInput(e.target.value)}></textarea>
                 <button className={styles.button} type="submit">Submit Review</button>
             </form>
         </section>
