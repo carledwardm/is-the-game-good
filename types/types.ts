@@ -6,9 +6,3 @@ export interface Review {
         gameScore: number,
         review: string,
 };
-
-export interface IUser {
-    userName: string;
-    email: string;
-    createdAt: number;
-}

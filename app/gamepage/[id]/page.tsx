@@ -162,12 +162,12 @@ export default function gamePage() {
             <h2 className={styles.reviewsTitle}>What gamers are saying</h2>
             <div className={styles.reviewContainer}>
                 {userReview && (
-                    <ReviewComp review={userReview}/>
+                    <ReviewComp review={userReview} isAuthor={true}/>
                 )}
             </div>
             <div className={styles.reviewContainer}>
                 {gameReviews.map((review, index) => (
-                    <ReviewComp key={index} review={review}/>
+                    <ReviewComp key={index} review={review} isAuthor={false}/>
                 ))}
             </div>
             
