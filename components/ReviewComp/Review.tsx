@@ -9,6 +9,7 @@ export default function ReviewComp ({review, isAuthor}: {review: Review, isAutho
                 <p className={styles.reviewScore}>{review.gameScore}</p>
                 <p className={styles.reviewText}>{review.review}</p>
                 {isAuthor && <button>Delete</button>}
+                {!isAuthor && <button>Helpful?</button>}
             </div>
         )
 }
