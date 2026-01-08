@@ -9,6 +9,8 @@ import Image from "next/image";
 import EmblaCarousel from "@/components/GamePage/Carousel";
 import { useAuth } from "@/context/AuthContext"
 import Toast from "@/components/Toast";
+import type { Review } from "@/types/types";
+import ReviewComp from "@/components/Reviews/Review";
 
 export default function gamePage() {
     const [game, setGame] = useState<any>(null);
@@ -22,13 +24,6 @@ export default function gamePage() {
     const { user } = useAuth();
     const router = useRouter();
     const { id } = useParams();
-    interface Review {
-        gameId: string,
-        authorId: string,
-        createdAt: number,
-        gameScore: number,
-        review: string,
-    };
 
     // Fetch game data by ID
     useEffect(() => {
@@ -157,7 +152,17 @@ export default function gamePage() {
         {/* Section will be updated with logic showing user reviews*/}
         <section className={styles.gameReviewsContainer}>
             <h2 className={styles.reviewsTitle}>What gamers are saying</h2>
-            <div className=""></div>
+            <div className={styles.reviewContainer}>
+                {userReview && (
+                    <ReviewComp review={userReview}/>
+                )}
+            </div>
+            <div className={styles.reviewContainer}>
+                {gameReviews.map((review, index) => (
+                    <ReviewComp key={index} review={review}/>
+                ))}
+            </div>
+            
         </section>
         
         {/* Form will be additionally updated with logic*/}
