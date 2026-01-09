@@ -103,6 +103,11 @@ export default function gamePage() {
             setToastMessage("You must be logged in to leave a review");
             return;
         }
+        if (userReview) {
+            setShowToast(true);
+            setToastMessage("You have already left a review for this title");
+            return;
+        }
         try {
             const userRef = doc(db, "users", user.uid);
             const userSnap = await getDoc(userRef);
