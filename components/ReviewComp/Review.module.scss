@@ -8,4 +8,38 @@
     min-height: 250px;
     border: 2px solid var(--button);
     border-radius: 2px;
+    padding: 25px;
+}
+
+.authorName {
+    font-family: "Rubik", sans-serif;
+    font-size: 32px;
+}
+
+.reviewScore {
+    font-family: "Roboto", sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.reviewText {
+    font-family: "Roboto", sans-serif;
+    text-align: left;
+    font-size: 16px;
+}
+
+.deleteBtn, .rateBtn {
+    border-radius: 2px;
+    border: none;
+    background-color: var(--button);
+    padding: 5px 10px;
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        background-color: var(--foreground);
+        color: var(--sub-background);
+    }
 }
