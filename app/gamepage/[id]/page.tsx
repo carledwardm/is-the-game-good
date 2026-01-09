@@ -1,6 +1,6 @@
 "use client";
 import styles from "../GamePage.module.scss";
-import { addDoc, collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, DocumentData, getDoc, getDocs, query, QueryDocumentSnapshot, where } from "firebase/firestore";
 import { db } from "@/lib/firebaseConfig";
 import * as React from "react";
 import { useEffect, useState } from 'react';
@@ -18,7 +18,7 @@ export default function gamePage() {
     const [gameScore, setGameScore] = useState<number>(0);
     const [reviewInput, setReviewInput] = useState<string>("");
     const [gameReviews, setGameReviews] = useState<Review[]>([]);
-    const [userReview, setUserReview] = useState<Review | null>(null);
+    const [userReview, setUserReview] = useState<QueryDocumentSnapshot<DocumentData> | null>(null);
     const [showToast, setShowToast] = useState<boolean>(false);
     const [toastMessage, setToastMessage] = useState<string>("");
     const { user } = useAuth();
@@ -63,7 +63,8 @@ export default function gamePage() {
                     const review = doc.data() as Review;
                     // Checks if the review was created by the logged-in user, sets it in its own state/variable if so
                     if (review.authorId === user?.uid) {
-                        setUserReview(review);
+                        // Sets the user review as the doc to allow the review component to delete directly
+                        setUserReview(doc);
                         return;
                     }
                     // All non-logged-in user reviews are pushed
@@ -81,6 +82,7 @@ export default function gamePage() {
         fetchReviews();
     }, [user]); // Depends on the user variable from useAuth() import, re-renders and filters user review if logged in
 
+    // Submits the user review
     const submitReview = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!gameScore && !reviewInput) {
@@ -167,12 +169,12 @@ export default function gamePage() {
             <h2 className={styles.reviewsTitle}>What gamers are saying</h2>
             <div className={styles.reviewContainer}>
                 {userReview && (
-                    <ReviewComp review={userReview} isAuthor={true}/>
+                    <ReviewComp reviewData={userReview} isAuthor={true} onDelete={() => setUserReview(null)}/>
                 )}
             </div>
             <div className={styles.reviewContainer}>
                 {gameReviews.map((review, index) => (
-                    <ReviewComp key={index} review={review} isAuthor={false}/>
+                    <ReviewComp key={index} reviewData={review} isAuthor={false}/>
                 ))}
             </div>
             
