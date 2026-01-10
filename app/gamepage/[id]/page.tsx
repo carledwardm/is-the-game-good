@@ -11,11 +11,13 @@ import { useAuth } from "@/context/AuthContext"
 import Toast from "@/components/Toast";
 import type { Review } from "@/types/types";
 import ReviewComp from "@/components/ReviewComp/Review";
+import { GiConsoleController } from "react-icons/gi";
 
 export default function gamePage() {
     const [game, setGame] = useState<any>(null);
     const [slides, setSlides] = useState<string[]>([])
     const [gameScore, setGameScore] = useState<number>(0);
+    const [averageScore, setAverageScore] = useState<number>(0);
     const [reviewInput, setReviewInput] = useState<string>("");
     const [gameReviews, setGameReviews] = useState<Review[]>([]);
     const [userReview, setUserReview] = useState<DocumentSnapshot<DocumentData> | null>(null);
@@ -81,6 +83,21 @@ export default function gamePage() {
         }
         fetchReviews();
     }, [user]); // Depends on the user variable from useAuth() import, re-renders and filters user review if logged in
+
+    // Update game review stats 
+    useEffect(() => {
+        let addedScore = 0;
+        const numReviews = userReview? gameReviews.length + 1 : gameReviews.length;
+        if (gameReviews) {
+            // numReviews accounts for an extra value if user review exists
+            console.log(numReviews);
+            for (const review of gameReviews) {
+                addedScore += review.gameScore;
+            }
+        }
+        console.log(addedScore / numReviews)
+        setAverageScore(addedScore / numReviews);
+    }, [gameReviews])
 
     // Submits the user review
     const submitReview = async (e: React.FormEvent) => {
@@ -162,8 +179,8 @@ export default function gamePage() {
         <section className={styles.gameReviewStats}>
             <h2 className={styles.statsTitle}>{game && `${game.name}'s Score`}</h2>
             <div className={styles.scoreContainer}>
-                <p className={styles.totalReviews}>0 Total Reviews</p>
-                <p className={styles.score}>Score: 95/100</p>
+                <p className={styles.totalReviews}>{`${userReview ? gameReviews.length + 1 : gameReviews.length} total Reviews`}</p>
+                <p className={styles.score}>{`Score: ${averageScore} / 100`}</p>
             </div>
         </section>
         {/* Section will be updated with logic showing user reviews*/}
