@@ -177,8 +177,8 @@ export default function gamePage() {
         <section className={styles.gameReviewStats}>
             <h2 className={styles.statsTitle}>{game && `${game.name}'s Score`}</h2>
             <div className={styles.scoreContainer}>
-                <p className={styles.totalReviews}>{`${userReview ? gameReviews.length + 1 : gameReviews.length} total Reviews`}</p>
-                <p className={styles.score}>{`Score: ${averageScore || 0} / 100`}</p>
+                <p className={styles.totalReviews}><span className={styles.stat}>{`${userReview ? gameReviews.length + 1 : gameReviews.length}`}</span> Total Reviews</p>                
+                <p className={styles.score}>Score: <span className={styles.stat}>{`${averageScore || 0}`}</span> / 100</p>
             </div>
         </section>
         {/* Section will be updated with logic showing user reviews*/}

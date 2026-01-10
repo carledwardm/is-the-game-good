@@ -4,16 +4,16 @@
     justify-content: center;
     flex-direction: column;
     gap: 50px;
-    width: 350px;
+    max-width: 350px;
     min-height: 250px;
-    border: none;
+    border: 2px solid var(--button);
     border-radius: 2px;
     padding: 50px;
     background-color: var(--alt-background);
 }
 
 .userReview {
-    width: 75%;
+    width: 100%;
 }
 
 .authorName {
