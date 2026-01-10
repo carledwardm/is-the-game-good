@@ -8,7 +8,6 @@ export default function ReviewComp ({reviewData, isAuthor, onDelete}: {reviewDat
     let review = null;
     if (isAuthor) {
         review = reviewData.data();
-        console.log(reviewData);
     } else {
         review = reviewData;
     }
@@ -18,7 +17,7 @@ export default function ReviewComp ({reviewData, isAuthor, onDelete}: {reviewDat
             await deleteDoc(reviewData.ref);
             onDelete?.();
         } catch (error) {
-            console.log(error);
+            console.log(error);            return;
         }
 
     }

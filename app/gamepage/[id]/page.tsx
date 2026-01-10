@@ -1,6 +1,6 @@
 "use client";
 import styles from "../GamePage.module.scss";
-import { addDoc, collection, deleteDoc, doc, DocumentData, getDoc, getDocs, query, QueryDocumentSnapshot, where } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, DocumentData, getDoc, getDocs, query, DocumentSnapshot, where } from "firebase/firestore";
 import { db } from "@/lib/firebaseConfig";
 import * as React from "react";
 import { useEffect, useState } from 'react';
@@ -18,7 +18,7 @@ export default function gamePage() {
     const [gameScore, setGameScore] = useState<number>(0);
     const [reviewInput, setReviewInput] = useState<string>("");
     const [gameReviews, setGameReviews] = useState<Review[]>([]);
-    const [userReview, setUserReview] = useState<QueryDocumentSnapshot<DocumentData> | null>(null);
+    const [userReview, setUserReview] = useState<DocumentSnapshot<DocumentData> | null>(null);
     const [showToast, setShowToast] = useState<boolean>(false);
     const [toastMessage, setToastMessage] = useState<string>("");
     const { user } = useAuth();
@@ -124,7 +124,9 @@ export default function gamePage() {
                 gameScore: gameScore,
                 review: reviewInput,
             }
-            await addDoc(collection(db, "gameReviews"), newReview);
+            const newDocRef = await addDoc(collection(db, "gameReviews"), newReview);
+            const userReview = await getDoc(newDocRef);
+            setUserReview(userReview);
             setShowToast(true);
             setToastMessage("Your review has been submitted");
             setGameScore(0);
@@ -189,9 +191,11 @@ export default function gamePage() {
                        id={styles.reviewScoreInput}
                        min={0}
                        max={100}
-                       onChange={(e) => setGameScore(parseInt(e.target.value))}></input>
+                       // On change logic here accounts for if value is ever set to "" during rendering to avoid potential error 
+                       onChange={(e) => setGameScore(e.target.value === "" ? 0 : parseInt(e.target.value))}
+                       value={gameScore}></input>
                 <label htmlFor="reviewScoreInput" className={styles.inputLabel}>Your Review</label>
-                <textarea id={styles.reviewInput} onChange={(e) => setReviewInput(e.target.value)}></textarea>
+                <textarea id={styles.reviewInput} onChange={(e) => setReviewInput(e.target.value)} value={reviewInput}></textarea>
                 <button className={styles.button} type="submit">Submit Review</button>
             </form>
         </section>
