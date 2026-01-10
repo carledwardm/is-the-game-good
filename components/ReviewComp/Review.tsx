@@ -23,7 +23,7 @@ export default function ReviewComp ({reviewData, isAuthor, onDelete}: {reviewDat
     }
 
     return (
-            <div className={styles.review}>
+            <div className={isAuthor? `${styles.userReview} ${styles.review}` : styles.review}>
                 {isAuthor && <h2 className={styles.authorName}>Your Review</h2>}
                 {!isAuthor && <h2 className={styles.authorName}>{`${review.authorUserName}'s Review`}</h2>}
                 <p className={styles.reviewScore}>{`${review.gameScore} / 100`}</p>

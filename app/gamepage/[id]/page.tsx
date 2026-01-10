@@ -90,12 +90,10 @@ export default function gamePage() {
         const numReviews = userReview? gameReviews.length + 1 : gameReviews.length;
         if (gameReviews) {
             // numReviews accounts for an extra value if user review exists
-            console.log(numReviews);
             for (const review of gameReviews) {
                 addedScore += review.gameScore;
             }
         }
-        console.log(addedScore / numReviews)
         setAverageScore(addedScore / numReviews);
     }, [gameReviews])
 
@@ -180,17 +178,19 @@ export default function gamePage() {
             <h2 className={styles.statsTitle}>{game && `${game.name}'s Score`}</h2>
             <div className={styles.scoreContainer}>
                 <p className={styles.totalReviews}>{`${userReview ? gameReviews.length + 1 : gameReviews.length} total Reviews`}</p>
-                <p className={styles.score}>{`Score: ${averageScore} / 100`}</p>
+                <p className={styles.score}>{`Score: ${averageScore || 0} / 100`}</p>
             </div>
         </section>
         {/* Section will be updated with logic showing user reviews*/}
         <section className={styles.gameReviewsContainer}>
-            <h2 className={styles.reviewsTitle}>What gamers are saying</h2>
-            <div className={styles.reviewContainer}>
+            <h2 className={styles.reviewsTitle}>Reviews</h2>
+            <div className={`${styles.reviewContainer} ${styles.userReviewContainer}`}>
                 {userReview && (
                     <ReviewComp reviewData={userReview} isAuthor={true} onDelete={() => setUserReview(null)}/>
                 )}
             </div>
+            {userReview && <h2 className={styles.otherReviewsTitle}>What other gamers are saying</h2>}
+            {(!gameReviews[0] && !userReview) && <h2 className={styles.otherReviewsTitle}>Game has not been reviewed yet</h2>}
             <div className={styles.reviewContainer}>
                 {gameReviews.map((review, index) => (
                     <ReviewComp key={index} reviewData={review} isAuthor={false}/>

@@ -13,12 +13,15 @@
   display: flex;
   touch-action: pan-y pinch-zoom;
   margin-left: calc(var(--slide-spacing) * -1);
+  padding-left: 10px;
+  gap: 10px;
 }
 .embla__slide {
   transform: translate3d(0, 0, 0);
   flex: 0 0 var(--slide-size);
   min-width: 325px;
-  padding-left: var(--slide-spacing);
+  border: 2px solid var(--button);
+  border-radius: 2px;
 }
 .embla__slide__img {
   border-radius: 2px;

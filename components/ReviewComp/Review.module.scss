@@ -6,9 +6,14 @@
     gap: 50px;
     width: 350px;
     min-height: 250px;
-    border: 2px solid var(--button);
+    border: none;
     border-radius: 2px;
     padding: 25px;
+    background-color: var(--alt-background);
+}
+
+.userReview {
+    width: 75%;
 }
 
 .authorName {
@@ -37,9 +42,10 @@
     font-size: 14px;
     font-weight: bold;
     transition: all 0.2s ease-in-out;
+    cursor: pointer;
 
     &:hover {
-        background-color: var(--foreground);
-        color: var(--sub-background);
+        background-color: transparent;
+        color: var(--foreground);
     }
 }
