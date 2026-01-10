@@ -149,7 +149,6 @@
 }
 
 .reviewContainer {
-    width: 100%;
     min-height: 200px;
     display: flex;
     align-items: start;
@@ -157,6 +156,16 @@
     flex-wrap: wrap;
     gap: 25px;
     margin-bottom: 25px;
+
+    @media screen and (min-width: 800px) {
+        max-width: 725px;
+        justify-content: start;
+    }
+
+    @media screen and (min-width: 1175px) {
+        max-width: 1100px;
+        justify-content: start;
+    }
 }
 
 .reviewsTitle {
