@@ -8,7 +8,7 @@
     min-height: 250px;
     border: none;
     border-radius: 2px;
-    padding: 25px;
+    padding: 50px;
     background-color: var(--alt-background);
 }
 
@@ -19,6 +19,7 @@
 .authorName {
     font-family: "Rubik", sans-serif;
     font-size: 32px;
+    text-align: center;
 }
 
 .reviewScore {
