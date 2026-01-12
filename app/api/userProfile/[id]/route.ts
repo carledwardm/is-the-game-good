@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
             return NextResponse.json({error: "User not found"}, {status: 400})
         }
 
-        return NextResponse.json(docSnap.data(), {status: 200})
+        return NextResponse.json({id: docSnap.id, ...docSnap.data()}, {status: 200})
 
     } catch (error) {
         return NextResponse.json({error: "An error has occurred"}, {status: 500})

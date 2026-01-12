@@ -1,4 +1,4 @@
-export interface Review {
+export type Review = {
         gameId: string,
         authorId: string,
         authorUserName: string,
@@ -6,3 +6,10 @@ export interface Review {
         gameScore: number,
         review: string,
 };
+
+export type UserData = {
+        id: string,
+        userName: string,
+        createdAt: number,
+        email: string,
+}
