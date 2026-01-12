@@ -11,7 +11,7 @@ import { useAuth } from "@/context/AuthContext"
 import Toast from "@/components/Toast";
 import type { Review } from "@/types/types";
 import ReviewComp from "@/components/ReviewComp/Review";
-import { GiConsoleController } from "react-icons/gi";
+import showMore from "@/components/showMore/showMore";
 
 export default function gamePage() {
     const [game, setGame] = useState<any>(null);
@@ -23,6 +23,7 @@ export default function gamePage() {
     const [userReview, setUserReview] = useState<DocumentSnapshot<DocumentData> | null>(null);
     const [showToast, setShowToast] = useState<boolean>(false);
     const [toastMessage, setToastMessage] = useState<string>("");
+    const [displayCount, setDisplayCount] = useState<number>(6);
     const { user } = useAuth();
     const router = useRouter();
     const { id } = useParams();
