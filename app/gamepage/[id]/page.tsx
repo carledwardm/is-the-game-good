@@ -11,7 +11,7 @@ import { useAuth } from "@/context/AuthContext"
 import Toast from "@/components/Toast";
 import type { Review } from "@/types/types";
 import ReviewComp from "@/components/ReviewComp/Review";
-import ShowMore from "@/components/showMore/showMore";
+import ShowMore from "@/components/ShowMore/ShowMore";
 
 export default function gamePage() {
     const [game, setGame] = useState<any>(null);
@@ -23,7 +23,7 @@ export default function gamePage() {
     const [userReview, setUserReview] = useState<DocumentSnapshot<DocumentData> | null>(null);
     const [showToast, setShowToast] = useState<boolean>(false);
     const [toastMessage, setToastMessage] = useState<string>("");
-    const [displayCount, setDisplayCount] = useState<number>(1);
+    const [displayCount, setDisplayCount] = useState<number>(6);
     const { user } = useAuth();
     const router = useRouter();
     const { id } = useParams();
@@ -89,6 +89,7 @@ export default function gamePage() {
     useEffect(() => {
         let addedScore = 0;
         const numReviews = userReview? gameReviews.length + 1 : gameReviews.length;
+        console.log(gameReviews);
         if (gameReviews) {
             // numReviews accounts for an extra value if user review exists
             for (const review of gameReviews) {
@@ -194,12 +195,11 @@ export default function gamePage() {
             {(!gameReviews[0] && !userReview) && <h2 className={styles.otherReviewsTitle}>Game has not been reviewed yet</h2>}
             <div className={styles.reviewContainer}>
                 {gameReviews.map((review, index) => (
-                    <ReviewComp key={index} reviewData={review} isAuthor={false}/>
-                ))}
-                {/* Show More button conditionally rendered if reviews exceed 6 */}
-                {( gameReviews.length > 1 && <ShowMore increaseFunction={setDisplayCount}/> )}
+                    index <= displayCount - 1 && <ReviewComp key={index} reviewData={review} isAuthor={false}/>
+                ))}  
             </div>
-            
+            {/* Show More button conditionally rendered if reviews exceed 6 */}
+                {( gameReviews.length > 1 && <ShowMore increaseFunction={setDisplayCount} currentAmount={displayCount} increaseAmount={6}/> )}
         </section>
         
         {/* Form will be additionally updated with logic*/}

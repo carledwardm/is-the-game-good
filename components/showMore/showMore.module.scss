@@ -1,7 +1,21 @@
 .showMoreButton {
-    padding: 20px 10px;
+    padding: 15px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: var(--foreground);
     font-family: "Roboto", sans-serif;
-    font-size: 24px;
+    font-size: 18px;
     font-weight: bold;
+    background-color: var(--button);
+    border: none;
+    border-radius: 2px;
+    gap: 10px;
+    margin-top: 25px;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        background-color: transparent;
+    }
 }
+
