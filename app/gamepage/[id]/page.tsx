@@ -43,8 +43,6 @@ export default function gamePage() {
                     router.push("/");
                 }
             }
-        
-            
         fetchGame();
         }, [])
 
