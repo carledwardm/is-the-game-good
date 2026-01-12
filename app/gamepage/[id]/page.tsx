@@ -175,7 +175,7 @@ export default function gamePage() {
             {game?.screenshots?.length? <EmblaCarousel slides={slides.map((slide, index) => index)} gameScreenshots={slides}/> : ""}
         </section>
 
-        {/* Section will be updated with logic counting reviews and score */}
+        {/* Review score and number of reviews displayed here */}
         <section className={styles.gameReviewStats}>
             <h2 className={styles.statsTitle}>{game && `${game.name}'s Score`}</h2>
             <div className={styles.scoreContainer}>
@@ -183,7 +183,7 @@ export default function gamePage() {
                 <p className={styles.score}>Score: <span className={styles.stat}>{`${averageScore || 0}`}</span> / 100</p>
             </div>
         </section>
-        {/* Section will be updated with logic showing user reviews*/}
+        {/* User reviews are displayed here */}
         <section className={styles.gameReviewsContainer}>
             <h2 className={styles.reviewsTitle}>Reviews</h2>
             <div className={`${styles.reviewContainer} ${styles.userReviewContainer}`}>
@@ -199,10 +199,10 @@ export default function gamePage() {
                 ))}  
             </div>
             {/* Show More button conditionally rendered if reviews exceed 6 */}
-                {( gameReviews.length > 1 && <ShowMore increaseFunction={setDisplayCount} currentAmount={displayCount} increaseAmount={6}/> )}
+                {( gameReviews.length > 6 && <ShowMore increaseFunction={setDisplayCount} currentAmount={displayCount} increaseAmount={6}/> )}
         </section>
         
-        {/* Form will be additionally updated with logic*/}
+        {/* Submit review form */}
         <section className={styles.submitReviewContainer}>
             <h2 className={styles.submitReviewTitle}>{game && `Played ${game.name}? Leave a review!`}</h2>
             <form className={styles.form} onSubmit={submitReview}>
