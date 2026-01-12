@@ -11,7 +11,7 @@ import { useAuth } from "@/context/AuthContext"
 import Toast from "@/components/Toast";
 import type { Review } from "@/types/types";
 import ReviewComp from "@/components/ReviewComp/Review";
-import showMore from "@/components/showMore/showMore";
+import ShowMore from "@/components/showMore/showMore";
 
 export default function gamePage() {
     const [game, setGame] = useState<any>(null);
@@ -23,7 +23,7 @@ export default function gamePage() {
     const [userReview, setUserReview] = useState<DocumentSnapshot<DocumentData> | null>(null);
     const [showToast, setShowToast] = useState<boolean>(false);
     const [toastMessage, setToastMessage] = useState<string>("");
-    const [displayCount, setDisplayCount] = useState<number>(6);
+    const [displayCount, setDisplayCount] = useState<number>(1);
     const { user } = useAuth();
     const router = useRouter();
     const { id } = useParams();
@@ -196,6 +196,8 @@ export default function gamePage() {
                 {gameReviews.map((review, index) => (
                     <ReviewComp key={index} reviewData={review} isAuthor={false}/>
                 ))}
+                {/* Show More button conditionally rendered if reviews exceed 6 */}
+                {( gameReviews.length > 1 && <ShowMore increaseFunction={setDisplayCount}/> )}
             </div>
             
         </section>
