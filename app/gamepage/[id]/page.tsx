@@ -10,7 +10,7 @@ import EmblaCarousel from "@/components/GamePage/Carousel";
 import { useAuth } from "@/context/AuthContext"
 import Toast from "@/components/Toast";
 import type { Review } from "@/types/types";
-import ReviewComp from "@/components/ReviewComp/Review";
+import ReviewComp from "@/components/ReviewComp/ReviewComp";
 import ShowMore from "@/components/ShowMore/ShowMore";
 
 export default function gamePage() {
