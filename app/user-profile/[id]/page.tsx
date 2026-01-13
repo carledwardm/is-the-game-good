@@ -6,12 +6,14 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { UserData } from "@/types/types";
 import { Review } from "@/types/types"
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "@/lib/firebaseConfig";
 
 export default function userProfile() {
     const { user } = useAuth();
     const { id } = useParams();
     const [userData, setUserData] = useState<UserData | null>(null);
-    const [userReviews, setUesrReviews] = useState<Review[] | []>([]);
+    const [userReviews, setUserReviews] = useState<Review[] | []>([]);
 
     // Fetch user data
     useEffect(() => {
@@ -34,11 +36,25 @@ export default function userProfile() {
 
     // Fetch user reviews
     useEffect(() => {
-        // const fetchReviews = async () => {
-        //     try {
-        //         const response = await fetch()
-        //     }
-        // }
+        const fetchReviews = async () => {
+            try {
+                const q = query(collection(db, "gameReviews"), where("authorId", "==", id));
+                const querySnapshot = await getDocs(q);
+                let reviews: Review[] = [];
+                querySnapshot.forEach((doc) => {
+                    const review = doc.data() as Review;
+                    reviews.push(review);
+                });
+                const sortedReviews = reviews.sort((a, b) => {
+                    return b.createdAt - a.createdAt;
+                })
+                setUserReviews(sortedReviews);
+                console.log(sortedReviews);
+            } catch (error) {
+                return;
+            }
+        }
+        fetchReviews()
     }, [])
 
     return (
