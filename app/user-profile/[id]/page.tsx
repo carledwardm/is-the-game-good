@@ -5,12 +5,15 @@ import styles from "../UserProfile.module.scss";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { UserData } from "@/types/types";
+import { Review } from "@/types/types"
 
 export default function userProfile() {
     const { user } = useAuth();
     const { id } = useParams();
     const [userData, setUserData] = useState<UserData | null>(null);
+    const [userReviews, setUesrReviews] = useState<Review[] | []>([]);
 
+    // Fetch user data
     useEffect(() => {
         const fetchUser = async () => {
             try {
@@ -29,16 +32,29 @@ export default function userProfile() {
         fetchUser();
     }, [])
 
+    // Fetch user reviews
+    useEffect(() => {
+        // const fetchReviews = async () => {
+        //     try {
+        //         const response = await fetch()
+        //     }
+        // }
+    }, [])
+
     return (
         <main className={styles.userProfileMain}>
-            {!userData ? (
-                <h1 className={styles.profileTitle}>Loading profile...</h1>
-            ) : user?.uid === userData?.id ? (
-                <h1 className={styles.profileTitle}>Your Profile</h1>
-            ) : (
-                <h1 className={styles.profileTitle}>{`${userData?.userName}'s Profile!`}</h1>
-            )}
-
+            <div className={styles.profileContainer}>{!userData ? (
+                    <h1 className={styles.profileTitle}>Loading profile...</h1>
+                ) : user?.uid === userData?.id ? (
+                    <h1 className={styles.profileTitle}>Your Stats</h1>
+                ) : (
+                    <h1 className={styles.profileTitle}>{`${userData?.userName}'s Stats`}</h1>
+                )}
+                <div className={styles.statContainer}>
+                    <p className={styles.totalReviews}>Total Reviews: <span className={styles.stat}></span></p>                
+                    <p className={styles.score}>Reviews rated helpful: <span className={styles.stat}></span> / 100</p>
+                </div>
+            </div>
         </main>
     )
 }

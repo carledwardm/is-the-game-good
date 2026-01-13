@@ -1,6 +1,6 @@
 "use client";
 
-import styles from "./Review.module.scss";
+import styles from "./ReviewComp.module.scss";
 import type { Review } from "@/types/types";
 import { deleteDoc } from "firebase/firestore";
 
