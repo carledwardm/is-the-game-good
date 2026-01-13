@@ -34,6 +34,17 @@
     text-align: center;
 }
 
+.profileLink {
+    text-decoration: none;
+    color: var(--alt-foreground);
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        color: var(--foreground);
+        transform: translatey(-5px);
+    }
+}
+
 .reviewScore {
     font-family: "Roboto", sans-serif;
     font-size: 26px;
