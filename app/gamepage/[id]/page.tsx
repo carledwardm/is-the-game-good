@@ -26,7 +26,8 @@ export default function gamePage() {
     const [displayCount, setDisplayCount] = useState<number>(6);
     const { user } = useAuth();
     const router = useRouter();
-    const { id } = useParams();
+    type Params = {id: string}
+    const { id } = useParams() as Params;
 
     // Fetch game data by ID
     useEffect(() => {
@@ -57,7 +58,7 @@ export default function gamePage() {
     useEffect(() => {
         const fetchReviews = async () => {
             try {
-                const q = query(collection(db, "gameReviews"), where("gameId", "==", id), orderBy("createdAt", "desc"));
+                const q = query(collection(db, "games", id, "reviews"), orderBy("createdAt", "desc"));
                 const querySnapshot = await getDocs(q);
                 let reviews: Review[] = [];
                 querySnapshot.forEach((doc) => {
@@ -138,7 +139,10 @@ export default function gamePage() {
                 gameScore: gameScore,
                 review: reviewInput,
             }
-            const newDocRef = await addDoc(collection(db, "gameReviews"), newReview);
+            if (!id) {
+                return;
+            }
+            const newDocRef = await addDoc(collection(db, "games", id, "reviews"), newReview);
             const userReview = await getDoc(newDocRef);
             setUserReview(userReview);
             setShowToast(true);
@@ -192,7 +196,7 @@ export default function gamePage() {
             <div className={styles.reviewContainer}>
                 {gameReviews.map((review, index) => (
                     // Pass data in reviewData argument for reviews not by logged-in user, prevents delete button usage
-                    index <= displayCount - 1 && <ReviewComp reviewData={review} key={index}/>
+                    review.authorId !== user?.uid && index <= displayCount - 1 && <ReviewComp reviewData={review} key={index}/>
                 ))}  
             </div>
             {/* Show More button conditionally rendered if reviews exceed 6 */}

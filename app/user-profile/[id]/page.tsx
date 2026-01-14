@@ -5,8 +5,7 @@ import styles from "../UserProfile.module.scss";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { UserData } from "@/types/types";
-import { Review } from "@/types/types"
-import { collection, DocumentData, DocumentSnapshot, getDocs, orderBy, query, where } from "firebase/firestore";
+import { collectionGroup, DocumentData, DocumentSnapshot, getDocs, orderBy, query, where } from "firebase/firestore";
 import { db } from "@/lib/firebaseConfig";
 import ReviewComp from "@/components/ReviewComp/ReviewComp";
 
@@ -39,8 +38,9 @@ export default function userProfile() {
     useEffect(() => {
         const fetchReviews = async () => {
             try {
-                const q = query(collection(db, "gameReviews"), where("authorId", "==", id), orderBy("createdAt", "desc"));
+                const q = query(collectionGroup(db, "reviews"), where("authorId", "==", id), orderBy("createdAt", "desc"));
                 const querySnapshot = await getDocs(q);
+                console.log(querySnapshot);
                 let userReviews: DocumentData[] = [];
                 let authorRefs: DocumentSnapshot<DocumentData>[] = [];
                 querySnapshot.forEach((doc) => {
