@@ -2,34 +2,46 @@
 
 import styles from "./ReviewComp.module.scss";
 import type { Review } from "@/types/types";
-import { deleteDoc } from "firebase/firestore";
+import { deleteDoc, DocumentData, DocumentSnapshot } from "firebase/firestore";
 
-export default function ReviewComp ({reviewData, isAuthor, onDelete}: {reviewData: Review | any, isAuthor: boolean, onDelete?: () => void}) { 
+// ReviewData is for reviews not by logged-in user
+// authorDoc is for reviews by the logged-in user
+export default function ReviewComp ({
+    reviewData, 
+    authorDoc,
+    onDelete,
+}:  {
+    reviewData?: Review | any,
+    authorDoc?: DocumentSnapshot<DocumentData>,
+    onDelete?: () => void,
+}) { 
+
     let review = null;
-    if (isAuthor) {
-        review = reviewData.data();
-    } else {
-        review = reviewData;
-    }
-    // Deletes the user's review
+    review = reviewData;
+    // Deletes the user's review if doc was passed due to user being author
     const deleteReview = async (e: React.MouseEvent<HTMLButtonElement>) => {
         try {
-            await deleteDoc(reviewData.ref);
+            if (!authorDoc) {
+                return;
+            } 
+            else {
+            await deleteDoc(authorDoc.ref);
             onDelete?.();
+            }
         } catch (error) {
-            console.log(error);            return;
-        }
-
+            console.log(error);            
+            return;
     }
+}
 
     return (
-            <div className={isAuthor? `${styles.userReview} ${styles.review}` : styles.review}>
-                {isAuthor && <a  className={styles.profileLink} href={`/user-profile/${review.authorId}`} aria-label="Link to user profile page"><h2 className={styles.authorName}>Your Review</h2></a>}
-                {!isAuthor && <a className={styles.profileLink} href={`/user-profile/${review.authorId}`} aria-label="Link to user profile page"><h2 className={styles.authorName}>{`${review.authorUserName}'s Review`}</h2></a>}
+            <div className={authorDoc? `${styles.userReview} ${styles.review}` : styles.review}>
+                {authorDoc && <a  className={styles.profileLink} href={`/user-profile/${review.authorId}`} aria-label="Link to user profile page"><h2 className={styles.authorName}>Your Review</h2></a>}
+                {!authorDoc && <a className={styles.profileLink} href={`/user-profile/${review.authorId}`} aria-label="Link to user profile page"><h2 className={styles.authorName}>{`${review.authorUserName}'s Review`}</h2></a>}
                 <p className={styles.reviewScore}>{`${review.gameScore} / 100`}</p>
                 <p className={styles.reviewText}>{review.review}</p>
-                {isAuthor && <button className={styles.deleteBtn} onClick={deleteReview}>Delete</button>}
-                {!isAuthor && <button className={styles.rateBtn}>Rate Review</button>}
+                {authorDoc && <button className={styles.deleteBtn} onClick={deleteReview}>Delete</button>}
+                {!authorDoc && <button className={styles.rateBtn}>Rate Review</button>}
             </div>
         )
 }

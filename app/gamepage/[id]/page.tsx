@@ -1,6 +1,6 @@
 "use client";
 import styles from "../GamePage.module.scss";
-import { addDoc, collection, deleteDoc, doc, DocumentData, getDoc, getDocs, query, DocumentSnapshot, where } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, DocumentData, getDoc, getDocs, query, DocumentSnapshot, where, orderBy } from "firebase/firestore";
 import { db } from "@/lib/firebaseConfig";
 import * as React from "react";
 import { useEffect, useState } from 'react';
@@ -57,7 +57,7 @@ export default function gamePage() {
     useEffect(() => {
         const fetchReviews = async () => {
             try {
-                const q = query(collection(db, "gameReviews"), where("gameId", "==", id));
+                const q = query(collection(db, "gameReviews"), where("gameId", "==", id), orderBy("createdAt", "desc"));
                 const querySnapshot = await getDocs(q);
                 let reviews: Review[] = [];
                 querySnapshot.forEach((doc) => {
@@ -66,7 +66,6 @@ export default function gamePage() {
                     if (review.authorId === user?.uid) {
                         // Sets the user review as the doc to allow the review component to delete directly
                         setUserReview(doc);
-                        return;
                     }
                     // All non-logged-in user reviews are pushed
                     reviews.push(review);
@@ -77,7 +76,7 @@ export default function gamePage() {
                 })
                 setGameReviews(sortedReviews);
             } catch (error) {
-                return;
+                console.log(error);
             }
         }
         fetchReviews();
@@ -185,15 +184,15 @@ export default function gamePage() {
         <section className={styles.gameReviewsContainer}>
             <h2 className={styles.reviewsTitle}>Reviews</h2>
             <div className={`${styles.reviewContainer} ${styles.userReviewContainer}`}>
-                {userReview && (
-                    <ReviewComp reviewData={userReview} isAuthor={true} onDelete={() => setUserReview(null)}/>
-                )}
+                {/* Passes the author doc to use ref for deletion and data separately if review is by logged-in user */}
+                {userReview && <ReviewComp reviewData={userReview.data()} authorDoc={userReview} onDelete={() => setUserReview(null)}/>}
             </div>
             {userReview && <h2 className={styles.otherReviewsTitle}>What other gamers are saying</h2>}
             {(!gameReviews[0] && !userReview) && <h2 className={styles.otherReviewsTitle}>Game has not been reviewed yet</h2>}
             <div className={styles.reviewContainer}>
                 {gameReviews.map((review, index) => (
-                    index <= displayCount - 1 && <ReviewComp key={index} reviewData={review} isAuthor={false}/>
+                    // Pass data in reviewData argument for reviews not by logged-in user, prevents delete button usage
+                    index <= displayCount - 1 && <ReviewComp reviewData={review} key={index}/>
                 ))}  
             </div>
             {/* Show More button conditionally rendered if reviews exceed 6 */}
