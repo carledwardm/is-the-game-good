@@ -46,6 +46,7 @@ export default function userProfile() {
                 querySnapshot.forEach((doc) => {
                     // Check if reviews belong to logged-in user
                     if (user?.uid === doc.data().authorId) {
+                        console.log();
                         authorRefs.push(doc);
                         return;
                     }
@@ -62,7 +63,7 @@ export default function userProfile() {
             }
         }
         fetchReviews()
-    }, [])
+    }, [user])
 
     return (
         <main className={styles.userProfileMain}>
@@ -79,11 +80,11 @@ export default function userProfile() {
                 </div>
                 <div className={styles.reviewContainer}>
                     {!isUser && userReviews.map((review, index) => (
-                        <ReviewComp key={index} reviewData={review}/>
+                        <ReviewComp key={index} reviewData={review} showTitle={true}/>
                     ))}
                     {/* Conditional Review Comp takes author refs and reviews, splices out ref from list once deleted for rerender */}
                     {isUser && authorRefs.map((review, index) => (
-                        <ReviewComp key={index} reviewData={review.data()} authorDoc={review} onDelete={() => setAuthorRefs(prev => prev.filter((_, i) => index !== i))}/>
+                        <ReviewComp key={index} reviewData={review.data()} authorDoc={review} showTitle={true} onDelete={() => setAuthorRefs(prev => prev.filter((_, i) => index !== i))}/>
                     ))}
                 </div> 
             </div>

@@ -131,6 +131,7 @@ export default function gamePage() {
                 throw new Error("An error has occurred")
             }
             const newReview: Review = {
+                title: game.name,
                 gameId: id as string,
                 authorId: user.uid,
                 authorUserName: userSnap.data().userName,

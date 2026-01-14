@@ -9,10 +9,12 @@ import { deleteDoc, DocumentData, DocumentSnapshot } from "firebase/firestore";
 export default function ReviewComp ({
     reviewData, 
     authorDoc,
+    showTitle,
     onDelete,
 }:  {
     reviewData?: Review | any,
     authorDoc?: DocumentSnapshot<DocumentData>,
+    showTitle?: boolean;
     onDelete?: () => void,
 }) { 
 
@@ -36,8 +38,9 @@ export default function ReviewComp ({
 
     return (
             <div className={authorDoc? `${styles.userReview} ${styles.review}` : styles.review}>
-                {authorDoc && <a  className={styles.profileLink} href={`/user-profile/${review.authorId}`} aria-label="Link to user profile page"><h2 className={styles.authorName}>Your Review</h2></a>}
-                {!authorDoc && <a className={styles.profileLink} href={`/user-profile/${review.authorId}`} aria-label="Link to user profile page"><h2 className={styles.authorName}>{`${review.authorUserName}'s Review`}</h2></a>}
+                {authorDoc && !showTitle && <a  className={styles.profileLink} href={`/user-profile/${review.authorId}`} aria-label="Link to user profile page"><h2 className={styles.authorName}>Your Review</h2></a>}
+                {!authorDoc && !showTitle && <a className={styles.profileLink} href={`/user-profile/${review.authorId}`} aria-label="Link to user profile page"><h2 className={styles.authorName}>{`${review.authorUserName}'s Review`}</h2></a>}
+                {showTitle && <h2 className={styles.authorName}>{review.title}</h2>}
                 <p className={styles.reviewScore}>{`${review.gameScore} / 100`}</p>
                 <p className={styles.reviewText}>{review.review}</p>
                 {authorDoc && <button className={styles.deleteBtn} onClick={deleteReview}>Delete</button>}

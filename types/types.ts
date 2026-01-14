@@ -1,4 +1,5 @@
 export type Review = {
+        title: string;
         gameId: string,
         authorId: string,
         authorUserName: string,
