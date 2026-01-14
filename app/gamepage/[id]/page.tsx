@@ -138,10 +138,14 @@ export default function gamePage() {
                 createdAt: Math.floor(Date.now() / 1000),
                 gameScore: gameScore,
                 review: reviewInput,
+                commentCount: 0,
+                helpfulScore: 0,
             }
+
             if (!id) {
                 return;
             }
+            
             const newDocRef = await addDoc(collection(db, "games", id, "reviews"), newReview);
             const userReview = await getDoc(newDocRef);
             setUserReview(userReview);

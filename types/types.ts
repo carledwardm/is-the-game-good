@@ -6,6 +6,8 @@ export type Review = {
         createdAt: number,
         gameScore: number,
         review: string,
+        commentCount: number;
+        helpfulScore: number;
 };
 
 export type UserData = {
