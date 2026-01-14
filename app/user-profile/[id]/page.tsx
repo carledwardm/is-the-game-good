@@ -17,6 +17,7 @@ export default function userProfile() {
     const [authorRefs, setAuthorRefs] = useState<DocumentSnapshot<DocumentData>[]>([]);
     const [isUser, setIsUser] = useState<boolean>(false);
 
+
     // Fetch user data
     useEffect(() => {
         const fetchUser = async () => {
@@ -40,12 +41,11 @@ export default function userProfile() {
             try {
                 const q = query(collectionGroup(db, "reviews"), where("authorId", "==", id), orderBy("createdAt", "desc"));
                 const querySnapshot = await getDocs(q);
-                console.log(querySnapshot);
                 let userReviews: DocumentData[] = [];
                 let authorRefs: DocumentSnapshot<DocumentData>[] = [];
                 querySnapshot.forEach((doc) => {
                     // Check if reviews belong to logged-in user
-                    if (user?.uid === doc.data().id) {
+                    if (user?.uid === doc.data().authorId) {
                         authorRefs.push(doc);
                         return;
                     }
@@ -54,11 +54,10 @@ export default function userProfile() {
                 });
                 setUserReviews(userReviews);
                 if (authorRefs.length > 0) {
-                    setIsUser(true)
+                    setIsUser(true);
                     setAuthorRefs(authorRefs);
                 };
             } catch (error) {
-                console.log(error);
                 return;
             }
         }
@@ -79,15 +78,14 @@ export default function userProfile() {
                     <p className={styles.score}>Reviews rated helpful: <span className={styles.stat}></span>0 / 100</p>
                 </div>
                 <div className={styles.reviewContainer}>
-                    {userReviews && userReviews.map((review, index) => (
+                    {!isUser && userReviews.map((review, index) => (
                         <ReviewComp key={index} reviewData={review}/>
                     ))}
                     {/* Conditional Review Comp takes author refs and reviews, splices out ref from list once deleted for rerender */}
                     {isUser && authorRefs.map((review, index) => (
                         <ReviewComp key={index} reviewData={review.data()} authorDoc={review} onDelete={() => setAuthorRefs(prev => prev.filter((_, i) => index !== i))}/>
                     ))}
-                    {  }
-                </div>
+                </div> 
             </div>
         </main>
     )

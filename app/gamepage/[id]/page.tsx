@@ -87,7 +87,6 @@ export default function gamePage() {
     useEffect(() => {
         let addedScore = 0;
         const numReviews = userReview? gameReviews.length + 1 : gameReviews.length;
-        console.log(gameReviews);
         if (gameReviews) {
             // numReviews accounts for an extra value if user review exists
             for (const review of gameReviews) {
