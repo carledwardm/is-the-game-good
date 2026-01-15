@@ -86,7 +86,7 @@ export default function gamePage() {
     // Update game review stats 
     useEffect(() => {
         let addedScore = 0;
-        const numReviews = userReview? gameReviews.length + 1 : gameReviews.length;
+        const numReviews = userReview? gameReviews.length  : gameReviews.length;
         if (gameReviews) {
             // numReviews accounts for an extra value if user review exists
             for (const review of gameReviews) {
@@ -184,7 +184,7 @@ export default function gamePage() {
         <section className={styles.gameReviewStats}>
             <h2 className={styles.statsTitle}>{game && `${game.name}'s Score`}</h2>
             <div className={styles.scoreContainer}>
-                <p className={styles.totalReviews}>Total Reviews: <span className={styles.stat}>{`${userReview ? gameReviews.length + 1 : gameReviews.length}`}</span></p>                
+                <p className={styles.totalReviews}>Total Reviews: <span className={styles.stat}>{`${userReview ? gameReviews.length : gameReviews.length}`}</span></p>                
                 <p className={styles.score}>Score: <span className={styles.stat}>{`${Math.floor(averageScore) || 0}`}</span> / 100</p>
             </div>
         </section>
