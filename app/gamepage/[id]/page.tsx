@@ -19,7 +19,7 @@ export default function gamePage() {
     const [gameScore, setGameScore] = useState<number>(0);
     const [averageScore, setAverageScore] = useState<number>(0);
     const [reviewInput, setReviewInput] = useState<string>("");
-    const [gameReviews, setGameReviews] = useState<Review[]>([]);
+    const [gameReviews, setGameReviews] = useState<DocumentSnapshot<DocumentData>[]>([]);
     const [userReview, setUserReview] = useState<DocumentSnapshot<DocumentData> | null>(null);
     const [showToast, setShowToast] = useState<boolean>(false);
     const [toastMessage, setToastMessage] = useState<string>("");
@@ -60,22 +60,20 @@ export default function gamePage() {
             try {
                 const q = query(collection(db, "games", id, "reviews"), orderBy("createdAt", "desc"));
                 const querySnapshot = await getDocs(q);
-                let reviews: Review[] = [];
+                let reviews: DocumentSnapshot<DocumentData>[] = [];
                 querySnapshot.forEach((doc) => {
-                    const review = doc.data() as Review;
+                    const reviewDoc = doc;
                     // Checks if the review was created by the logged-in user, sets it in its own state/variable if so
-                    if (review.authorId === user?.uid) {
+                    if (reviewDoc.data().authorId === user?.uid) {
                         // Sets the user review as the doc to allow the review component to delete directly
-                        setUserReview(doc);
+                        setUserReview(reviewDoc);
+                        return;
                     }
                     // All non-logged-in user reviews are pushed
-                    reviews.push(review);
+                    reviews.push(reviewDoc);
                 });
                 // Push user's review to front, then sort by descending creation date
-                const sortedReviews = reviews.sort((a, b) => {
-                    return b.createdAt - a.createdAt;
-                })
-                setGameReviews(sortedReviews);
+                setGameReviews(reviews);
             } catch (error) {
                 console.log(error);
             }
@@ -86,11 +84,15 @@ export default function gamePage() {
     // Update game review stats 
     useEffect(() => {
         let addedScore = 0;
-        const numReviews = userReview? gameReviews.length  : gameReviews.length;
-        if (gameReviews) {
+        const numReviews = userReview? gameReviews.length + 1: gameReviews.length;
+        if (gameReviews || userReview) {
             // numReviews accounts for an extra value if user review exists
+            if (userReview) {
+                addedScore += userReview.data()?.gameScore;
+            }
             for (const review of gameReviews) {
-                addedScore += review.gameScore;
+                console.log(review.data()?.gameScore)
+                addedScore += review.data()?.gameScore;
             }
         }
         setAverageScore(addedScore / numReviews);
@@ -184,7 +186,7 @@ export default function gamePage() {
         <section className={styles.gameReviewStats}>
             <h2 className={styles.statsTitle}>{game && `${game.name}'s Score`}</h2>
             <div className={styles.scoreContainer}>
-                <p className={styles.totalReviews}>Total Reviews: <span className={styles.stat}>{`${userReview ? gameReviews.length : gameReviews.length}`}</span></p>                
+                <p className={styles.totalReviews}>Total Reviews: <span className={styles.stat}>{`${userReview ? gameReviews.length + 1: gameReviews.length}`}</span></p>                
                 <p className={styles.score}>Score: <span className={styles.stat}>{`${Math.floor(averageScore) || 0}`}</span> / 100</p>
             </div>
         </section>
@@ -192,17 +194,17 @@ export default function gamePage() {
         <section className={styles.gameReviewsContainer}>
             <h2 className={styles.reviewsTitle}>Reviews</h2>
             <div className={`${styles.reviewContainer} ${styles.userReviewContainer}`}>
-                {/* Passes the author doc to use ref for deletion and data separately if review is by logged-in user */}
-                {userReview && <ReviewComp reviewData={userReview.data()} authorDoc={userReview} onDelete={() => setUserReview(null)}/>}
+                {/* Passes as author doc if logged-in user is author */}
+            {userReview && <ReviewComp authorDoc={userReview} onDelete={() => setUserReview(null)}/>}
             </div>
             {userReview && <h2 className={styles.otherReviewsTitle}>What other gamers are saying</h2>}
             {(!gameReviews[0] && !userReview) && <h2 className={styles.otherReviewsTitle}>Game has not been reviewed yet</h2>}
             <div className={styles.reviewContainer}>
                 {gameReviews.map((review, index) => (
-                    // Pass data in reviewData argument for reviews not by logged-in user, prevents delete button usage
-                    review.authorId !== user?.uid && index <= displayCount - 1 && <ReviewComp reviewData={review} key={index}/>
-                ))}  
-            </div>
+                    // Pass in the data for a non-validated user
+            review.data()?.authorId !== user?.uid && index <= displayCount - 1 && <ReviewComp reviewData={review} key={index}/>
+                 ))}  
+             </div>
             {/* Show More button conditionally rendered if reviews exceed 6 */}
                 {( gameReviews.length > 6 && <ShowMore increaseFunction={setDisplayCount} currentAmount={displayCount} increaseAmount={6}/> )}
         </section>

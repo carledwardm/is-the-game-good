@@ -46,11 +46,10 @@ export default function userProfile() {
                 querySnapshot.forEach((doc) => {
                     // Check if reviews belong to logged-in user
                     if (user?.uid === doc.data().authorId) {
-                        console.log();
                         authorRefs.push(doc);
                         return;
                     }
-                    const review = doc.data();
+                    const review = doc;
                     userReviews.push(review);
                 });
                 setUserReviews(userReviews);
@@ -75,7 +74,7 @@ export default function userProfile() {
                     <h1 className={styles.profileTitle}>{`${userData?.userName}'s Stats`}</h1>
                 )}
                 <div className={styles.statContainer}>
-                    <p className={styles.totalReviews}>{`Total Reviews: ${userReviews.length}`}<span className={styles.stat}></span></p>                
+                    <p className={styles.totalReviews}>{`Total Reviews: ${userReviews?.length || authorRefs?.length}`}<span className={styles.stat}></span></p>                
                     <p className={styles.score}>Reviews rated helpful: <span className={styles.stat}></span>0 / 100</p>
                 </div>
                 <div className={styles.reviewContainer}>
@@ -84,7 +83,7 @@ export default function userProfile() {
                     ))}
                     {/* Conditional Review Comp takes author refs and reviews, splices out ref from list once deleted for rerender */}
                     {isUser && authorRefs.map((review, index) => (
-                        <ReviewComp key={index} reviewData={review.data()} authorDoc={review} showTitle={true} onDelete={() => setAuthorRefs(prev => prev.filter((_, i) => index !== i))}/>
+                        <ReviewComp key={index} authorDoc={review} showTitle={true} onDelete={() => setAuthorRefs(prev => prev.filter((_, i) => index !== i))}/>
                     ))}
                 </div> 
             </div>
