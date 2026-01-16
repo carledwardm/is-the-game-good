@@ -21,6 +21,7 @@ function footer() {
                 height={40}
                 alt="Logo with controller icon"
                 className={styles.logo}
+                priority
                 />
         </Link>
             <nav className={styles.footerNav} aria-label="Footer nav">

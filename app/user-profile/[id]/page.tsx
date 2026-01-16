@@ -13,7 +13,7 @@ export default function userProfile() {
     const { user } = useAuth();
     const { id } = useParams();
     const [userData, setUserData] = useState<UserData | null>(null);
-    const [userReviews, setUserReviews] = useState<DocumentData[]>([]);
+    const [userReviews, setUserReviews] = useState<DocumentSnapshot<DocumentData>[]>([]);
     const [authorRefs, setAuthorRefs] = useState<DocumentSnapshot<DocumentData>[]>([]);
     const [isUser, setIsUser] = useState<boolean>(false);
 
@@ -41,7 +41,7 @@ export default function userProfile() {
             try {
                 const q = query(collectionGroup(db, "reviews"), where("authorId", "==", id), orderBy("createdAt", "desc"));
                 const querySnapshot = await getDocs(q);
-                let userReviews: DocumentData[] = [];
+                let userReviews: DocumentSnapshot<DocumentData>[] = [];
                 let authorRefs: DocumentSnapshot<DocumentData>[] = [];
                 querySnapshot.forEach((doc) => {
                     // Check if reviews belong to logged-in user

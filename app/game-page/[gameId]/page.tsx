@@ -26,14 +26,15 @@ export default function gamePage() {
     const [displayCount, setDisplayCount] = useState<number>(6);
     const { user } = useAuth();
     const router = useRouter();
-    type Params = {id: string}
-    const { id } = useParams() as Params;
+    type Params = {gameId: string}
+    const { gameId } = useParams() as Params;
 
     // Fetch game data by ID
     useEffect(() => {
         const fetchGame = async () => {
             try {
-                const response = await fetch(`/api/gamePage/${id}`);
+                console.log("fetching")
+                const response = await fetch(`/api/gamePage/${gameId}`);
                 if (!response.ok) {
                     throw new Error("Game not found")
                 }
@@ -57,8 +58,9 @@ export default function gamePage() {
     // Fetch game reviews
     useEffect(() => {
         const fetchReviews = async () => {
+            console.log(gameId);
             try {
-                const q = query(collection(db, "games", id, "reviews"), orderBy("createdAt", "desc"));
+                const q = query(collection(db, "games", gameId, "reviews"), orderBy("createdAt", "desc"));
                 const querySnapshot = await getDocs(q);
                 let reviews: DocumentSnapshot<DocumentData>[] = [];
                 querySnapshot.forEach((doc) => {
@@ -134,7 +136,7 @@ export default function gamePage() {
             }
             const newReview: Review = {
                 title: game.name,
-                gameId: id as string,
+                gameId: gameId as string,
                 authorId: user.uid,
                 authorUserName: userSnap.data().userName,
                 createdAt: Math.floor(Date.now() / 1000),
@@ -144,11 +146,11 @@ export default function gamePage() {
                 helpfulScore: 0,
             }
 
-            if (!id) {
+            if (!gameId) {
                 return;
             }
             
-            const newDocRef = await addDoc(collection(db, "games", id, "reviews"), newReview);
+            const newDocRef = await addDoc(collection(db, "games", gameId, "reviews"), newReview);
             const userReview = await getDoc(newDocRef);
             setUserReview(userReview);
             setShowToast(true);

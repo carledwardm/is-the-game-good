@@ -61,6 +61,7 @@ export default function Header() {
             height={40}
             alt="Logo with controller icon"
             className={styles.logo}
+            priority
             />
             </Link>
 

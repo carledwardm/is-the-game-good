@@ -12,16 +12,17 @@ export default function ReviewComp ({
     showTitle,
     onDelete,
 }:  {
-    reviewData?: Review | any,
+    reviewData?: DocumentSnapshot<DocumentData>,
     authorDoc?: DocumentSnapshot<DocumentData>,
     showTitle?: boolean;
     onDelete?: () => void,
 }) { 
 
     let review = null;
-    if (authorDoc) {
+    if (authorDoc && authorDoc !== undefined) {
         review = authorDoc.data();
-    } else {
+    } 
+    if (reviewData) {
     review = reviewData.data();
     }
     // Deletes the user's review if doc was passed due to user being author
@@ -42,13 +43,14 @@ export default function ReviewComp ({
 
     return (
             <div className={authorDoc? `${styles.userReview} ${styles.review}` : styles.review}>
-                {authorDoc && !showTitle && <a  className={styles.profileLink} href={`/user-profile/${review.authorId}`} aria-label="Link to user profile page"><h2 className={styles.authorName}>Your Review</h2></a>}
-                {reviewData && !showTitle && <a className={styles.profileLink} href={`/user-profile/${review.authorId}`} aria-label="Link to user profile page"><h2 className={styles.authorName}>{`${review.authorUserName}'s Review`}</h2></a>}
-                {showTitle && <h2 className={styles.authorName}>{review.title}</h2>}
-                <p className={styles.reviewScore}>{`${review.gameScore} / 100`}</p>
-                <p className={styles.reviewText}>{review.review}</p>
+                {authorDoc && !showTitle && <a  className={styles.profileLink} href={`/user-profile/${review?.authorId}`} aria-label="Link to user profile page"><h2 className={styles.authorName}>Your Review</h2></a>}
+                {reviewData && !showTitle && <a className={styles.profileLink} href={`/user-profile/${review?.authorId}`} aria-label="Link to user profile page"><h2 className={styles.authorName}>{`${review?.authorUserName}'s Review`}</h2></a>}
+                {showTitle && <h2 className={styles.authorName}>{review?.title}</h2>}
+                <p className={styles.reviewScore}>{`${review?.gameScore} / 100`}</p>
+                <p className={styles.reviewText}>{review?.review}</p>
                 {authorDoc && <button className={styles.deleteBtn} onClick={deleteReview}>Delete</button>}
-                {reviewData && <button className={styles.rateBtn}>Rate Review</button>}
+                {/* Conditionally render "Comments" button based on commentCount > 0 */}
+                {(reviewData || authorDoc) && <a href={`/game-page/${review?.gameId}/user-review/${reviewData?.id || authorDoc?.id}`} className={styles.rateBtn}>Comments</a>}
             </div>
         )
 }

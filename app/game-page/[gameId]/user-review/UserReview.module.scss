@@ -1,0 +1,15 @@
+.reviewMain {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: (--alt-foreground);
+    padding: 10px;
+}
+
+.reviewTitle {
+    font-family: var(--font-poppins);
+    font-weight: bold;
+    font-size: 38px;
+    text-align: center;
+}
