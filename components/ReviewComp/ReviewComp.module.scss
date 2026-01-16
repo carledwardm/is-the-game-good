@@ -57,13 +57,25 @@
     font-size: 16px;
 }
 
+.buttonContainer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+}
+
 .deleteBtn, .rateBtn {
     border-radius: 2px;
     border: none;
     background-color: var(--button);
-    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    padding: 0 10px;
     font-family: "Roboto", sans-serif;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: bold;
     transition: all 0.2s ease-in-out;
     cursor: pointer;
@@ -72,4 +84,20 @@
         background-color: transparent;
         color: var(--foreground);
     }
+}
+
+.statsContainer {
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.commentCount, .helpfulCount {
+    font-family: var(--font-roboto);
+    font-size: 14px;
+    text-align: left;
+    width: 100%;
 }

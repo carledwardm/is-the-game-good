@@ -48,9 +48,15 @@ export default function ReviewComp ({
                 {showTitle && <h2 className={styles.authorName}>{review?.title}</h2>}
                 <p className={styles.reviewScore}>{`${review?.gameScore} / 100`}</p>
                 <p className={styles.reviewText}>{review?.review}</p>
-                {authorDoc && <button className={styles.deleteBtn} onClick={deleteReview}>Delete</button>}
-                {/* Conditionally render "Comments" button based on commentCount > 0 */}
-                {(reviewData || authorDoc) && <a href={`/game-page/${review?.gameId}/user-review/${reviewData?.id || authorDoc?.id}`} className={styles.rateBtn}>Comments</a>}
+                <div className={styles.buttonContainer}>
+                    {/* Conditionally render "Comments" button based on commentCount > 0 */}
+                    {(reviewData || authorDoc) && <a href={`/game-page/${review?.gameId}/user-review/${reviewData?.id || authorDoc?.id}`} className={styles.rateBtn}>Comments</a>}
+                    {authorDoc && <button className={styles.deleteBtn} onClick={deleteReview}>Delete</button>}
+                </div>
+                <div className={styles.statsContainer}>
+                    <p className={styles.commentCount}>{`${review?.commentCount} comments`}</p>
+                    <p className={styles.helpfulCount}>{`${review?.helpfulScore} found this review helpful`}</p>
+                </div>
             </div>
         )
 }
