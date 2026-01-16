@@ -11,7 +11,7 @@ import ReviewRating from "@/components/ReviewComp/ReviewRating/ReviewRating";
 export default function userReviewPage() {
     const { gameId, userReviewId } = useParams();
     const { user } = useAuth();
-    const [ reviewDoc, setReviewDoc ] = useState<DocumentSnapshot<DocumentData> | null>(null);
+    const [ reviewDoc, setReviewDoc ] = useState<DocumentSnapshot<DocumentData>>();
     const [ reviewData, setReviewData ] = useState<DocumentData | undefined>(undefined)
 
     useEffect(() => {
@@ -33,8 +33,16 @@ export default function userReviewPage() {
 
     return (
         <main className={styles.reviewMain}>
-            <h1 className={styles.reviewTitle}>{`${reviewData?.authorUserName}'s ${reviewData?.title} review`}</h1>
-            <ReviewComp />
+            <h1 className={styles.reviewHeading}>
+                {reviewData?.authorId === user?.uid ? 
+                (<>
+                Your <span className={styles.reviewTitle}>{reviewData?.title}</span> review
+                </>) : (<>
+                    {reviewData?.authorUserName}'s 
+                    <span className={styles.reviewTitle}>{reviewData?.title} review</span>
+                </>)}
+            </h1>
+            <ReviewComp reviewData={reviewDoc}/>
         </main>
         
     )
