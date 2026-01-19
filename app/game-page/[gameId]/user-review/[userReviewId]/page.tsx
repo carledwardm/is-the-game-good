@@ -42,7 +42,7 @@ export default function userReviewPage() {
                     <span className={styles.reviewTitle}>{reviewData?.title} review</span>
                 </>)}
             </h1>
-            <ReviewComp reviewData={reviewDoc}/>
+            <ReviewComp reviewData={reviewDoc} hideCommentButton={true} />
         </main>
         
     )

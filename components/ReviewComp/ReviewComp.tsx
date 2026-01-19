@@ -10,11 +10,13 @@ export default function ReviewComp ({
     reviewData, 
     authorDoc,
     showTitle,
+    hideCommentButton,
     onDelete,
 }:  {
     reviewData?: DocumentSnapshot<DocumentData>,
     authorDoc?: DocumentSnapshot<DocumentData>,
     showTitle?: boolean;
+    hideCommentButton?: boolean;
     onDelete?: () => void,
 }) { 
 
@@ -50,7 +52,7 @@ export default function ReviewComp ({
                 <p className={styles.reviewText}>{review?.review}</p>
                 <div className={styles.buttonContainer}>
                     {/* Conditionally render "Comments" button based on commentCount > 0 */}
-                    {(reviewData || authorDoc) && <a href={`/game-page/${review?.gameId}/user-review/${reviewData?.id || authorDoc?.id}`} className={styles.rateBtn}>Comments</a>}
+                    {!hideCommentButton && <a href={`/game-page/${review?.gameId}/user-review/${reviewData?.id || authorDoc?.id}`} className={styles.rateBtn}>Comments</a>}
                     {authorDoc && <button className={styles.deleteBtn} onClick={deleteReview}>Delete</button>}
                 </div>
                 <div className={styles.statsContainer}>
