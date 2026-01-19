@@ -3,6 +3,7 @@
 import styles from "./ReviewComp.module.scss";
 import type { Review } from "@/types/types";
 import { deleteDoc, DocumentData, DocumentSnapshot } from "firebase/firestore";
+import { FaRegThumbsUp } from "react-icons/fa";
 
 // ReviewData is for reviews not by logged-in user
 // authorDoc is for reviews by the logged-in user
@@ -11,11 +12,13 @@ export default function ReviewComp ({
     authorDoc,
     showTitle,
     hideCommentButton,
+    showLikeButton,
     onDelete,
 }:  {
     reviewData?: DocumentSnapshot<DocumentData>,
     authorDoc?: DocumentSnapshot<DocumentData>,
     showTitle?: boolean;
+    showLikeButton?: boolean;
     hideCommentButton?: boolean;
     onDelete?: () => void,
 }) { 
@@ -53,6 +56,7 @@ export default function ReviewComp ({
                 <div className={styles.buttonContainer}>
                     {/* Conditionally render "Comments" button based on commentCount > 0 */}
                     {!hideCommentButton && <a href={`/game-page/${review?.gameId}/user-review/${reviewData?.id || authorDoc?.id}`} className={styles.rateBtn}>Comments</a>}
+                    {showLikeButton && <button><FaRegThumbsUp /></button>}
                     {authorDoc && <button className={styles.deleteBtn} onClick={deleteReview}>Delete</button>}
                 </div>
                 <div className={styles.statsContainer}>
