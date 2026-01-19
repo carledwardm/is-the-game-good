@@ -101,3 +101,31 @@
     text-align: left;
     width: 100%;
 }
+
+.helpfulButton {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.thumbsUpIcon {
+    width: 50px;
+    height: 50px;
+    color: rgba(255, 255, 255, 0.25);
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        color: var(--button);
+        transform: scale(1.2);
+    }
+}
+
+.isHelpful {
+    color: var(--button);
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        transform: scale(1.2);
+    }
+}

@@ -50,7 +50,7 @@ export default function userReviewPage() {
                     </>)}
                 </h1>
                 <div className={styles.reviewRow}>
-                    <ReviewComp reviewData={reviewDoc} hideCommentButton={true} showLikeButton={true}/>
+                    <ReviewComp reviewData={reviewDoc} hideCommentButton={true} showHelpfulButton={true}/>
                 </div>
 
                 <div className={styles.commentsRow}>

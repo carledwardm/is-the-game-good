@@ -3,6 +3,7 @@
 import styles from "./ReviewComp.module.scss";
 import type { Review } from "@/types/types";
 import { deleteDoc, DocumentData, DocumentSnapshot } from "firebase/firestore";
+import { useState } from "react";
 import { FaRegThumbsUp } from "react-icons/fa";
 
 // ReviewData is for reviews not by logged-in user
@@ -12,16 +13,18 @@ export default function ReviewComp ({
     authorDoc,
     showTitle,
     hideCommentButton,
-    showLikeButton,
+    showHelpfulButton,
     onDelete,
 }:  {
     reviewData?: DocumentSnapshot<DocumentData>,
     authorDoc?: DocumentSnapshot<DocumentData>,
     showTitle?: boolean;
-    showLikeButton?: boolean;
     hideCommentButton?: boolean;
+    showHelpfulButton?: boolean;
     onDelete?: () => void,
 }) { 
+
+    const [ helpfulToggle, setHelpfulToggle ] = useState<boolean>(false);
 
     let review = null;
     if (authorDoc && authorDoc !== undefined) {
@@ -46,6 +49,14 @@ export default function ReviewComp ({
     }
 }
 
+    const toggleHelpful = async () => {
+        if (!helpfulToggle) {
+            setHelpfulToggle(true);
+            return;
+        }
+        setHelpfulToggle(false);
+    }
+
     return (
             <div className={authorDoc? `${styles.userReview} ${styles.review}` : styles.review}>
                 {authorDoc && !showTitle && <a  className={styles.profileLink} href={`/user-profile/${review?.authorId}`} aria-label="Link to user profile page"><h2 className={styles.authorName}>Your Review</h2></a>}
@@ -56,7 +67,10 @@ export default function ReviewComp ({
                 <div className={styles.buttonContainer}>
                     {/* Conditionally render "Comments" button based on commentCount > 0 */}
                     {!hideCommentButton && <a href={`/game-page/${review?.gameId}/user-review/${reviewData?.id || authorDoc?.id}`} className={styles.rateBtn}>Comments</a>}
-                    {showLikeButton && <button><FaRegThumbsUp /></button>}
+                    {showHelpfulButton && 
+                        <button className={styles.helpfulButton} onClick={toggleHelpful} aria-label="Helpful comment toggle button" aria-pressed={helpfulToggle}>
+                            <FaRegThumbsUp className={`${styles.thumbsUpIcon} ${helpfulToggle && styles.isHelpful}`}/>
+                        </button>}
                     {authorDoc && <button className={styles.deleteBtn} onClick={deleteReview}>Delete</button>}
                 </div>
                 <div className={styles.statsContainer}>
