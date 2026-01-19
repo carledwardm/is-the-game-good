@@ -4,7 +4,29 @@
     justify-content: center;
     flex-direction: column;
     background-color: (--alt-foreground);
-    padding: 10px;
+    padding: 50px 10px;
+    gap: 25px;
+}
+
+.reviewCommentsContainer, .leaveCommentContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: var(--sub-background);
+    border: 2px solid rgba(255, 255,255, 0.15);
+    border-radius: 2px;
+    width: 100%;
+    max-width: 1400px;
+    padding: 50px 10px;
+    box-shadow: 10px 10px 10px 5px rgb(0, 0, 0);
+}
+
+.reviewRow {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .reviewHeading {
@@ -12,8 +34,70 @@
     font-weight: bold;
     font-size: 38px;
     text-align: center;
+    margin-bottom: 50px;
 }
 
 .reviewTitle {
     font-style: italic;
 }
+
+.commentForm {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+}
+
+.inputLabel {
+    font-family: var(--font-roboto), sans-serif;
+    font-size: 20px;
+    margin: 25px 0 25px 0;
+}
+
+#commentInput {
+    padding: 10px;
+    width: 85%;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 2px solid var(--button);
+    border-radius: 2px;
+    font-family: var(--font-roboto), sans-serif;
+    font-size: 14px;
+    margin-bottom: 20px;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        }
+    
+    &:focus {
+    background-color: rgba(255, 255, 255, 0.15);
+    outline: none;
+    }
+}
+
+.submitBtn {
+    padding: 5px 20px;
+    font-family: var(--font-roboto), sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: var(--button);
+    border: 2px solid transparent;
+    border-radius: 2px;
+    transition: all 0.2s ease-in-out;
+    margin-top: 25px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: transparent;
+        color: var(--foreground);
+    }
+
+    &:active {
+        color: white;
+        background-color: var(--sub-background);
+        border: 2px solid white;
+    }
+}
+
+
