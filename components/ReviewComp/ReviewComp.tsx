@@ -1,10 +1,12 @@
 "use client";
 
+import { db } from "@/lib/firebaseConfig";
 import styles from "./ReviewComp.module.scss";
 import type { Review } from "@/types/types";
-import { deleteDoc, DocumentData, DocumentSnapshot } from "firebase/firestore";
+import { deleteDoc, doc, DocumentData, DocumentReference, DocumentSnapshot, setDoc } from "firebase/firestore";
 import { useState } from "react";
 import { FaRegThumbsUp } from "react-icons/fa";
+import { useAuth } from "@/context/AuthContext";
 
 // ReviewData is for reviews not by logged-in user
 // authorDoc is for reviews by the logged-in user
@@ -24,15 +26,20 @@ export default function ReviewComp ({
     onDelete?: () => void,
 }) { 
 
+    const { user } = useAuth();
     const [ helpfulToggle, setHelpfulToggle ] = useState<boolean>(false);
-
+    const [ likeCount, setLikeCount ] = useState<number>(0);
     let review = null;
+
+    // Conditionally-passed snapshots get saved to review variable for simple usage
     if (authorDoc && authorDoc !== undefined) {
         review = authorDoc.data();
     } 
     if (reviewData) {
-    review = reviewData.data();
+        review = reviewData.data();
     }
+
+
     // Deletes the user's review if doc was passed due to user being author
     const deleteReview = async (e: React.MouseEvent<HTMLButtonElement>) => {
         try {
@@ -50,9 +57,32 @@ export default function ReviewComp ({
 }
 
     const toggleHelpful = async () => {
+        if (!user) {
+            console.log("You need to log in");
+        }
+        const gameId = review?.gameId;
+        const reviewId = reviewData?.id || authorDoc?.id;
+        // User ID will be ID of helpful "like"
+        const helpfulId = user?.uid;
+        const helpfulRef = doc(db, "games", gameId!, "reviews", reviewId!, "likes", helpfulId!);
+        // Save user's helpful "like" to db, updates ref 
         if (!helpfulToggle) {
+            console.log("Saving like!");
             setHelpfulToggle(true);
+            try {
+                await setDoc(helpfulRef, {
+                authorId: review?.authorId,
+            });
+            } catch (error) {
+                console.log(error);
+            }
             return;
+        }
+        // Deletes helpful "like" if it exists
+        try {
+            await deleteDoc(helpfulRef);
+        } catch (error) {
+            console.log(error);
         }
         setHelpfulToggle(false);
     }
