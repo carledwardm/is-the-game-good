@@ -1,19 +1,22 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { auth } from "@/lib/firebaseConfig";
+import { auth, db } from "@/lib/firebaseConfig";
 import { onAuthStateChanged, User } from "firebase/auth";
+import { doc, getDoc } from 'firebase/firestore';
 
 interface AuthContextType {
     user: User | null;
     loading: boolean;
+    userName: string;
 }
 
-const AuthContext = createContext<AuthContextType>({ user: null, loading: true });
+const AuthContext = createContext<AuthContextType>({ user: null, loading: true, userName: "" });
 
 export function AuthProvider({children}: {children: ReactNode}) {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
+    const [userName, setUserName] = useState<string>("");
 
     useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -23,7 +26,21 @@ export function AuthProvider({children}: {children: ReactNode}) {
     return () => unsubscribe();
   }, []);
 
-  return <AuthContext value={{user, loading}}>{children}</AuthContext>
+    useEffect(() => {
+      if (!user) {
+        return;
+      }
+      const getUserName = async () => {
+        const userRef = doc(db, "users", user.uid);
+        const userSnap = await getDoc(userRef);
+        if (userSnap.exists()) {
+          setUserName(userSnap.data().userName);
+        }
+      }
+      getUserName(); 
+    }, [user])
+
+  return <AuthContext value={{user, loading, userName}}>{children}</AuthContext>
 }
 
 export function useAuth() {

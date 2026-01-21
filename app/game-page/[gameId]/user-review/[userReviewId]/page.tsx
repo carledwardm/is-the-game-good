@@ -11,7 +11,7 @@ import Toast from "@/components/Toast";
 
 export default function userReviewPage() {
     const { gameId, userReviewId } = useParams();
-    const { user, loading } = useAuth();
+    const { user, loading, userName } = useAuth();
     const [ reviewDoc, setReviewDoc ] = useState<DocumentSnapshot<DocumentData>>();
     const [ reviewData, setReviewData ] = useState<DocumentData | undefined>(undefined);
     const [ userComment, setUserComment ] = useState<string>("");
@@ -48,6 +48,7 @@ export default function userReviewPage() {
             await setDoc(commentRef, {
                 userComment: userComment,
                 authorId: user?.uid,
+                authorName: userName,
             });
         } catch (error) {
             setShowToast(true);
