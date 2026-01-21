@@ -3,7 +3,7 @@
 import { db } from "@/lib/firebaseConfig";
 import styles from "./ReviewComp.module.scss";
 import type { Review } from "@/types/types";
-import { collection, deleteDoc, doc, DocumentData, DocumentSnapshot, getDocs, setDoc } from "firebase/firestore";
+import { collection, deleteDoc, doc, DocumentData, DocumentSnapshot, getDoc, getDocs, increment, setDoc, updateDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { FaRegThumbsUp } from "react-icons/fa";
 import { useAuth } from "@/context/AuthContext";
@@ -52,8 +52,6 @@ export default function ReviewComp ({
                 console.log(user?.uid);
                 const likesSnapshot = await getDocs(collection(db,"games", gameId!, "reviews", reviewId!, "likes"));
                 likesSnapshot.forEach(((doc) => {
-                    console.log("Document id", doc.id);
-                    console.log("User ID", user?.uid);
                     if (user?.uid === doc.id) {
                         console.log("found yours!");
                         setHelpfulToggle(true);
@@ -91,23 +89,31 @@ export default function ReviewComp ({
         const helpfulRef = doc(db, "games", gameId!, "reviews", reviewId!, "likes", helpfulId!);
         // Save user's helpful "like" to db, updates ref 
         try {
+            const reviewRef = authorDoc?.ref || reviewData?.ref
             if (!helpfulToggle) {
-                setHelpfulToggle(true);
-                setHelpfulCount(prev => prev + 1);
                 await setDoc(helpfulRef, {
                 authorId: user?.uid,
                 });
-                return;
+                setHelpfulToggle(true);
+                setHelpfulCount(prev => prev + 1);
+                await updateDoc(reviewRef!, {
+                    helpfulScore: increment(1)
+                });
+            } else {
+                await deleteDoc(helpfulRef);
+                setHelpfulToggle(false);
+                if (helpfulCount > 0) {
+                    setHelpfulCount(prev => prev - 1);
+                    await updateDoc(reviewRef!, {
+                    helpfulScore: increment(-1)
+                });
+                }  
             }
             // Deletes helpful "like" if it exists
-            await deleteDoc(helpfulRef);
-            setHelpfulToggle(false);
-            if (helpfulCount > 0) {
-                setHelpfulCount(prev => prev - 1);
-            }
             } catch (error) {
                 console.log(error);
-        }
+            }
+           
     }
 
     return (
