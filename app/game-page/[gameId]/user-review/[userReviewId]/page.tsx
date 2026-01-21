@@ -1,5 +1,5 @@
 "use client";
-import { doc, DocumentData, DocumentSnapshot, getDoc, setDoc } from "firebase/firestore";
+import { collection, doc, DocumentData, DocumentSnapshot, getDoc, getDocs, setDoc } from "firebase/firestore";
 import { db } from "@/lib/firebaseConfig";
 import { useParams } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
@@ -35,6 +35,25 @@ export default function userReviewPage() {
         }
         fetchReviewData();
     }, [userReviewId, gameId]);
+
+    useEffect(() => {
+        if (!userReviewId) {
+            return;
+        }
+        const fetchComments = async () => {
+            try {
+                const commentsRef = collection(db, "games", gameId as string, "reviews", userReviewId as string, "comments");
+                const commentsSnapshot = await getDocs(commentsRef);
+                commentsSnapshot.forEach((doc) => {
+                    console.log(doc.data());
+                })
+            } catch (error) {
+                setShowToast(true);
+                setToastMessage("An error has occurred fetching comments.")
+            }
+        }
+        fetchComments();
+    }, [userReviewId]);
 
     const submitComment = async (e: React.FormEvent) => {
         e.preventDefault();
