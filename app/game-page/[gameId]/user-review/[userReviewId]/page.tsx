@@ -6,7 +6,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useEffect, useState } from "react";
 import styles from "../UserReview.module.scss"
 import ReviewComp from "@/components/ReviewComp/ReviewComp";
-import ReviewRating from "@/components/ReviewComp/ReviewRating/ReviewRating"; 
+import ReviewComment from "@/components/ReviewComp/ReviewComment/ReviewComment"; 
 import Toast from "@/components/Toast";
 
 export default function userReviewPage() {
@@ -17,6 +17,7 @@ export default function userReviewPage() {
     const [ userComment, setUserComment ] = useState<string>("");
     const [ showToast, setShowToast ] = useState<boolean>(false);
     const [ toastMessage, setToastMessage ] = useState<string>("");
+    const [ comments, setComments ] = useState<DocumentSnapshot<DocumentData>[] | []>([]);
 
     useEffect(() => {
         console.log(typeof(gameId), gameId);
@@ -44,9 +45,13 @@ export default function userReviewPage() {
             try {
                 const commentsRef = collection(db, "games", gameId as string, "reviews", userReviewId as string, "comments");
                 const commentsSnapshot = await getDocs(commentsRef);
+                let comments: DocumentSnapshot<DocumentData>[] = [];
                 commentsSnapshot.forEach((doc) => {
-                    console.log(doc.data());
-                })
+                    comments.push(doc);
+                });
+                if (comments.length > 0) {
+                    setComments(comments);
+                }
             } catch (error) {
                 setShowToast(true);
                 setToastMessage("An error has occurred fetching comments.")
@@ -79,7 +84,7 @@ export default function userReviewPage() {
 
     return (
         <main className={styles.reviewMain}>
-            <div className={styles.reviewCommentsContainer}>
+            <div className={styles.reviewContainer}>
                 {loading || !reviewData ? <h1 className={styles.reviewHeading}>Loading...</h1> :  
                     <h1 className={styles.reviewHeading}>
                     {reviewData?.authorId === user?.uid ? 
@@ -95,9 +100,15 @@ export default function userReviewPage() {
                 <div className={styles.reviewRow}>
                     <ReviewComp reviewData={reviewDoc} hideCommentButton={true} showHelpfulButton={true}/>
                 </div>
-
-                <div className={styles.commentsRow}>
-                        {/* Comments will display here */}
+                <hr className={styles.divider}></hr>
+                <div className={styles.commentsContainer}>
+                    {/* Comments will display here */}
+                    <h2 className={styles.commentsTitle}>{loading ? "Loading..." : "Comments"}</h2>
+                    <div className={styles.commentsRows}>
+                    {comments.map((comment, index) => (
+                        <ReviewComment commentData={comment} key={index} />
+                    ))}
+                    </div>
                 </div>
             </div>
 
