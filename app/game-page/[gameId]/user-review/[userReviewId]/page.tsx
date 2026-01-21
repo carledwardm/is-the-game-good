@@ -50,6 +50,8 @@ export default function userReviewPage() {
                 authorId: user?.uid,
                 authorName: userName,
             });
+            setShowToast(true);
+            setToastMessage("Your comment has been submitted.");
         } catch (error) {
             setShowToast(true);
             setToastMessage("An error has occurred, please try again.");
