@@ -1,5 +1,5 @@
 "use client";
-import { doc, DocumentData, DocumentSnapshot, getDoc } from "firebase/firestore";
+import { doc, DocumentData, DocumentSnapshot, getDoc, setDoc } from "firebase/firestore";
 import { db } from "@/lib/firebaseConfig";
 import { useParams } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
@@ -34,7 +34,18 @@ export default function userReviewPage() {
 
     const submitComment = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log(userComment);
+        if (!user) {
+            return;
+        }
+        const commentRef = doc(db, "games", gameId as string, "reviews", userReviewId as string, "comments", user?.uid);
+        try {
+            await setDoc(commentRef, {
+                userComment: userComment,
+                authorId: user?.uid,
+            });
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (
