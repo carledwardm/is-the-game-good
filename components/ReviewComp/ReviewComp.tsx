@@ -3,7 +3,7 @@
 import { db } from "@/lib/firebaseConfig";
 import styles from "./ReviewComp.module.scss";
 import type { Review } from "@/types/types";
-import { collection, deleteDoc, doc, DocumentData, DocumentReference, DocumentSnapshot, getDocs, query, setDoc } from "firebase/firestore";
+import { collection, deleteDoc, doc, DocumentData, DocumentSnapshot, getDocs, setDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { FaRegThumbsUp } from "react-icons/fa";
 import { useAuth } from "@/context/AuthContext";
