@@ -34,7 +34,7 @@ export default function userReviewPage() {
 
     const submitComment = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Submitting comment!");
+        console.log(userComment);
     }
 
     return (
@@ -43,10 +43,10 @@ export default function userReviewPage() {
                 <h1 className={styles.reviewHeading}>
                     {reviewData?.authorId === user?.uid ? 
                     (<>
-                    Your <span className={styles.reviewTitle}>{reviewData?.title}</span> review
+                    Your <span className={styles.reviewTitle}>{reviewData?.title} </span>review
                     </>) : (<>
                         {reviewData?.authorUserName}'s 
-                        <span className={styles.reviewTitle}>{reviewData?.title} review</span>
+                        <span className={styles.reviewTitle}>{reviewData?.title} </span>review
                     </>)}
                 </h1>
                 <div className={styles.reviewRow}>
