@@ -3,8 +3,8 @@
 import { db } from "@/lib/firebaseConfig";
 import styles from "./ReviewComp.module.scss";
 import type { Review } from "@/types/types";
-import { deleteDoc, doc, DocumentData, DocumentReference, DocumentSnapshot, setDoc } from "firebase/firestore";
-import { useState } from "react";
+import { collection, deleteDoc, doc, DocumentData, DocumentReference, DocumentSnapshot, getDocs, query, setDoc } from "firebase/firestore";
+import { useEffect, useState } from "react";
 import { FaRegThumbsUp } from "react-icons/fa";
 import { useAuth } from "@/context/AuthContext";
 
@@ -28,7 +28,7 @@ export default function ReviewComp ({
 
     const { user } = useAuth();
     const [ helpfulToggle, setHelpfulToggle ] = useState<boolean>(false);
-    const [ likeCount, setLikeCount ] = useState<number>(0);
+    const [ helpfulCount, setHelpfulCount ] = useState<number>(0);
     let review = null;
 
     // Conditionally-passed snapshots get saved to review variable for simple usage
@@ -38,7 +38,34 @@ export default function ReviewComp ({
     if (reviewData) {
         review = reviewData.data();
     }
+    const gameId = review?.gameId;
+    const reviewId = reviewData?.id || authorDoc?.id;
+    // User ID will be ID of helpful "like"
+    const helpfulId = user?.uid;
 
+    useEffect(() => {
+        const fetchLikes = async () => {
+            if (!gameId) {
+                return;
+            }
+            try {
+                console.log(user?.uid);
+                const likesSnapshot = await getDocs(collection(db,"games", gameId!, "reviews", reviewId!, "likes"));
+                likesSnapshot.forEach(((doc) => {
+                    console.log("Document id", doc.id);
+                    console.log("User ID", user?.uid);
+                    if (user?.uid === doc.id) {
+                        console.log("found yours!");
+                        setHelpfulToggle(true);
+                    }
+                }))
+                setHelpfulCount(likesSnapshot.size);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        fetchLikes()
+    }, [gameId, user]);
 
     // Deletes the user's review if doc was passed due to user being author
     const deleteReview = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -59,32 +86,28 @@ export default function ReviewComp ({
     const toggleHelpful = async () => {
         if (!user) {
             console.log("You need to log in");
-        }
-        const gameId = review?.gameId;
-        const reviewId = reviewData?.id || authorDoc?.id;
-        // User ID will be ID of helpful "like"
-        const helpfulId = user?.uid;
-        const helpfulRef = doc(db, "games", gameId!, "reviews", reviewId!, "likes", helpfulId!);
-        // Save user's helpful "like" to db, updates ref 
-        if (!helpfulToggle) {
-            console.log("Saving like!");
-            setHelpfulToggle(true);
-            try {
-                await setDoc(helpfulRef, {
-                authorId: review?.authorId,
-            });
-            } catch (error) {
-                console.log(error);
-            }
             return;
         }
-        // Deletes helpful "like" if it exists
+        const helpfulRef = doc(db, "games", gameId!, "reviews", reviewId!, "likes", helpfulId!);
+        // Save user's helpful "like" to db, updates ref 
         try {
+            if (!helpfulToggle) {
+                setHelpfulToggle(true);
+                setHelpfulCount(prev => prev + 1);
+                await setDoc(helpfulRef, {
+                authorId: user?.uid,
+                });
+                return;
+            }
+            // Deletes helpful "like" if it exists
             await deleteDoc(helpfulRef);
-        } catch (error) {
-            console.log(error);
+            setHelpfulToggle(false);
+            if (helpfulCount > 0) {
+                setHelpfulCount(prev => prev - 1);
+            }
+            } catch (error) {
+                console.log(error);
         }
-        setHelpfulToggle(false);
     }
 
     return (
@@ -105,7 +128,7 @@ export default function ReviewComp ({
                 </div>
                 <div className={styles.statsContainer}>
                     <p className={styles.commentCount}>{`${review?.commentCount} comments`}</p>
-                    <p className={styles.helpfulCount}>{`${review?.helpfulScore} found this review helpful`}</p>
+                    <p className={styles.helpfulCount}>{`${helpfulCount} found this review helpful`}</p>
                 </div>
             </div>
         )
