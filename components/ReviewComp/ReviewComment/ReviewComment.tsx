@@ -1,6 +1,5 @@
 import { deleteDoc, DocumentData, DocumentSnapshot, increment, updateDoc } from "firebase/firestore";
 import styles from "./ReviewComment.module.scss";
-import { db } from "@/lib/firebaseConfig";
 
 export default function ReviewComment({
     isAuthor,

@@ -87,6 +87,8 @@ export default function userReviewPage() {
             await updateDoc(reviewDoc!.ref, {
                 commentCount: increment(1)
                 });
+            const userComment = await getDoc(commentRef);
+            setUserComment(userComment);
             setShowToast(true);
             setToastMessage("Your comment has been submitted.");
         } catch (error) {
@@ -122,10 +124,11 @@ export default function userReviewPage() {
                         <ReviewComment 
                             commentData={userComment} 
                             reviewSnap={reviewDoc} 
-                            isAuthor={true}
+                            isAuthor={isAuthor}
                             onDelete={() => {
                                 setShowToast(true)
                                 setToastMessage("Your comment has been deleted.")
+                                setUserComment(null);
                             }} 
                     />}
                     <hr className={styles.divider}></hr>
