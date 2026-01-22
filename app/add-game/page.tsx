@@ -65,7 +65,8 @@ export default function addGameContainer() {
             }
             setGameData(games);
         } catch (error) {
-            console.log(error);
+            setShowToast(true);
+            setToastMessage("An error has occurred, plese try again.")
         }
     }
 

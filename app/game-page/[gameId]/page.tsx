@@ -33,7 +33,6 @@ export default function gamePage() {
     useEffect(() => {
         const fetchGame = async () => {
             try {
-                console.log("fetching")
                 const response = await fetch(`/api/gamePage/${gameId}`);
                 if (!response.ok) {
                     throw new Error("Game not found")
@@ -41,7 +40,8 @@ export default function gamePage() {
                 const gameData = await response.json();
                 setGame(gameData);
                 } catch (error) {
-                    console.log(error);
+                    setShowToast(true);
+                    setToastMessage("Game not found, redirecting.")
                     router.push("/");
                 }
             }
@@ -58,7 +58,6 @@ export default function gamePage() {
     // Fetch game reviews
     useEffect(() => {
         const fetchReviews = async () => {
-            console.log(gameId);
             try {
                 const q = query(collection(db, "games", gameId, "reviews"), orderBy("createdAt", "desc"));
                 const querySnapshot = await getDocs(q);
@@ -77,7 +76,8 @@ export default function gamePage() {
                 // Push user's review to front, then sort by descending creation date
                 setGameReviews(reviews);
             } catch (error) {
-                console.log(error);
+                setShowToast(true);
+                setToastMessage("An error has occurred fetching reviews.");
             }
         }
         fetchReviews();
@@ -93,7 +93,6 @@ export default function gamePage() {
                 addedScore += userReview.data()?.gameScore;
             }
             for (const review of gameReviews) {
-                console.log(review.data()?.gameScore)
                 addedScore += review.data()?.gameScore;
             }
         }
@@ -197,15 +196,34 @@ export default function gamePage() {
             <h2 className={styles.reviewsTitle}>Reviews</h2>
             <div className={`${styles.reviewContainer} ${styles.userReviewContainer}`}>
                 {/* Passes as author doc if logged-in user is author */}
-            {userReview && <ReviewComp authorDoc={userReview} onDelete={() => setUserReview(null)}/>}
+            {userReview && 
+                <ReviewComp 
+                    authorDoc={userReview} 
+                    onDelete={() => setUserReview(null)}
+                    onError={() => {
+                        setShowToast(true);
+                        setToastMessage("An error has occurred, please try again.");
+                    }
+                }/>
+            }
             </div>
             {userReview && <h2 className={styles.otherReviewsTitle}>What other gamers are saying</h2>}
             {(!gameReviews[0] && !userReview) && <h2 className={styles.otherReviewsTitle}>Game has not been reviewed yet</h2>}
             <div className={styles.reviewContainer}>
                 {gameReviews.map((review, index) => (
                     // Pass in the data for a non-validated user
-            review.data()?.authorId !== user?.uid && index <= displayCount - 1 && <ReviewComp reviewData={review} key={index}/>
-                 ))}  
+                    review.data()?.authorId !== user?.uid && 
+                    index <= displayCount - 1 && 
+                    <ReviewComp 
+                        reviewData={review} 
+                        key={index}
+                        onError={() => {
+                                    setShowToast(true);
+                                    setToastMessage("An error has occurred.");
+                                }}
+                    />
+                    ))
+                }  
              </div>
             {/* Show More button conditionally rendered if reviews exceed 6 */}
                 {( gameReviews.length > 6 && <ShowMore increaseFunction={setDisplayCount} currentAmount={displayCount} increaseAmount={6}/> )}

@@ -29,7 +29,7 @@ export default function userProfile() {
                 const userData = await response.json();
                 setUserData(userData);
             } catch (error) {
-                console.log("error", error);
+                alert("An error has occurred while retrieving user data.");
             }
         };
         fetchUser();

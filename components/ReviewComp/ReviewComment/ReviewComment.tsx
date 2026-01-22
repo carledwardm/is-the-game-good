@@ -19,7 +19,6 @@ export default function ReviewComment({
     const data = commentData.data();
 
     const deleteReview = async (e: React.MouseEvent<HTMLButtonElement>) => {
-        console.log("Deleting!");
         try {
             await deleteDoc(commentSnap.ref);
             await updateDoc(reviewSnap!.ref, {

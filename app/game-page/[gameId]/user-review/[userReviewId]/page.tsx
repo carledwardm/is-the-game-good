@@ -47,9 +47,7 @@ export default function userReviewPage() {
                 const commentsSnapshot = await getDocs(commentsRef);
                 let comments: DocumentSnapshot<DocumentData>[] = [];
                 commentsSnapshot.forEach((doc) => {
-                    console.log(doc.id);
                     if (doc.id === user?.uid) {
-                        console.log("Found your comment", doc);
                         setUserComment(doc);
                         setIsAuthor(true);
                         return;
@@ -120,11 +118,27 @@ export default function userReviewPage() {
             <div className={styles.commentsContainer}>
                     {/* Comments will display here */}
                     <h2 className={styles.commentsTitle}>{loading ? "Loading..." : "Comments"}</h2>
-                    {userComment && <ReviewComment commentData={userComment} reviewSnap={reviewDoc} isAuthor={true} />}
+                    {userComment && 
+                        <ReviewComment 
+                            commentData={userComment} 
+                            reviewSnap={reviewDoc} 
+                            isAuthor={true}
+                            onDelete={() => {
+                                setShowToast(true)
+                                setToastMessage("Your comment has been deleted.")
+                            }} 
+                    />}
                     <hr className={styles.divider}></hr>
                     <div className={styles.commentsRows}>
                     {comments.map((comment, index) => (
-                        <ReviewComment commentData={comment} key={index} />
+                        <ReviewComment 
+                            commentData={comment} 
+                            key={index} 
+                            onError={() => {
+                                setShowToast(true);
+                                setToastMessage("An error has occurred while deleting your comment.");
+                            }}
+                        />
                     ))}
                     </div>
                 </div>

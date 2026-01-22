@@ -17,6 +17,7 @@ export default function ReviewComp ({
     hideCommentButton,
     showHelpfulButton,
     onDelete,
+    onError,
 }:  {
     reviewData?: DocumentSnapshot<DocumentData>,
     authorDoc?: DocumentSnapshot<DocumentData>,
@@ -24,6 +25,7 @@ export default function ReviewComp ({
     hideCommentButton?: boolean;
     showHelpfulButton?: boolean;
     onDelete?: () => void,
+    onError?: () => void,
 }) { 
 
     const { user } = useAuth();
@@ -52,13 +54,13 @@ export default function ReviewComp ({
                 const likesSnapshot = await getDocs(collection(db,"games", gameId!, "reviews", reviewId!, "likes"));
                 likesSnapshot.forEach(((doc) => {
                     if (user?.uid === doc.id) {
-                        console.log("found yours!");
                         setHelpfulToggle(true);
                     }
                 }))
                 setHelpfulCount(likesSnapshot.size);
             } catch (error) {
-                console.log(error);
+                alert("Failed to fetch likes");
+                return;
             }
         }
         fetchLikes()
@@ -75,14 +77,13 @@ export default function ReviewComp ({
             onDelete?.();
             }
         } catch (error) {
-            console.log(error);            
+            onError?.()            
             return;
     }
 }
 
     const toggleHelpful = async () => {
         if (!user) {
-            console.log("You need to log in");
             return;
         }
         const helpfulRef = doc(db, "games", gameId!, "reviews", reviewId!, "likes", helpfulId!);
@@ -108,9 +109,8 @@ export default function ReviewComp ({
                 });
                 }  
             }
-            // Deletes helpful "like" if it exists
             } catch (error) {
-                console.log(error);
+                onError?.();
             }
            
     }

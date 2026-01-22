@@ -41,7 +41,6 @@ export default function login() {
             } else if (error.code === "auth/invalid-credential") {
                 setToastMessage("The credentials you provided are invalid, please try again.");
             } else {
-                console.log(error);
             setToastMessage("An error has occurred, please try again.");
             }
             return;
