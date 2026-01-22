@@ -39,8 +39,8 @@ export default function ReviewComment({
     
     return (
         <div className={styles.comment}>
-            {isAuthor && <h2 className={styles.authorName}>Your comment</h2>}
-            {!isAuthor && <h2 className={styles.authorName}>{data?.authorName}</h2>}
+            {isAuthor && <a className={styles.profileLink} href={`/user-profile/${data?.authorId}`} aria-label="Link to user profile page"><h2 className={styles.authorName}>Your Comment</h2></a>}
+            {!isAuthor && <a className={styles.profileLink} href={`/user-profile/${data?.authorId}`} aria-label="Link to user profile page"><h2 className={styles.authorName}>{data?.authorName}</h2></a>}
             <p className={styles.commentText}>{data?.userComment}</p>
             {isAuthor && <button className={styles.deleteButton} onClick={deleteReview}>Delete Comment</button>}
         </div>

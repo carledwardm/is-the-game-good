@@ -18,6 +18,17 @@
     text-align: center;
 }
 
+.profileLink {
+    text-decoration: none;
+    color: var(--alt-foreground);
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        color: var(--foreground);
+        transform: translatey(-5px);
+    }
+}
+
 .commentText {
     font-family: var(--font-roboto), sans-serif;
     text-align: left;

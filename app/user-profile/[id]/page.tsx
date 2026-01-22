@@ -75,7 +75,6 @@ export default function userProfile() {
                 )}
                 <div className={styles.statContainer}>
                     <p className={styles.totalReviews}>{`Total Reviews: ${userReviews?.length || authorRefs?.length}`}<span className={styles.stat}></span></p>                
-                    <p className={styles.score}>Reviews rated helpful: <span className={styles.stat}></span>0 / 100</p>
                 </div>
                 <div className={styles.reviewContainer}>
                     {!isUser && userReviews.map((review, index) => (
