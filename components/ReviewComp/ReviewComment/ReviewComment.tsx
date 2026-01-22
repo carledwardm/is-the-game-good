@@ -1,5 +1,6 @@
 import { deleteDoc, DocumentData, DocumentSnapshot, increment, updateDoc } from "firebase/firestore";
 import styles from "./ReviewComment.module.scss";
+import { useState } from "react";
 
 export default function ReviewComment({
     isAuthor,
@@ -16,15 +17,21 @@ export default function ReviewComment({
     }) {
     const commentSnap = commentData;
     const data = commentData.data();
+    const [ isDeleting, setIsDeleting ] = useState<boolean>(false);
 
     const deleteReview = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        if (isDeleting) {
+            return;
+        }
         try {
+            setIsDeleting(true);
             await deleteDoc(commentSnap.ref);
             await updateDoc(reviewSnap!.ref, {
                 commentCount: increment(-1),
             })
             onDelete?.();
         } catch (error) {
+            setIsDeleting(false);
             onError?.();            
         }
     }

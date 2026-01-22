@@ -20,6 +20,7 @@ export default function userReviewPage() {
     const [ comments, setComments ] = useState<DocumentSnapshot<DocumentData>[] | []>([]);
     const [ userComment, setUserComment ] = useState<DocumentSnapshot<DocumentData> | null>(null); 
     const [ isAuthor, setIsAuthor ] = useState<boolean>(false);
+    const [ isSubmitting, setIsSubmitting ] = useState<boolean>(false);
 
     useEffect(() => {
         const fetchReviewData = async () => {
@@ -77,6 +78,16 @@ export default function userReviewPage() {
             setToastMessage("You must be logged in to leave comments.");
             return;
         }
+        if(userComment) {
+            setShowToast(true);
+            setToastMessage("Only one comment is allowed per review.");
+            return;
+        }
+        // Prevents rapid button clicks from offsetting count of comments on review
+        if (isSubmitting) {
+            return;
+        }
+        setIsSubmitting(true);
         const commentRef = doc(db, "games", gameId as string, "reviews", userReviewId as string, "comments", user?.uid);
         try {
             await setDoc(commentRef, {
@@ -91,9 +102,11 @@ export default function userReviewPage() {
             setUserComment(userComment);
             setShowToast(true);
             setToastMessage("Your comment has been submitted.");
+            setUserCommentInput("");
         } catch (error) {
             setShowToast(true);
             setToastMessage("An error has occurred, please try again.");
+            setIsSubmitting(false);
         }
     }
 
@@ -149,7 +162,7 @@ export default function userReviewPage() {
             <div className={styles.leaveCommentContainer}>
                 <form className={styles.commentForm}  onSubmit={submitComment}>
                         <label htmlFor="commentInput" className={styles.inputLabel}>Leave a Comment</label>
-                        <textarea id={styles.commentInput} onChange={(e) => {setUserCommentInput(e.target.value)}}></textarea>
+                        <textarea id={styles.commentInput} value={userCommentInput} onChange={(e) => {setUserCommentInput(e.target.value)}}></textarea>
                         <button className={styles.submitBtn} type="submit">Leave Comment</button>
                 </form>
             </div>
