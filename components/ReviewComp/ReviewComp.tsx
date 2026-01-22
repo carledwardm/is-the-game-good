@@ -49,7 +49,6 @@ export default function ReviewComp ({
                 return;
             }
             try {
-                console.log(user?.uid);
                 const likesSnapshot = await getDocs(collection(db,"games", gameId!, "reviews", reviewId!, "likes"));
                 likesSnapshot.forEach(((doc) => {
                     if (user?.uid === doc.id) {

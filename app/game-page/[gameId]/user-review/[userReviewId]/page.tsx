@@ -14,14 +14,14 @@ export default function userReviewPage() {
     const { user, loading, userName } = useAuth();
     const [ reviewDoc, setReviewDoc ] = useState<DocumentSnapshot<DocumentData>>();
     const [ reviewData, setReviewData ] = useState<DocumentData | undefined>(undefined);
-    const [ userComment, setUserComment ] = useState<string>("");
+    const [ userCommentInput, setUserCommentInput ] = useState<string>("");
     const [ showToast, setShowToast ] = useState<boolean>(false);
     const [ toastMessage, setToastMessage ] = useState<string>("");
     const [ comments, setComments ] = useState<DocumentSnapshot<DocumentData>[] | []>([]);
+    const [ userComment, setUserComment ] = useState<DocumentSnapshot<DocumentData> | null>(null); 
+    const [ isAuthor, setIsAuthor ] = useState<boolean>(false);
 
     useEffect(() => {
-        console.log(typeof(gameId), gameId);
-        console.log(typeof(userReviewId))
         const fetchReviewData = async () => {
             try {
                 const reviewRef = doc(db, "games", gameId as string, "reviews", userReviewId as string);
@@ -38,7 +38,7 @@ export default function userReviewPage() {
     }, [userReviewId, gameId]);
 
     useEffect(() => {
-        if (!userReviewId) {
+        if (loading) {
             return;
         }
         const fetchComments = async () => {
@@ -47,6 +47,13 @@ export default function userReviewPage() {
                 const commentsSnapshot = await getDocs(commentsRef);
                 let comments: DocumentSnapshot<DocumentData>[] = [];
                 commentsSnapshot.forEach((doc) => {
+                    console.log(doc.id);
+                    if (doc.id === user?.uid) {
+                        console.log("Found your comment", doc);
+                        setUserComment(doc);
+                        setIsAuthor(true);
+                        return;
+                    }
                     comments.push(doc);
                 });
                 if (comments.length > 0) {
@@ -58,7 +65,7 @@ export default function userReviewPage() {
             }
         }
         fetchComments();
-    }, [userReviewId]);
+    }, [loading]);
 
     const submitComment = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -70,7 +77,7 @@ export default function userReviewPage() {
         const commentRef = doc(db, "games", gameId as string, "reviews", userReviewId as string, "comments", user?.uid);
         try {
             await setDoc(commentRef, {
-                userComment: userComment,
+                userComment: userCommentInput,
                 authorId: user?.uid,
                 authorName: userName,
             });
@@ -100,22 +107,24 @@ export default function userReviewPage() {
                 <div className={styles.reviewRow}>
                     <ReviewComp reviewData={reviewDoc} hideCommentButton={true} showHelpfulButton={true}/>
                 </div>
-                <hr className={styles.divider}></hr>
-                <div className={styles.commentsContainer}>
+            </div>
+
+            <div className={styles.commentsContainer}>
                     {/* Comments will display here */}
                     <h2 className={styles.commentsTitle}>{loading ? "Loading..." : "Comments"}</h2>
+                    {userComment && <ReviewComment commentData={userComment} isAuthor={true} />}
+                    <hr className={styles.divider}></hr>
                     <div className={styles.commentsRows}>
                     {comments.map((comment, index) => (
                         <ReviewComment commentData={comment} key={index} />
                     ))}
                     </div>
                 </div>
-            </div>
 
             <div className={styles.leaveCommentContainer}>
                 <form className={styles.commentForm}  onSubmit={submitComment}>
                         <label htmlFor="commentInput" className={styles.inputLabel}>Leave a Comment</label>
-                        <textarea id={styles.commentInput} onChange={(e) => {setUserComment(e.target.value)}}></textarea>
+                        <textarea id={styles.commentInput} onChange={(e) => {setUserCommentInput(e.target.value)}}></textarea>
                         <button className={styles.submitBtn} type="submit">Leave Comment</button>
                 </form>
             </div>

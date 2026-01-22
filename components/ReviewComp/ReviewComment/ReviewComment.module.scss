@@ -23,3 +23,24 @@
     text-align: left;
     font-size: 16px; 
 }
+
+.deleteButton {
+       border-radius: 2px;
+    border: none;
+    background-color: var(--button);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    padding: 0 10px;
+    font-family: "Roboto", sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+
+    &:hover {
+        background-color: transparent;
+        color: var(--foreground);
+    }
+}
