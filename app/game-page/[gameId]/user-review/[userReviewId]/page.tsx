@@ -120,7 +120,7 @@ export default function userReviewPage() {
             <div className={styles.commentsContainer}>
                     {/* Comments will display here */}
                     <h2 className={styles.commentsTitle}>{loading ? "Loading..." : "Comments"}</h2>
-                    {userComment && <ReviewComment commentData={userComment} isAuthor={true} />}
+                    {userComment && <ReviewComment commentData={userComment} reviewSnap={reviewDoc} isAuthor={true} />}
                     <hr className={styles.divider}></hr>
                     <div className={styles.commentsRows}>
                     {comments.map((comment, index) => (
