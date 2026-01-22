@@ -77,7 +77,6 @@ export default function ReviewComp ({
             setCommentCount(data!.commentCount);
         }
         fetchCommentCount();
-        console.log(refreshKey);
     }, [gameId, refreshKey])
 
     // Deletes the user's review if doc was passed due to user being author
