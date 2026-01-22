@@ -1,5 +1,5 @@
 "use client";
-import { collection, doc, DocumentData, DocumentSnapshot, getDoc, getDocs, setDoc } from "firebase/firestore";
+import { collection, doc, DocumentData, DocumentSnapshot, getDoc, getDocs, increment, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebaseConfig";
 import { useParams } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
@@ -69,6 +69,11 @@ export default function userReviewPage() {
 
     const submitComment = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (!reviewDoc) {
+            setShowToast(true);
+            setToastMessage("No review found to comment.");
+            return;
+        }
         if (!user) {
             setShowToast(true);
             setToastMessage("You must be logged in to leave comments.");
@@ -81,6 +86,9 @@ export default function userReviewPage() {
                 authorId: user?.uid,
                 authorName: userName,
             });
+            await updateDoc(reviewDoc!.ref, {
+                commentCount: increment(1)
+                });
             setShowToast(true);
             setToastMessage("Your comment has been submitted.");
         } catch (error) {
