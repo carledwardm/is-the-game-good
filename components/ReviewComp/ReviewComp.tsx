@@ -16,6 +16,7 @@ export default function ReviewComp ({
     showTitle,
     hideCommentButton,
     showHelpfulButton,
+    refreshKey,
     onDelete,
     onError,
 }:  {
@@ -24,15 +25,11 @@ export default function ReviewComp ({
     showTitle?: boolean;
     hideCommentButton?: boolean;
     showHelpfulButton?: boolean;
+    refreshKey?: number,
     onDelete?: () => void,
     onError?: () => void,
 }) { 
-
-    const { user } = useAuth();
-    const [ helpfulToggle, setHelpfulToggle ] = useState<boolean>(false);
-    const [ helpfulCount, setHelpfulCount ] = useState<number>(0);
     let review = null;
-
     // Conditionally-passed snapshots get saved to review variable for simple usage
     if (authorDoc && authorDoc !== undefined) {
         review = authorDoc.data();
@@ -40,6 +37,10 @@ export default function ReviewComp ({
     if (reviewData) {
         review = reviewData.data();
     }
+    const { user } = useAuth();
+    const [ helpfulToggle, setHelpfulToggle ] = useState<boolean>(false);
+    const [ helpfulCount, setHelpfulCount ] = useState<number>(0);
+    const [ commentCount, setCommentCount ] = useState<number>(0);
     const gameId = review?.gameId;
     const reviewId = reviewData?.id || authorDoc?.id;
     // User ID will be ID of helpful "like"
@@ -66,6 +67,19 @@ export default function ReviewComp ({
         fetchLikes()
     }, [gameId, user]);
 
+    useEffect(() => {
+        if (!gameId) {
+            return;
+        }
+        const fetchCommentCount = async () => {
+            const reviewSnapshot = await getDoc(doc(db,"games", gameId!, "reviews", reviewId!,));
+            const data = reviewSnapshot.data();
+            setCommentCount(data!.commentCount);
+        }
+        fetchCommentCount();
+        console.log(refreshKey);
+    }, [gameId, refreshKey])
+
     // Deletes the user's review if doc was passed due to user being author
     const deleteReview = async (e: React.MouseEvent<HTMLButtonElement>) => {
         try {
@@ -77,7 +91,7 @@ export default function ReviewComp ({
             onDelete?.();
             }
         } catch (error) {
-            onError?.()            
+            onError?.();            
             return;
     }
 }
@@ -132,7 +146,7 @@ export default function ReviewComp ({
                     {authorDoc && <button className={styles.deleteBtn} onClick={deleteReview}>Delete</button>}
                 </div>
                 <div className={styles.statsContainer}>
-                    <p className={styles.commentCount}>{`${review?.commentCount} comments`}</p>
+                    <p className={styles.commentCount}>{`${commentCount || review?.commentCount} comments`}</p>
                     <p className={styles.helpfulCount}>{`${helpfulCount} found this review helpful`}</p>
                 </div>
             </div>

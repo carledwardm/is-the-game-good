@@ -19,7 +19,7 @@ export default function ReviewComment({
     const data = commentData.data();
     const [ isDeleting, setIsDeleting ] = useState<boolean>(false);
 
-    const deleteReview = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    const deleteComment = async (e: React.MouseEvent<HTMLButtonElement>) => {
         if (isDeleting) {
             return;
         }
@@ -42,7 +42,7 @@ export default function ReviewComment({
             {isAuthor && <a className={styles.profileLink} href={`/user-profile/${data?.authorId}`} aria-label="Link to user profile page"><h2 className={styles.authorName}>Your Comment</h2></a>}
             {!isAuthor && <a className={styles.profileLink} href={`/user-profile/${data?.authorId}`} aria-label="Link to user profile page"><h2 className={styles.authorName}>{data?.authorName}</h2></a>}
             <p className={styles.commentText}>{data?.userComment}</p>
-            {isAuthor && <button className={styles.deleteButton} onClick={deleteReview}>Delete Comment</button>}
+            {isAuthor && <button className={styles.deleteButton} onClick={deleteComment}>Delete Comment</button>}
         </div>
     )
 }

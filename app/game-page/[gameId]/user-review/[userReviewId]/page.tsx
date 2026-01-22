@@ -19,8 +19,8 @@ export default function userReviewPage() {
     const [ toastMessage, setToastMessage ] = useState<string>("");
     const [ comments, setComments ] = useState<DocumentSnapshot<DocumentData>[] | []>([]);
     const [ userComment, setUserComment ] = useState<DocumentSnapshot<DocumentData> | null>(null); 
-    const [ isAuthor, setIsAuthor ] = useState<boolean>(false);
     const [ isSubmitting, setIsSubmitting ] = useState<boolean>(false);
+    const [ refreshKey, setRefreshKey ] = useState<number>(0);
 
     useEffect(() => {
         const fetchReviewData = async () => {
@@ -50,7 +50,6 @@ export default function userReviewPage() {
                 commentsSnapshot.forEach((doc) => {
                     if (doc.id === user?.uid) {
                         setUserComment(doc);
-                        setIsAuthor(true);
                         return;
                     }
                     comments.push(doc);
@@ -103,11 +102,13 @@ export default function userReviewPage() {
             setShowToast(true);
             setToastMessage("Your comment has been submitted.");
             setUserCommentInput("");
+            setRefreshKey(prev => prev + 1);
         } catch (error) {
             setShowToast(true);
             setToastMessage("An error has occurred, please try again.");
             setIsSubmitting(false);
         }
+        setIsSubmitting(false);
     }
 
     return (
@@ -126,7 +127,7 @@ export default function userReviewPage() {
                 }
                 
                 <div className={styles.reviewRow}>
-                    <ReviewComp reviewData={reviewDoc} hideCommentButton={true} showHelpfulButton={true}/>
+                    <ReviewComp reviewData={reviewDoc} hideCommentButton={true} showHelpfulButton={true} refreshKey={refreshKey}/>
                 </div>
             </div>
 
@@ -137,11 +138,12 @@ export default function userReviewPage() {
                         <ReviewComment 
                             commentData={userComment} 
                             reviewSnap={reviewDoc} 
-                            isAuthor={isAuthor}
+                            isAuthor={true}
                             onDelete={() => {
                                 setShowToast(true)
                                 setToastMessage("Your comment has been deleted.")
                                 setUserComment(null);
+                                setRefreshKey(prev => prev + 1);
                             }} 
                     />}
                     <hr className={styles.divider}></hr>
