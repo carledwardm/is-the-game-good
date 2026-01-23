@@ -88,6 +88,7 @@ export default function addGameContainer() {
                         artwork: convertArtUrl(game.artworks[0].url),
                         first_release_date: convertDate(game.first_release_date),
                         screenshots: game.screenshots.map(game => convertSCUrl(game.url)),
+                        keywords: game.name.toLowerCase().replace(/[^a-zA-Z0-9 ]/g, '').split(" "),
                         });
                     } catch (error) {
                         error = true;
