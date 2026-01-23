@@ -34,11 +34,11 @@
     justify-content: start;
     flex-wrap: wrap;
     min-height: 200px;
-    width: 100%;
     gap: 25px;
+    margin-bottom: 25px;
 
     @media screen and (min-width: 800px) {
-    max-width: 725px;
+        max-width: 725px;
         justify-content: start;
     }
 

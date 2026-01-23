@@ -8,6 +8,7 @@ import { UserData } from "@/types/types";
 import { collectionGroup, DocumentData, DocumentSnapshot, getDocs, orderBy, query, where } from "firebase/firestore";
 import { db } from "@/lib/firebaseConfig";
 import ReviewComp from "@/components/ReviewComp/ReviewComp";
+import ShowMore from "@/components/ShowMore";
 
 export default function userProfile() {
     const { user } = useAuth();
@@ -16,6 +17,7 @@ export default function userProfile() {
     const [userReviews, setUserReviews] = useState<DocumentSnapshot<DocumentData>[]>([]);
     const [authorRefs, setAuthorRefs] = useState<DocumentSnapshot<DocumentData>[]>([]);
     const [isUser, setIsUser] = useState<boolean>(false);
+    const [displayCount, setDisplayCount] = useState<number>(6);
 
 
     // Fetch user data
@@ -69,22 +71,23 @@ export default function userProfile() {
             <div className={styles.profileContainer}>{!userData ? (
                     <h1 className={styles.profileTitle}>Loading profile...</h1>
                 ) : user?.uid === userData?.id ? (
-                    <h1 className={styles.profileTitle}>Your Stats</h1>
+                    <h1 className={styles.profileTitle}>Your Reviews</h1>
                 ) : (
-                    <h1 className={styles.profileTitle}>{`${userData?.userName}'s Stats`}</h1>
+                    <h1 className={styles.profileTitle}>{`${userData?.userName}'s Reviews`}</h1>
                 )}
                 <div className={styles.statContainer}>
                     <p className={styles.totalReviews}>{`Total Reviews: ${userReviews?.length || authorRefs?.length}`}<span className={styles.stat}></span></p>                
                 </div>
                 <div className={styles.reviewContainer}>
-                    {!isUser && userReviews.map((review, index) => (
-                        <ReviewComp key={index} reviewData={review} showTitle={true}/>
+                    {!isUser &&  userReviews.map((review, index) => (
+                        index <= displayCount - 1 && <ReviewComp key={index} reviewData={review} showTitle={true}/>
                     ))}
                     {/* Conditional Review Comp takes author refs and reviews, splices out ref from list once deleted for rerender */}
                     {isUser && authorRefs.map((review, index) => (
-                        <ReviewComp key={index} authorDoc={review} showTitle={true} onDelete={() => setAuthorRefs(prev => prev.filter((_, i) => index !== i))}/>
+                        index <= displayCount - 1 && <ReviewComp key={index} authorDoc={review} showTitle={true} onDelete={() => setAuthorRefs(prev => prev.filter((_, i) => index !== i))}/>
                     ))}
-                </div> 
+                </div>
+                {( (userReviews.length > 6 || authorRefs.length > 6) && <ShowMore increaseFunction={setDisplayCount} currentAmount={displayCount} increaseAmount={3}/> )} 
             </div>
         </main>
     )

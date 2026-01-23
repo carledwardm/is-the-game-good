@@ -8,6 +8,7 @@ import styles from "../UserReview.module.scss"
 import ReviewComp from "@/components/ReviewComp/ReviewComp";
 import ReviewComment from "@/components/ReviewComp/ReviewComment/ReviewComment"; 
 import Toast from "@/components/Toast";
+import ShowMore from "@/components/ShowMore";
 
 export default function userReviewPage() {
     const { gameId, userReviewId } = useParams();
@@ -21,6 +22,7 @@ export default function userReviewPage() {
     const [ userComment, setUserComment ] = useState<DocumentSnapshot<DocumentData> | null>(null); 
     const [ isSubmitting, setIsSubmitting ] = useState<boolean>(false);
     const [ refreshKey, setRefreshKey ] = useState<number>(0);
+    const [displayCount, setDisplayCount] = useState<number>(6);
 
     useEffect(() => {
         const fetchReviewData = async () => {
@@ -149,7 +151,7 @@ export default function userReviewPage() {
                     <hr className={styles.divider}></hr>
                     <div className={styles.commentsRows}>
                     {comments.map((comment, index) => (
-                        <ReviewComment 
+                        index <= displayCount - 1 && <ReviewComment 
                             commentData={comment} 
                             key={index} 
                             onError={() => {
@@ -159,6 +161,7 @@ export default function userReviewPage() {
                         />
                     ))}
                     </div>
+                    {(comments.length > 6 && <ShowMore increaseFunction={setDisplayCount} currentAmount={displayCount} increaseAmount={6}/> )}  
                 </div>
 
             <div className={styles.leaveCommentContainer}>
