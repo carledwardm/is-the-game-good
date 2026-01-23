@@ -19,7 +19,9 @@ export default function Header() {
     const searchRef = useRef<HTMLDivElement>(null);
     const menuButtonRef = useRef<HTMLButtonElement>(null);
     const searchButtonRef = useRef<HTMLButtonElement>(null);
+    const [ searchInput, setSearchInput ] = useState<string>("")
     const { user, loading } = useAuth()
+    ;
 
     const handleLogout = async () => {
         await signOut(auth);
@@ -51,6 +53,11 @@ export default function Header() {
         document.addEventListener("click", handleOutsideSearchClick);
         return () => document.removeEventListener("click", handleOutsideSearchClick);
     }, []);
+
+    const submitSearch = (e: React.FormEvent) => {
+        e.preventDefault();
+        console.log(searchInput);
+    }
 
     return <header className={styles.header}>
         <div className={styles.headerWrapper}>
@@ -99,8 +106,15 @@ export default function Header() {
                 </div>
             </nav>
             {/* Search Form*/}
-            <form onSubmit={event => event.preventDefault()} className={styles.gameSearch}>
-                <input type="text" className={styles.gameSearchInput} placeholder="Search Games" aria-label="Search games"></input>
+            <form onSubmit={submitSearch} className={styles.gameSearch}>
+                <input 
+                    type="text" 
+                    className={styles.gameSearchInput} 
+                    placeholder="Search Games" 
+                    aria-label="Search games"
+                    onChange={(e) => setSearchInput(e.target.value)}
+                    value={searchInput}
+                ></input>
                 <button type="submit" className={styles.gameSearchButton}>Search</button>
             </form>
             {/* Mobile Search Form */}
@@ -120,8 +134,15 @@ export default function Header() {
                 }}>
                     <FaSearch className={styles.searchIcon} aria-hidden="true"/></button>
                         <div className={`${styles.gameSearchMobileContainer} ${showMobileSearch? styles.show : ""}`} ref={searchRef}>
-                            <form onSubmit={event => event.preventDefault()} className={styles.gameSearchMobileForm}>
-                                <input type="text" className={styles.gameSearchInputMobile} placeholder="Search Games" aria-label="Search games"></input>
+                            <form onSubmit={submitSearch} className={styles.gameSearchMobileForm}>
+                                <input 
+                                    type="text" 
+                                    className={styles.gameSearchInputMobile} 
+                                    placeholder="Search Games" 
+                                    aria-label="Search games"
+                                    onChange={(e) => setSearchInput(e.target.value)}
+                                    value={searchInput}
+                                ></input>
                                 <button type="submit" className={styles.gameSearchButtonMobile}>Search</button>
                             </form>
                         </div>
