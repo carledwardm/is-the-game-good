@@ -14,47 +14,33 @@ export default function Games() {
     const searchString = searchParams.get('search');
 
     useEffect(() => {
-        if (!searchString) {
-            return;
-        }
         const fetchGames = async () => {
             try {
-                console.log(searchParams.get('search'));
-                const stopWords = ["a", "i", "an", "the", "of", "to", "in", "on", "or"];
-                const stringArray: string[] = searchString.split(" ").filter(word => !stopWords.includes(word));
-                const q = query(collection(db, "games"), where("keywords", "array-contains-any", stringArray));
-                const querySnapshot = await getDocs(q);
-                querySnapshot.docs.forEach((game, index) => {
-                    console.log(game.data().name);
-                    console.log(index);
-                }) 
-            } catch (error) {
+                if (searchString) {
+                    console.log(searchParams.get('search'));
+                    const stopWords = ["a", "i", "an", "the", "of", "to", "in", "on", "or"];
+                    const stringArray: string[] = searchString.split(" ").filter(word => !stopWords.includes(word));
+                    const q = query(collection(db, "games"), where("keywords", "array-contains-any", stringArray));
+                    const querySnapshot = await getDocs(q);
+                    querySnapshot.docs.forEach((game, index) => {
+                        console.log(game.data().name);
+                        console.log(index);
+                    }) 
+                } else {
+                    const querySnapshot = await getDocs(collection(db, "games"));
+                    querySnapshot.docs.forEach((game, index) => {
+                        console.log(game.data().name);
+                        console.log(index);
+                    })
+                } 
+            }catch (error) {
                 console.log(error);
                 setShowToast(true);
                 setToastMessage("No results found, please try again");
             }
-        }
+        }   
         fetchGames();
-    }, []);
-
-    useEffect(() => {
-        if (searchString) {
-            return;
-        }
-        const fetchAllGames = async () => {
-            try {
-                const querySnapshot = await getDocs(collection(db, "games"));
-                querySnapshot.docs.forEach((game, index) => {
-                    console.log(game.data().name);
-                    console.log(index);
-                })
-            } catch (error) {
-                setShowToast(true);
-                setToastMessage("An error has occurred, please try again.");
-            }
-        }
-        fetchAllGames();
-    }, [])
+    }, [searchString]);
 
     return (
         <main className={styles.gamesMain}>
