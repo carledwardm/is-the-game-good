@@ -69,8 +69,8 @@ export default function Header() {
             <div className={styles.navSearchContainer}>                
             {/* Nav */}
             <nav className={styles.navBar} aria-label="Main nav">
-                <Link href="#" className={styles.navLink}>Home</Link>
-                <Link href="#" className={styles.navLink}>Games</Link>
+                <Link href="/" className={styles.navLink}>Home</Link>
+                <Link href="/games" className={styles.navLink}>Games</Link>
                 {!loading && (!user ? (<Link href="/login" className={styles.navLink}>Log In</Link>) : (<Link href="/login" className={styles.navLink} onClick={handleLogout}>Log Out</Link>))}
             </nav>
             {/* Mobile Nav */}
@@ -91,9 +91,9 @@ export default function Header() {
                     }}>
                 <GiHamburgerMenu className={styles.mobileNavIcon} aria-hidden="true" /></button>
                 <div className={`${styles.mobileNavLinks} ${showMobileNav? styles.show : ""}`} ref={menuRef}>
-                    <Link href="#"  className={styles.navLinkMobile}><span className={styles.mobileNavLinkText}>Home</span></Link>
+                    <Link href="/"  className={styles.navLinkMobile}><span className={styles.mobileNavLinkText}>Home</span></Link>
                     <hr className={styles.mobileNavDivider}/>
-                    <Link href="#"  className={styles.navLinkMobile}><span className={styles.mobileNavLinkText}>Games</span></Link>
+                    <Link href="/games"  className={styles.navLinkMobile}><span className={styles.mobileNavLinkText}>Games</span></Link>
                     <hr className={styles.mobileNavDivider}/>
                     {!user ? (<Link href="/login" className={styles.navLinkMobile}><span className={styles.mobileNavLinkText}>Log In</span></Link>) : (<Link href="/login" className={styles.navLinkMobile} onClick={handleLogout}><span className={styles.mobileNavLinkText}>Log Out</span></Link>)}
                 </div>
