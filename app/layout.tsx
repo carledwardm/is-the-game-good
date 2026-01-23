@@ -41,7 +41,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} ${roboto.variable}`}>
         <AuthProvider >
           <Header />
-            {children}
+          {children}
           <Footer />
         </ AuthProvider>
       </body>

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import styles from "./Header.module.scss"
 import Image from "next/image";
 import Link from 'next/link';
@@ -8,6 +8,7 @@ import { useState, useEffect, useRef } from "react";
 import { signOut } from "firebase/auth"; 
 import { auth } from "@/lib/firebaseConfig";
 import { useAuth } from "@/context/AuthContext";
+import { useRouter } from 'next/navigation';
 
 
 
@@ -19,9 +20,9 @@ export default function Header() {
     const searchRef = useRef<HTMLDivElement>(null);
     const menuButtonRef = useRef<HTMLButtonElement>(null);
     const searchButtonRef = useRef<HTMLButtonElement>(null);
-    const [ searchInput, setSearchInput ] = useState<string>("")
-    const { user, loading } = useAuth()
-    ;
+    const [ searchInput, setSearchInput ] = useState<string>("");
+    const { user, loading } = useAuth();
+    const router = useRouter();
 
     const handleLogout = async () => {
         await signOut(auth);
@@ -56,7 +57,8 @@ export default function Header() {
 
     const submitSearch = (e: React.FormEvent) => {
         e.preventDefault();
-        console.log(searchInput);
+        const normalizedInput = searchInput.replace(/[^a-zA-Z0-9 +':\-!]/g, '').toLowerCase()
+        router.push(`/games/${normalizedInput}`);
     }
 
     return <header className={styles.header}>
@@ -77,7 +79,7 @@ export default function Header() {
             {/* Nav */}
             <nav className={styles.navBar} aria-label="Main nav">
                 <Link href="/" className={styles.navLink}>Home</Link>
-                <Link href="/games" className={styles.navLink}>Games</Link>
+                <Link href={`/games/all-games`} className={styles.navLink}>Games</Link>
                 {!loading && (!user ? (<Link href="/login" className={styles.navLink}>Log In</Link>) : (<Link href="/login" className={styles.navLink} onClick={handleLogout}>Log Out</Link>))}
             </nav>
             {/* Mobile Nav */}
@@ -100,7 +102,7 @@ export default function Header() {
                 <div className={`${styles.mobileNavLinks} ${showMobileNav? styles.show : ""}`} ref={menuRef}>
                     <Link href="/"  className={styles.navLinkMobile}><span className={styles.mobileNavLinkText}>Home</span></Link>
                     <hr className={styles.mobileNavDivider}/>
-                    <Link href="/games"  className={styles.navLinkMobile}><span className={styles.mobileNavLinkText}>Games</span></Link>
+                    <Link href={`/games/all-games`} className={styles.navLinkMobile}><span className={styles.mobileNavLinkText}>Games</span></Link>
                     <hr className={styles.mobileNavDivider}/>
                     {!user ? (<Link href="/login" className={styles.navLinkMobile}><span className={styles.mobileNavLinkText}>Log In</span></Link>) : (<Link href="/login" className={styles.navLinkMobile} onClick={handleLogout}><span className={styles.mobileNavLinkText}>Log Out</span></Link>)}
                 </div>
