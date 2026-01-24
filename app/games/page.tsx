@@ -2,13 +2,13 @@
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import styles from "./games.module.scss";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, DocumentData, DocumentSnapshot, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/lib/firebaseConfig";
 import Toast from "@/components/Toast";
 
 export default function Games() {
     const searchParams = useSearchParams();
-    const [ games, setGames ] = useState([]);
+    const [ games, setGames ] = useState<DocumentSnapshot<DocumentData>[]>([]);
     const [ showToast, setShowToast ] = useState<boolean>(true);
     const [ toastMessage, setToastMessage ] = useState<string>("");
     const searchString = searchParams.get('search');
@@ -16,6 +16,8 @@ export default function Games() {
     useEffect(() => {
         const fetchGames = async () => {
             try {
+                // Keyword search
+                let games: DocumentSnapshot<DocumentData>[]  = [];
                 if (searchString) {
                     console.log(searchParams.get('search'));
                     const stopWords = ["a", "i", "an", "the", "of", "to", "in", "on", "or"];
@@ -23,18 +25,17 @@ export default function Games() {
                     const q = query(collection(db, "games"), where("keywords", "array-contains-any", stringArray));
                     const querySnapshot = await getDocs(q);
                     querySnapshot.docs.forEach((game, index) => {
-                        console.log(game.data().name);
-                        console.log(index);
+                        games.push(game);
                     }) 
                 } else {
+                    // Fetch all games
                     const querySnapshot = await getDocs(collection(db, "games"));
                     querySnapshot.docs.forEach((game, index) => {
-                        console.log(game.data().name);
-                        console.log(index);
+                        games.push(game);
                     })
-                } 
+                }
+                setGames(games); 
             }catch (error) {
-                console.log(error);
                 setShowToast(true);
                 setToastMessage("No results found, please try again");
             }
