@@ -9,7 +9,7 @@ import Toast from "@/components/Toast";
 export default function Games() {
     const searchParams = useSearchParams();
     const [ games, setGames ] = useState<DocumentSnapshot<DocumentData>[]>([]);
-    const [ showToast, setShowToast ] = useState<boolean>(true);
+    const [ showToast, setShowToast ] = useState<boolean>(false);
     const [ toastMessage, setToastMessage ] = useState<string>("");
     const searchString = searchParams.get('search');
 
