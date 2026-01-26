@@ -5,6 +5,7 @@ import styles from "./games.module.scss";
 import { collection, DocumentData, DocumentSnapshot, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/lib/firebaseConfig";
 import Toast from "@/components/Toast";
+import GameComp from "@/components/games/gameComp";
 
 export default function Games() {
     const searchParams = useSearchParams();
@@ -46,7 +47,10 @@ export default function Games() {
     return (
         <main className={styles.gamesMain}>
             <div className={styles.gamesContainer}>
-                <h1 className={styles.gamesTitle}>Games will display hereeeee!</h1>
+                <h1 className={styles.gamesTitle}>{searchString ? "Search Results" : "All Games"}</h1>
+                {games.map((game, index) => (
+                    <GameComp gameSnap={game} key={index}/>
+                ))}
             </div>
 
             {showToast && (

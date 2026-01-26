@@ -1,0 +1,11 @@
+.gameInfoContainer {
+    width: 100%;
+    max-width: 1000px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--alt-background);
+    border: 1px solid var(--button);
+    border-radius: 2px;
+    padding: 25px 0;
+}
