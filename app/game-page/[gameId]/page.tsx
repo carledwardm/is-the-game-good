@@ -1,6 +1,6 @@
 "use client";
 import styles from "../GamePage.module.scss";
-import { addDoc, collection, deleteDoc, doc, DocumentData, getDoc, getDocs, query, DocumentSnapshot, where, orderBy } from "firebase/firestore";
+import { addDoc, collection, doc, DocumentData, getDoc, getDocs, query, DocumentSnapshot, orderBy, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebaseConfig";
 import * as React from "react";
 import { useEffect, useState } from 'react';
@@ -96,7 +96,20 @@ export default function gamePage() {
                 addedScore += review.data()?.gameScore;
             }
         }
-        setAverageScore(addedScore / numReviews);
+        // Update average score for game after calculated for component update
+        const updateAverageScore = async () => {
+            let averageScore = 0;
+            if (numReviews > 0) {
+                averageScore = addedScore / numReviews;
+            } 
+            setAverageScore(averageScore);
+            const gameRef = doc(db, "games", gameId);
+            await updateDoc(gameRef, {
+                gameScore: averageScore,
+                numReviews,
+            })
+        }   
+        updateAverageScore();
     }, [gameReviews])
 
     // Submits the user review
@@ -148,7 +161,7 @@ export default function gamePage() {
             if (!gameId) {
                 return;
             }
-            
+            // Save review to db
             const newDocRef = await addDoc(collection(db, "games", gameId, "reviews"), newReview);
             const userReview = await getDoc(newDocRef);
             setUserReview(userReview);

@@ -31,3 +31,17 @@
 .gameArt img {
     object-fit: cover;
 }
+
+.gameNameAndScoreContainer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    padding: 0 10px;
+}
+
+.gameName {
+    font-family: var(--font-poppins), sans-serif;
+    font-weight: bold;
+    font-size: 18px;
+}

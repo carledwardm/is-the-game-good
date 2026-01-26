@@ -20,7 +20,7 @@ export default function gameComp ({ gameSnap } : {gameSnap: DocumentSnapshot<Doc
             <div className={styles.gameNameAndScoreContainer}>
                 <p className={styles.gameName}>{gameData?.name}</p>
                 {/* NEED TO ADD REVIEW SCORE TO GAME DATA */}
-                <p className={styles.gamecore}>{gameData?.reviewScore}</p>
+                <p className={styles.gameScore}>{gameData?.reviewScore}</p>
             </div>
             </div>
         </a>

@@ -20,7 +20,6 @@ export default function Games() {
                 // Keyword search
                 let games: DocumentSnapshot<DocumentData>[]  = [];
                 if (searchString) {
-                    console.log(searchParams.get('search'));
                     const stopWords = ["a", "i", "an", "the", "of", "to", "in", "on", "or"];
                     const stringArray: string[] = searchString.split(" ").filter(word => !stopWords.includes(word));
                     const q = query(collection(db, "games"), where("keywords", "array-contains-any", stringArray));
