@@ -46,8 +46,8 @@ export default function Games() {
 
     return (
         <main className={styles.gamesMain}>
+            <h1 className={styles.gamesTitle}>{searchString ? "Search Results" : "All Games"}</h1>
             <div className={styles.gamesContainer}>
-                <h1 className={styles.gamesTitle}>{searchString ? "Search Results" : "All Games"}</h1>
                 {games.map((game, index) => (
                     <GameComp gameSnap={game} key={index}/>
                 ))}

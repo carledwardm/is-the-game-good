@@ -1,11 +1,24 @@
-.gameInfoContainer {
+.wrappingLink {
+    display: block;
     width: 100%;
     max-width: 1000px;
+    text-decoration: none;
+    transition: 0.2s ease-in-out;
+}
+
+.gameInfoContainer {
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: var(--alt-background);
-    border: 1px solid var(--button);
+    border: 2px solid var(--alt-foreground);
     border-radius: 2px;
     padding: 25px 0;
+    transition: 0.1s ease-in-out;
+
+    &:hover {
+        background-color: var(--border);
+        scale: (1.01);
+    }
 }
