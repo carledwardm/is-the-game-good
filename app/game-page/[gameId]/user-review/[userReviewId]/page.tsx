@@ -161,7 +161,7 @@ export default function userReviewPage() {
                         />
                     ))}
                     </div>
-                    {(comments.length > 6 && <ShowMore increaseFunction={setDisplayCount} currentAmount={displayCount} increaseAmount={6}/> )}  
+                    {(comments.length > 6 && <ShowMore increaseFunction={setDisplayCount} increaseAmount={6}/> )}  
                 </div>
 
             <div className={styles.leaveCommentContainer}>

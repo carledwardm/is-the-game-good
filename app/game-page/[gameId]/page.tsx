@@ -238,7 +238,7 @@ export default function gamePage() {
                 }  
              </div>
             {/* Show More button conditionally rendered if reviews exceed 6 */}
-                {( gameReviews.length > 6 && <ShowMore increaseFunction={setDisplayCount} currentAmount={displayCount} increaseAmount={6}/> )}
+                {( gameReviews.length > 6 && <ShowMore increaseFunction={setDisplayCount} increaseAmount={6}/> )}
         </section>
         
         {/* Submit review form */}

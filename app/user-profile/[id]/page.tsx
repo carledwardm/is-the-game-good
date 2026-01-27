@@ -87,7 +87,7 @@ export default function userProfile() {
                         index <= displayCount - 1 && <ReviewComp key={index} authorDoc={review} showTitle={true} onDelete={() => setAuthorRefs(prev => prev.filter((_, i) => index !== i))}/>
                     ))}
                 </div>
-                {( (userReviews.length > 6 || authorRefs.length > 6) && <ShowMore increaseFunction={setDisplayCount} currentAmount={displayCount} increaseAmount={3}/> )} 
+                {( (userReviews.length > 6 || authorRefs.length > 6) && <ShowMore increaseFunction={setDisplayCount} increaseAmount={3}/> )} 
             </div>
         </main>
     )

@@ -7,12 +7,11 @@ import { FaChevronDown } from "react-icons/fa";
 
 type showMoreProps = {
     increaseFunction: Dispatch<SetStateAction<number>>,
-    currentAmount: number,
     increaseAmount: number,
 }
 
-export default function showMore({ increaseFunction, currentAmount, increaseAmount} : showMoreProps ) {
+export default function showMore({ increaseFunction, increaseAmount } :  showMoreProps  ) {
     return <button 
         className={styles.showMoreButton} 
-        onClick={() => increaseFunction(currentAmount + increaseAmount)}>Show More <FaChevronDown className={styles.chevron}/></button>
+        onClick={() => increaseFunction(prev => prev += increaseAmount)}>Show More <FaChevronDown className={styles.chevron}/></button>
 }
