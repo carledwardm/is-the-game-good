@@ -80,7 +80,7 @@ export default function Games() {
                     index < displayCount && <GameComp gameSnap={game} key={index}/>
                 ))}
 
-                <ShowMore increaseFunction={setDisplayCount} increaseAmount={10}/>
+                {games.length > displayCount && <ShowMore increaseFunction={setDisplayCount} increaseAmount={10}/>}
             </div>
 
             {showToast && (
