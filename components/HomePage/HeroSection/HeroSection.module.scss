@@ -1,0 +1,47 @@
+.heroSection {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1400px;
+    height: 500px;
+    background-image: url("../../../public/arcade.jpg");
+    background-size: cover;
+    background-position: center;
+    border-radius: 2px;
+    box-shadow: 10px 10px 10px 5px black; 
+}
+
+.textContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: rgba(0, 0, 0, 0.85);
+    min-height: 250px;
+    border-radius: 2px;
+    padding: 25px 20px;
+}
+
+.heroTitle {
+    font-family: var(--font-poppins), sans-serif;
+    font-size: 60px;
+    font-weight: bold;
+    text-align: center;
+    color: var(--alt-foreground);
+}
+
+.greeting {
+    font-family: var(--font-roboto), sans-serif;
+    font-size: 20px;
+    margin: 10px 0;
+    text-align: center;
+    color: var(--alt-foreground);
+}
+
+.heroDescription {
+    font-family: var(--font-roboto), sans-serif;
+    font-size: 22px;
+    text-align: center;
+}
