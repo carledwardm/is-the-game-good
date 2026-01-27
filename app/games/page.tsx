@@ -6,12 +6,14 @@ import { collection, DocumentData, DocumentSnapshot, getDocs, query, where } fro
 import { db } from "@/lib/firebaseConfig";
 import Toast from "@/components/Toast";
 import GameComp from "@/components/games/gameComp";
+import ShowMore from "@/components/ShowMore";
 
 export default function Games() {
     const searchParams = useSearchParams();
     const [ games, setGames ] = useState<DocumentSnapshot<DocumentData>[]>([]);
     const [ showToast, setShowToast ] = useState<boolean>(false);
     const [ toastMessage, setToastMessage ] = useState<string>("");
+    const [ displayCount, setDisplayCount ] = useState<number>(10);
     const searchString = searchParams.get('search');
 
     const fetchGames = async () => {
@@ -75,8 +77,10 @@ export default function Games() {
             <div className={styles.gamesContainer}>
                 <h1 className={styles.gamesTitle}>{searchString ? "Search Results" : "All Games"}</h1>
                 {games.map((game, index) => (
-                    <GameComp gameSnap={game} key={index}/>
+                    index < displayCount && <GameComp gameSnap={game} key={index}/>
                 ))}
+
+                {games.length > displayCount && <ShowMore increaseFunction={setDisplayCount} currentAmount={displayCount} increaseAmount={10} />}
             </div>
 
             {showToast && (
