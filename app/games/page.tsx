@@ -14,8 +14,7 @@ export default function Games() {
     const [ toastMessage, setToastMessage ] = useState<string>("");
     const searchString = searchParams.get('search');
 
-    useEffect(() => {
-        const fetchGames = async () => {
+    const fetchGames = async () => {
             try {
                 // Keyword search
                 let games: DocumentSnapshot<DocumentData>[]  = [];
@@ -34,13 +33,41 @@ export default function Games() {
                         games.push(game);
                     })
                 }
-                setGames(games); 
+                return games;
             }catch (error) {
                 setShowToast(true);
                 setToastMessage("No results found, please try again");
             }
-        }   
-        fetchGames();
+        }
+
+    function calculateWeighted(gameSnap: DocumentSnapshot<DocumentData>, averageOfAll: number) {
+        const v = gameSnap.data()?.numReviews;
+        const R = gameSnap.data()?.gameScore;
+        const m = 10;
+        const C = averageOfAll;
+        if (v === 0) {
+            return C;
+        } 
+        const weightedScore = (v / (v + m)) * R + (m / (v + m)) * C;
+        return weightedScore;
+    }
+
+    useEffect(() => {  
+        const fetchAndSortGames = async () => {
+            const games = await fetchGames();
+            if (!games) {
+                return;
+            }
+            // Get everage score for all queried games for sorting
+            let sumOfAllScores = 0;
+            games.forEach((game) => sumOfAllScores += game.data()?.gameScore) 
+            let averageOfAllScores = sumOfAllScores / games.length;
+            const sortedGames = games.sort((a, b) => {
+                return calculateWeighted(b, averageOfAllScores) - calculateWeighted(a, averageOfAllScores)
+            })
+            setGames(sortedGames);
+        }
+        fetchAndSortGames();
     }, [searchString]);
 
     return (

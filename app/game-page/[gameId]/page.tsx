@@ -73,7 +73,6 @@ export default function gamePage() {
                     // All non-logged-in user reviews are pushed
                     reviews.push(reviewDoc);
                 });
-                // Push user's review to front, then sort by descending creation date
                 setGameReviews(reviews);
             } catch (error) {
                 setShowToast(true);
