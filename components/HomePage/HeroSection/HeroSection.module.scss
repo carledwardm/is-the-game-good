@@ -47,3 +47,25 @@
     font-size: 22px;
     text-align: center;
 }
+
+.logInButton {
+    border-radius: 2px;
+    border: none;
+    background-color: var(--button);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    padding: 20px;
+    font-family: "Roboto", sans-serif;
+    font-size: 22px;
+    font-weight: bold;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    margin-top: 25px;
+
+    &:hover {
+        background-color: var(--foreground);
+        color: var(--sub-background);
+    }
+}
