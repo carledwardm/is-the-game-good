@@ -1,0 +1,69 @@
+.topGamesSection {
+    width: 100%;
+    max-width: 1400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: var(--sub-background);
+    border: 2px solid var(--border);
+    border-radius: 2px;
+    box-shadow: 10px 10px 10px 5px black;
+    padding: 50px 25px; 
+    gap: 50px;
+}
+
+.topGamesTitle {
+    font-family: var(--font-poppins);
+    font-size: 24px;
+    font-weight: bold;
+    text-align: left;
+}
+
+.topGames {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+    width: 90%;
+}
+
+.game {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: var(--alt-background);
+    padding: 25px;
+    gap: 25px;
+    border: 2px solid var(--alt-foreground);
+    width: 100%;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        background-color: var(--border);
+        scale: (1.01);
+    }
+}
+
+.wrapperLink {
+    display: inline-block;
+    width: 30%;
+}
+
+.gameArt {
+    width: 200px;
+    height: 96px;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.gameArt img {
+    object-fit: cover;
+}
+
+.gameTitle {
+    font-family: var(--font-poppins);
+    font-size: 20px;
+    font-weight: bold;
+}
