@@ -1,0 +1,65 @@
+.statsSection {
+    width: 100%;
+    max-width: 1400px;
+    padding: 50px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: var(--sub-background);
+    border: 2px solid var(--border);
+    border-radius: 2px;
+    box-shadow: 10px 10px 10px 5px black;
+    gap: 50px;
+}
+
+.statsTextContainer {
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    flex-direction: column;
+    width: 90%;
+    padding-left: 25px;
+}
+
+.statsContainer {
+    display: flex;
+    align-items: center;    
+    justify-content: center;
+    width: 90%;
+    padding: 0 25px;
+}
+
+.stat {
+    width: 33%;
+    height: 200px;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    flex-direction: column;
+    border-left: 2px solid var(--alt-foreground);
+    padding-left: 25px;
+}
+
+.statsTitle {
+    font-family: var(--font-poppins);
+    font-size: 24px;
+    font-weight: bold;
+    text-align: left;
+}
+
+.statsText {
+    font-family: var(--font-roboto);
+    font-size: 18px;
+}
+
+.number {
+    font-family: var(--font-poppins);
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.numberText {
+    font-family: var(--font-roboto);
+    font-size: 16px; 
+}

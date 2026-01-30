@@ -1,6 +1,11 @@
 import styles from "./SiteStats.module.scss";
+import { useEffect, useState } from "react";
 
 export default function SiteStats() {
+    const [ gameCount, setGameCount ] = useState<number>(0);
+    const [ reviewCount, seReviewCount ] = useState<number>(0);
+    const [ userCount, setUserCount ] = useState<number>(0);
+
     return (
         <section className={styles.statsSection}>
             <div className={styles.statsTextContainer}>
@@ -9,16 +14,16 @@ export default function SiteStats() {
             </div>
             <div className={styles.statsContainer}>
                 <div className={styles.stat}>
-                    <p className={styles.number}></p>
-                    <p className={styles.numberText}></p>
+                    <p className={styles.number}>{gameCount}</p>
+                    <p className={styles.numberText}>Games in database</p>
                 </div>
                 <div className={styles.stat}>
-                    <p className={styles.number}></p>
-                    <p className={styles.numberText}></p>
+                    <p className={styles.number}>{reviewCount}</p>
+                    <p className={styles.numberText}>Player Reviews</p>
                 </div>
                 <div className={styles.stat}>
-                    <p className={styles.number}></p>
-                    <p className={styles.numberText}></p>
+                    <p className={styles.number}>{userCount}</p>
+                    <p className={styles.numberText}>Users</p>
                 </div>
             </div>
         </section>
