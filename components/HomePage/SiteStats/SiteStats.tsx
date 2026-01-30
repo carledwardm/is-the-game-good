@@ -1,10 +1,29 @@
+import { collection, getAggregateFromServer, getCountFromServer, sum } from "firebase/firestore";
 import styles from "./SiteStats.module.scss";
 import { useEffect, useState } from "react";
+import { db } from "@/lib/firebaseConfig";
 
 export default function SiteStats() {
     const [ gameCount, setGameCount ] = useState<number>(0);
-    const [ reviewCount, seReviewCount ] = useState<number>(0);
+    const [ reviewCount, setReviewCount ] = useState<number>(0);
     const [ userCount, setUserCount ] = useState<number>(0);
+
+    useEffect(() => {
+        // Fetch counts for states
+        const fetchNumbers = async () => {
+            const gameCol = collection(db, "games");
+            const gameCount = await getCountFromServer(gameCol);
+            setGameCount(gameCount.data().count);
+            const reviewCount = await getAggregateFromServer(gameCol, {
+                totalReviews: sum("numReviews")
+            })
+            setReviewCount(reviewCount.data().totalReviews);
+            const userCol = collection(db, "users");
+            const userCount = await getCountFromServer(userCol);
+            setUserCount(userCount.data().count);
+        } 
+        fetchNumbers();
+    }, [])
 
     return (
         <section className={styles.statsSection}>
