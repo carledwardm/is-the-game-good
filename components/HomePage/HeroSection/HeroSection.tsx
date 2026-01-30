@@ -1,3 +1,4 @@
+"use client";
 import styles from "./HeroSection.module.scss";
 import { useAuth } from "@/context/AuthContext"; 
 

@@ -1,3 +1,4 @@
+"use client";
 import { collection, getAggregateFromServer, getCountFromServer, sum } from "firebase/firestore";
 import styles from "./SiteStats.module.scss";
 import { useEffect, useState } from "react";
