@@ -4,6 +4,7 @@ import HeroSection from "@/components/HomePage/HeroSection";
 import FeatureSection from "@/components/HomePage/FeatureSection";
 import SiteStats from "@/components/HomePage/SiteStats";
 import TopGames from "@/components/HomePage/TopGames";
+import QandA from "@/components/HomePage/QandA";
 
 export default function Home() {
 
@@ -14,6 +15,7 @@ export default function Home() {
         <FeatureSection />
         <SiteStats />
         <TopGames />
+        <QandA />
       </main>
     </div>
   );
