@@ -1,7 +1,7 @@
 .statsSection {
     width: 100%;
     max-width: 1400px;
-    padding: 50px 10px;
+    padding: 50px 25px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -18,27 +18,39 @@
     align-items: start;
     justify-content: center;
     flex-direction: column;
-    width: 90%;
-    padding-left: 25px;
+    width: 100%;
 }
 
 .statsContainer {
     display: flex;
     align-items: center;    
     justify-content: center;
+    flex-direction: column;
     width: 90%;
     padding: 0 25px;
+
+    @media screen and (min-width: 900px) {
+        flex-direction: row;
+    }
 }
 
 .stat {
-    width: 33%;
+    width: 90%;
     height: 200px;
     display: flex;
-    align-items: start;
+    align-items: center;
     justify-content: center;
     flex-direction: column;
-    border-left: 2px solid var(--alt-foreground);
-    padding-left: 25px;
+    border-bottom: 2px solid var(--alt-foreground);
+    border-left: none;
+
+    @media screen and (min-width: 900px) {
+        border-left: 2px solid var(--alt-foreground);
+        border-bottom: none;
+        width: 33%;
+        align-items: start;
+        padding-left: 25px;
+    }
 }
 
 .statsTitle {

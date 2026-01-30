@@ -13,6 +13,10 @@
     gap: 50px;
 }
 
+.topGamesTextContainer {
+    width: 100%;
+}
+
 .topGamesTitle {
     font-family: var(--font-poppins);
     font-size: 24px;
@@ -24,8 +28,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
     gap: 25px;
     width: 90%;
+
+    @media screen and (min-width: 900px) {
+        flex-direction: row;
+    }
 }
 
 .game {
@@ -48,7 +57,11 @@
 
 .wrapperLink {
     display: inline-block;
-    width: 30%;
+    width: 325px;
+
+    @media screen and (min-width: 900px) {
+        width: 30%;
+    }
 }
 
 .gameArt {

@@ -1,7 +1,7 @@
 .featureSection {
     width: 100%;
     max-width: 1400px;
-    padding: 50px 10px;
+    padding: 50px 25px;
     background-color: var(--sub-background);
     border: 2px solid var(--border);
     border-radius: 2px;
@@ -39,7 +39,7 @@
     padding: 10px 25px;
 
     @media screen and (min-width: 800px) {
-        width: 50%;
+        width: 60%;
     }
 }
 
