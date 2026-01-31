@@ -1,0 +1,32 @@
+.gamesMain {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 50px 10px;
+    gap: 25px;
+}
+
+.gamesTitle {
+    font-family: var(--font-poppins);
+    font-size: 38px;
+    font-style: bold;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.gamesContainer {
+    background-color: var(--sub-background);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    min-height: 300px;
+    width: 100%;
+    max-width: 1400px;
+    border: 2px solid var(--border);
+    border-radius: 2px;
+    padding: 50px 25px;
+    gap: 10px;
+    box-shadow: 10px 10px 10px 5px black;
+}
