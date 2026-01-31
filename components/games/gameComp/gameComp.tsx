@@ -1,3 +1,4 @@
+"use client";
 import { DocumentData, DocumentSnapshot } from "firebase/firestore"
 import styles from "./gameComp.module.scss"
 import Image from "next/image";
