@@ -6,8 +6,8 @@ Also, users can comment on each other's reviews and leave "helpful" likes.
 Built as a personal project to practice modern frontend development and UI design in React, Next.js and TypeScript.
 
 ![Home Page](./screenshots/homepage.png)
-![Game Page](.screenshots/gamepage.png)
-![Game Search](./screenshots/gamesearch.png)
+![Game Page](./screenshots/gamepage.png)
+![Game Search](./screenshots/gamessearch.png)
 
 
 ## Features
