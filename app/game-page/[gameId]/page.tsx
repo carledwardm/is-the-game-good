@@ -109,7 +109,7 @@ export default function gamePage() {
             })
         }   
         updateAverageScore();
-    }, [gameReviews])
+    }, [gameReviews, userReview])
 
     // Submits the user review
     const submitReview = async (e: React.FormEvent) => {
