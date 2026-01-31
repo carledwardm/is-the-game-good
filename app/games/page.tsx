@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import styles from "./games.module.scss";
 import { collection, DocumentData, DocumentSnapshot, getDocs, query, where } from "firebase/firestore";
