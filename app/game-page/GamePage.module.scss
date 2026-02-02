@@ -29,9 +29,8 @@
     flex-direction: column;
     background-color: var(--sub-background);
     border-radius: 2px;
-    border: 2px solid rgba(255, 255, 255, 0.2);
     padding: 50px 25px;
-    box-shadow: 10px 10px 10px 5px black; 
+    box-shadow: 0px 0px 8px 8px var(--button); 
     width: 100%;
     max-width: 1400px;
     height: 575px;
@@ -63,9 +62,8 @@
     flex-direction: column;
     background-color: var(--sub-background);
     border-radius: 2px;
-    border: 2px solid rgba(255, 255, 255, 0.2);
     padding: 50px 25px;
-    box-shadow: 10px 10px 10px 5px black; 
+    box-shadow: 0px 0px 8px 8px var(--button); 
     width: 100%;
     max-width: 1400px;
     min-height: 400px;
@@ -94,10 +92,9 @@
     justify-content: center;
     flex-direction: column;
     background-color: var(--sub-background);
-    border-radius: 2px;
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 2px;;
     padding: 50px 25px;
-    box-shadow: 10px 10px 10px 5px black; 
+    box-shadow: 0px 0px 8px 8px var(--button); 
     width: 100%;
     max-width: 1400px;
     height: 400px;
@@ -148,10 +145,9 @@
     justify-content: center;
     flex-direction: column;
     background-color: var(--sub-background);
-    border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: 2px;
     padding: 50px 25px;
-    box-shadow: 10px 10px 10px 5px black; 
+    box-shadow: 0px 0px 8px 8px var(--button); 
     width: 100%;
     max-width: 1400px;
     min-height: 400px;
@@ -202,10 +198,9 @@
     justify-content: center;
     flex-direction: column;
     background-color: var(--sub-background);
-    border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: 2px;
     padding: 50px 25px;
-    box-shadow: 10px 10px 10px 5px black; 
+    box-shadow: 0px 0px 8px 8px var(--button); 
     width: 100%;
     max-width: 1400px;
     min-height: 400px;
