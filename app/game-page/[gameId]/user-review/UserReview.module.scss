@@ -122,6 +122,7 @@
     transition: all 0.2s ease-in-out;
     margin-top: 25px;
     cursor: pointer;
+    color: var(--foreground);
 
     &:hover {
         background-color: transparent;
@@ -129,7 +130,6 @@
     }
 
     &:active {
-        color: white;
         background-color: var(--sub-background);
         border: 2px solid white;
     }
