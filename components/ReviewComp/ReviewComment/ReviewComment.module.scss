@@ -1,21 +1,21 @@
 .comment {
     display: flex;
-    align-items: center;
+    align-items: start;
     justify-content: center;
     flex-direction: column;
     gap: 50px;
-    width: 350px;
+    max-width: 350px;
     min-height: 250px;
     border: 2px solid var(--button);
     border-radius: 2px;
-    padding: 50px;
+    padding: 50px 25px;
     background-color: var(--alt-background);
 }
 
 .authorName {
     font-family: var(--font-poppins), sans-serif;
     font-size: 32px;
-    text-align: center;
+    text-align: left;
 }
 
 .profileLink {
