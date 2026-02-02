@@ -28,10 +28,14 @@
 
 .heroTitle {
     font-family: var(--font-poppins), sans-serif;
-    font-size: 60px;
+    font-size: 45px;
     font-weight: bold;
     text-align: center;
     color: var(--alt-foreground);
+
+    @media screen and (min-width: 800px) {
+        font-size: 60px;
+    }
 }
 
 .greeting {
