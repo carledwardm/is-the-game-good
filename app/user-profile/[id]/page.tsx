@@ -68,7 +68,8 @@ export default function userProfile() {
 
     return (
         <main className={styles.userProfileMain}>
-            <div className={styles.profileContainer}>{!userData ? (
+            <div className={styles.profileContainer}>
+                {!userData ? (
                     <h1 className={styles.profileTitle}>Loading profile...</h1>
                 ) : user?.uid === userData?.id ? (
                     <h1 className={styles.profileTitle}>Your Reviews</h1>

@@ -1,8 +1,13 @@
+.userProfileMain {
+    padding: 50px 25px;
+}
+
 .profileTitle {
     font-family: var(--font-poppins), sans-serif;
     font-size: 38px;
-    font-style: bold;
+    font-weight: bold;
     margin-bottom: 25px;
+    text-align: center;
 }
 
 .profileContainer {
@@ -15,7 +20,8 @@
     border-radius: 2px;
     width: 100%;
     max-width: 1400px;
-    padding: 50px 10px;
+    padding: 50px 25px;
+    box-shadow: 0px 0px 8px 8px var(--button);
 }
 
 .statContainer {
@@ -37,7 +43,7 @@
     gap: 25px;
     margin-bottom: 25px;
 
-    @media screen and (min-width: 750px) {
+    @media screen and (min-width: 830px) {
         max-width: 725px;
         justify-content: start;
     }
