@@ -31,13 +31,13 @@
 .reviewContainer {
     display: flex;
     align-items: start;
-    justify-content: start;
+    justify-content: center;
     flex-wrap: wrap;
     min-height: 200px;
     gap: 25px;
     margin-bottom: 25px;
 
-    @media screen and (min-width: 800px) {
+    @media screen and (min-width: 750px) {
         max-width: 725px;
         justify-content: start;
     }
