@@ -29,7 +29,7 @@
     justify-content: center;
     flex-direction: column;
     gap: 25px;
-    width: 90%;
+    width: 100%;
 
     @media screen and (min-width: 900px) {
         flex-direction: row;
@@ -58,7 +58,8 @@
 
 .wrapperLink {
     display: inline-block;
-    width: 300px;
+    width: 100%;
+    max-width: 450px;
     height: 100%;
 
     @media screen and (min-width: 900px) {
