@@ -18,7 +18,7 @@
     justify-content: center;
     flex-direction: column;
     width: 100%;
-    height: 500px;
+    height: 550px;
 
     @media screen and (min-width: 800px) {
         flex-direction: row;
@@ -49,15 +49,18 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
+    padding: 25px;
+    margin-bottom: 50px;
+    
     @media screen and (min-width: 800px) {
         width: 40%;
+        margin-bottom: 0;
     }
 }
 
 .image {
-    padding: 25px;
     object-fit: cover;
+    border-radius: 2px;
 }
 
 .featureTitle {
