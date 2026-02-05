@@ -27,6 +27,7 @@
     flex-direction: column;
     width: 90%;
     padding: 0 25px;
+    margin-top: 50px;
 
     @media screen and (min-width: 900px) {
         flex-direction: row;
@@ -54,7 +55,6 @@
 
 .stat:first-of-type {
     border-top: 2px solid var(--alt-foreground);
-    margin-top: 50px;
 
     @media screen and (min-width: 900px) {
         border-top: none;
