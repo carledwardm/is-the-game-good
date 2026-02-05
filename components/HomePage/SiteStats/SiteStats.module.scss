@@ -61,6 +61,15 @@
     }
 }
 
+.stat:last-of-type {
+    border-top: none;
+
+    @media screen and (min-width: 900px) {
+        border-right: 2px solid var(--alt-foreground);
+    }
+}
+
+
 .statsTitle {
     font-family: var(--font-poppins);
     font-size: 24px;
