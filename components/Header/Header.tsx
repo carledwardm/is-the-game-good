@@ -104,6 +104,7 @@ export default function Header() {
                     }}>
                 <GiHamburgerMenu className={styles.mobileNavIcon} aria-hidden="true" /></button>
                 <div className={`${styles.mobileNavLinks} ${showMobileNav? styles.show : ""}`} ref={menuRef}>
+                    <hr className={styles.mobileNavDivider}/>
                     <Link href="/"  className={styles.navLinkMobile}><span className={styles.mobileNavLinkText}>Home</span></Link>
                     <hr className={styles.mobileNavDivider}/>
                     <Link href={`/games`} className={styles.navLinkMobile}><span className={styles.mobileNavLinkText}>Games</span></Link>
