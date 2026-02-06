@@ -103,10 +103,14 @@ export default function gamePage() {
             } 
             setAverageScore(averageScore);
             const gameRef = doc(db, "games", gameId);
-            await updateDoc(gameRef, {
+            try {
+                await updateDoc(gameRef, {
                 gameScore: averageScore,
                 numReviews,
             })
+            } catch (error) {
+                console.log(error);
+            }
         }   
         updateAverageScore();
     }, [gameReviews, userReview])
