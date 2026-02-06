@@ -97,6 +97,9 @@ export default function gamePage() {
         }
         // Update average score for game after calculated for component update
         const updateAverageScore = async () => {
+            if (!user) {
+                return;
+            }
             let averageScore = 0;
             if (numReviews > 0) {
                 averageScore = addedScore / numReviews;
