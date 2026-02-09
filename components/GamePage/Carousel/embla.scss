@@ -57,7 +57,7 @@
   height: 30px;
   z-index: 1;
   border-radius: 50%;
-  color: var(--text-body);
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -70,7 +70,7 @@
   }
 }
 .embla__button:disabled {
-  color: var(--alt-foreground);
+  color: var(--text-body);
 }
 .embla__button__svg {
   width: 35%;
