@@ -120,9 +120,12 @@ export default function userReviewPage() {
                     <h1 className={styles.reviewHeading}>
                     {reviewData?.authorId === user?.uid ? 
                     (<>
-                    Your review of <span className={styles.reviewTitle}>{reviewData?.title} </span>
+                    Your review of 
+                    <hr className={styles.authorNameTitleDivider}></hr>
+                    <span className={styles.reviewTitle}>{reviewData?.title} </span>
                     </>) : (<>
                         {reviewData?.authorUserName}'s review of 
+                        <hr className={styles.authorNameTitleDivider}></hr>
                         <span className={styles.reviewTitle}>{reviewData?.title} </span>
                     </>)}
                 </h1>
