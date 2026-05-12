@@ -22,6 +22,8 @@
 
 .logo {
     transition: transform 0.2s ease-in-out;
+    width: 175px;
+    height: auto;
 
     &:hover {
         transform: scale(1.05);
@@ -31,7 +33,7 @@
 
 @media screen and (max-width: 400px) {
     .logo {
-    width: 175px;
+    width: 150px;
     height: auto;
     }
 }
@@ -60,9 +62,10 @@
 
 .navLink {
     font-family: var(--font-roboto), sans-serif;
-    font-size: 18px;
-    font-weight: bold;
+    font-size: 16px;
+    font-weight: 500;
     transition: all 0.2s ease-in-out;
+    
 
     &:hover {
         color: var(--alt-foreground);
