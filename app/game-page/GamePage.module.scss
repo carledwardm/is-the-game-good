@@ -17,8 +17,9 @@
 }
 
 .releaseDate {
-    font-size: 18px;
+    font-size: 16px;
     font-family: var(--font-roboto), sans-serif;
+    font-weight: 300;
 }
 
 
@@ -131,8 +132,8 @@
 
 .score, .totalReviews {
     font-family: var(--font-roboto), sans-serif;
-    font-size: 24px;
-    font-weight: 700;
+    font-size: 22px;
+    font-weight: 400;
     text-align: center;
 }
 
@@ -220,7 +221,8 @@
 
 .inputLabel {
     font-family: var(--font-roboto), sans-serif;
-    font-size: 20px;
+    font-size: 16px;
+    font-weight: 300;
     margin: 25px 0 25px 0;
 }
 
@@ -228,7 +230,7 @@
     padding: 10px;
     width: 85%;
     background-color: rgba(255, 255, 255, 0.05);
-    border: 2px solid var(--button);
+    border: none;
     border-radius: 2px;
     font-family: var(--font-roboto), sans-serif;
     font-size: 14px;
