@@ -212,38 +212,45 @@ export default function gamePage() {
         </section>
         {/* User reviews are displayed here */}
         <section className={styles.gameReviewsContainer}>
-            <h2 className={styles.reviewsTitle}>Reviews</h2>
-            <div className={`${styles.reviewContainer} ${styles.userReviewContainer}`}>
+            
+            
                 {/* Passes as author doc if logged-in user is author */}
             {userReview && 
-                <ReviewComp 
-                    authorDoc={userReview} 
-                    onDelete={() => setUserReview(null)}
-                    onError={() => {
-                        setShowToast(true);
-                        setToastMessage("An error has occurred, please try again.");
-                    }
-                }/>
-            }
-            </div>
-            {userReview && <h2 className={styles.otherReviewsTitle}>What other gamers are saying</h2>}
-            {(!gameReviews[0] && !userReview) && <h2 className={styles.otherReviewsTitle}>Game has not been reviewed yet</h2>}
-            <div className={styles.reviewContainer}>
-                {gameReviews.map((review, index) => (
-                    // Pass in the data for a non-validated user
-                    review.data()?.authorId !== user?.uid && 
-                    index <= displayCount - 1 && 
+                <div className={`${styles.userReviewContainer}`}>
+                    <h2 className={styles.reviewsTitle}>Your Review</h2>
                     <ReviewComp 
-                        reviewData={review} 
-                        key={index}
+                        authorDoc={userReview} 
+                        onDelete={() => setUserReview(null)}
                         onError={() => {
-                                    setShowToast(true);
-                                    setToastMessage("An error has occurred.");
-                                }}
-                    />
-                    ))
-                }  
-             </div>
+                            setShowToast(true);
+                            setToastMessage("An error has occurred, please try again.");
+                        }
+                    }/>
+                </div>
+            }
+            
+            {(gameReviews.length === 0 && !userReview) && <h2 className={styles.otherReviewsTitle}>Game has not been reviewed yet</h2>}
+            {gameReviews.length > 0 &&
+            <>
+            <h2 className={styles.otherReviewsTitle}>What other gamers are saying</h2>
+            <div className={styles.reviewContainer}>
+                    {gameReviews.map((review, index) => (
+                        // Pass in the data for a non-validated user
+                        review.data()?.authorId !== user?.uid && 
+                        index <= displayCount - 1 && 
+                        <ReviewComp 
+                            reviewData={review} 
+                            key={index}
+                            onError={() => {
+                                        setShowToast(true);
+                                        setToastMessage("An error has occurred.");
+                                    }}
+                        />
+                        ))
+                    }  
+                </div>
+            </>
+            }
             {/* Show More button conditionally rendered if reviews exceed 6 */}
                 {( gameReviews.length > displayCount && <ShowMore increaseFunction={setDisplayCount} increaseAmount={6}/> )}
         </section>
