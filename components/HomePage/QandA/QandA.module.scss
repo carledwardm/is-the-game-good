@@ -14,7 +14,7 @@
 
 .questionsTitle {
     font-family: var(--font-poppins);
-    font-size: 24px;
+    font-size: 28px;
     font-weight: bold;
     text-align: center;
     margin-bottom: 50px;
@@ -35,6 +35,11 @@
     font-size: 20px;
     text-align: left;
     width: 100%;
+}
+
+.answer {
+    font-size: 16px;
+    font-weight: 300;
 }
 
 .question {
