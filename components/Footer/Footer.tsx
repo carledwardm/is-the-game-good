@@ -15,22 +15,15 @@ function footer() {
 
     return <footer className={styles.footer}>
         <div className={styles.footerTopRow}>
-        <Link href="/" aria-label="Go to home page">
-            <Image src="/logo.png"
-                width={225}
-                height={40}
-                alt="Logo with controller icon"
-                className={styles.logo}
-                priority
-                />
-        </Link>
-            <nav className={styles.footerNav} aria-label="Footer nav">
-                <Link href="/" className={styles.footerNavLink}>Home</Link>
-                <Link href="#" className={styles.footerNavLink}>Games</Link>
-                {!loading && (!user ? (<Link href="/login" className={styles.footerNavLink}>Log In</Link>) : (<Link href="/login" className={styles.footerNavLink} onClick={handleLogout}>Log Out</Link>))}
-            </nav>
-        </div>
-        <div className={styles.footerBottomRow}>
+            <Link href="/" aria-label="Go to home page">
+                <Image src="/logo.png"
+                    width={225}
+                    height={40}
+                    alt="Logo with controller icon"
+                    className={styles.logo}
+                    priority
+                    />
+            </Link>
             <p className={styles.footerCopyright}>© Copyright Carl Millard {new Date().getFullYear()}. All rights reserved.
             </p>
         </div>
