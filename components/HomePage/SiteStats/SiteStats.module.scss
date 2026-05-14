@@ -35,7 +35,7 @@
 
 .stat {
     width: 90%;
-    height: 200px;
+    height: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -78,16 +78,25 @@
 
 .statsText {
     font-family: var(--font-roboto);
-    font-size: 18px;
+    font-size: 16px;
+    font-weight: 300;
 }
 
 .number {
     font-family: var(--font-poppins);
-    font-size: 36px;
+    font-size: 24px;
     font-weight: bold;
+
+    @media screen and (min-width: 800px) {
+        font-size: 28px;
+    }
 }
 
 .numberText {
     font-family: var(--font-roboto);
-    font-size: 16px; 
+    font-size: 14px;
+
+    @media screen and (min-width: 800px) {
+        font-size: 16px;
+    }
 }
