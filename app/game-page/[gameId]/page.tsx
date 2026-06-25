@@ -86,6 +86,7 @@ export default function gamePage() {
     useEffect(() => {
         let addedScore = 0;
         const numReviews = userReview? gameReviews.length + 1: gameReviews.length;
+        console.log(numReviews);
         if (gameReviews || userReview) {
             // numReviews accounts for an extra value if user review exists
             if (userReview) {
@@ -97,14 +98,13 @@ export default function gamePage() {
         }
         // Update average score for game after calculated for component update
         const updateAverageScore = async () => {
-            if (!user) {
-                return;
-            }
             let averageScore = 0;
             if (numReviews > 0) {
                 averageScore = addedScore / numReviews;
+                console.log("got a review")
             } 
             setAverageScore(averageScore);
+            console.log(averageScore);
             const gameRef = doc(db, "games", gameId);
             try {
                 await updateDoc(gameRef, {
@@ -117,6 +117,8 @@ export default function gamePage() {
         }   
         updateAverageScore();
     }, [gameReviews, userReview])
+
+    
 
     // Submits the user review
     const submitReview = async (e: React.FormEvent) => {
