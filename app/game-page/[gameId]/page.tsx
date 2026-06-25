@@ -114,25 +114,11 @@ export default function gamePage() {
             }
         }
         // Update average score for game after calculated for component update
-        const updateAverageScore = async () => {
-            let averageScore = 0;
-            if (numReviews > 0) {
-                averageScore = addedScore / numReviews;
-                console.log("got a review")
-            } 
-            setAverageScore(averageScore);
-            console.log(averageScore);
-            const gameRef = doc(db, "games", gameId);
-            try {
-                await updateDoc(gameRef, {
-                gameScore: averageScore,
-                numReviews,
-            })
-            } catch (error) {
-                console.log(error);
-            }
-        }   
-        updateAverageScore();
+        let calculatedAverage = 0;
+        if (numReviews > 0) {
+            calculatedAverage = addedScore / numReviews;
+        }
+        setAverageScore(calculatedAverage);
     }, [gameReviews, userReview])
 
     
@@ -190,6 +176,17 @@ export default function gamePage() {
             const newDocRef = await addDoc(collection(db, "games", gameId, "reviews"), newReview);
             const userReview = await getDoc(newDocRef);
             setUserReview(userReview);
+            const reviewsTotal = gameReviews.length + 1;
+            let scoreSum = gameScore;
+            for (const review of gameReviews) {
+                scoreSum += review.data()?.gameScore || 0;
+            }
+            const newAverageScore = reviewsTotal > 0 ? scoreSum / reviewsTotal : 0;
+            const gameRef = doc(db, "games", gameId);
+            await updateDoc(gameRef, { 
+                gameScore: newAverageScore 
+            });
+            setAverageScore(newAverageScore);
             setShowToast(true);
             setToastMessage("Your review has been submitted");
             setGameScore(0);
