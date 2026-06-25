@@ -31,6 +31,7 @@ export default function gamePage() {
 
     // Fetch game data by ID
     useEffect(() => {
+        let isMounted = true;
         const fetchGame = async () => {
             try {
                 const response = await fetch(`/api/gamePage/${gameId}`);
@@ -38,15 +39,21 @@ export default function gamePage() {
                     throw new Error("Game not found")
                 }
                 const gameData = await response.json();
-                setGame(gameData);
+                if (isMounted) {
+                    setGame(gameData);
+                }
                 } catch (error) {
-                    setShowToast(true);
-                    setToastMessage("Game not found, redirecting.")
-                    router.push("/");
+                    if (isMounted) {
+                        setShowToast(true);
+                        setToastMessage("Game not found, redirecting.")
+                        router.push("/");
+                    }
                 }
             }
         fetchGame();
-        }, [])
+        return () => {
+            isMounted = false;}
+        }, [gameId])
 
     // Fetch available screenshots for rendering 
     useEffect(() => {
@@ -57,6 +64,7 @@ export default function gamePage() {
 
     // Fetch game reviews
     useEffect(() => {
+        let isMounted = true;
         const fetchReviews = async () => {
             try {
                 const q = query(collection(db, "games", gameId, "reviews"), orderBy("createdAt", "desc"));
@@ -67,20 +75,29 @@ export default function gamePage() {
                     // Checks if the review was created by the logged-in user, sets it in its own state/variable if so
                     if (reviewDoc.data().authorId === user?.uid) {
                         // Sets the user review as the doc to allow the review component to delete directly
-                        setUserReview(reviewDoc);
+                        if (isMounted) {
+                            setUserReview(reviewDoc);
+                        }
                         return;
                     }
                     // All non-logged-in user reviews are pushed
                     reviews.push(reviewDoc);
                 });
-                setGameReviews(reviews);
+                if (isMounted) {
+                    setGameReviews(reviews);
+                }
             } catch (error) {
-                setShowToast(true);
-                setToastMessage("An error has occurred fetching reviews.");
+                if (isMounted) {
+                    setShowToast(true);
+                    setToastMessage("An error has occurred fetching reviews.");
+                }
             }
         }
         fetchReviews();
-    }, [user]); // Depends on the user variable from useAuth() import, re-renders and filters user review if logged in
+        return () => {
+            isMounted = false;
+        }
+    }, [gameId, user?.uid]); // Depends on the user variable from useAuth() import, re-renders and filters user review if logged in
 
     // Update game review stats 
     useEffect(() => {
